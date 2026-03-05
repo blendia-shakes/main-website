@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Blendia Shakes — Fresh & Healthy</title>
+  <meta name="description" content="Blendia Shakes — Batidos frescos, naturales y energéticos. Info y pedidos." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="assets/favicon.svg" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <img src="assets/logo.svg" alt="Blendia Shakes" class="brand-logo" />
+        <span class="brand-text">BLENDIA SHAKES</span>
+      </a>
+
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><a href="#home">Inicio</a></li>
+          <li><a href="#about">Nosotros</a></li>
+          <li><a href="#menu">Menú</a></li>
+          <li><a href="#contact">Contacto</a></li>
+        </ul>
+      </nav>
+
+      <a class="btn btn-primary" href="#order">Ordenar</a>
+      <button class="nav-toggle" aria-label="Abrir menú" id="navToggle">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section id="home" class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <h1>Batidos frescos, naturales y deliciosos</h1>
+          <p>Ingredientes 100% naturales, recetas hechas a mano y entregas rápidas. Empieza tu día con energía.</p>
+          <p class="hero-ctas">
+            <a class="btn btn-primary" href="#menu">Ver menú</a>
+            <a class="btn btn-ghost" href="#contact">Contacto</a>
+          </p>
+        </div>
+        <div class="hero-media">
+          <img src="assets/hero.jpg" alt="Vaso de batido" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section">
+      <div class="container">
+        <div class="two-col">
+          <div>
+            <h2>Quiénes somos</h2>
+            <p>Blendia Shakes nació con la idea de entregar batidos nutritivos y sabrosos, hechos con frutas frescas y superalimentos. Pensado para quienes quieren comer sano sin sacrificar sabor.</p>
+            <ul class="features">
+              <li>Ingredientes locales</li>
+              <li>Opciones veganas y sin azúcar</li>
+              <li>Entregas rápidas</li>
+            </ul>
+          </div>
+          <div>
+            <img src="assets/about.jpg" alt="Preparación de batido" class="glass" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MENU -->
+    <section id="menu" class="section alt">
+      <div class="container">
+        <h2>Menú destacado</h2>
+        <div class="cards">
+          <article class="card">
+            <img src="assets/shake1.jpg" alt="" />
+            <h3>Berry Blast</h3>
+            <p>Fresas, arándanos, plátano y proteína.</p>
+            <p class="price">MXN $89</p>
+          </article>
+
+          <article class="card">
+            <img src="assets/shake2.jpg" alt="" />
+            <h3>Green Energy</h3>
+            <p>Espinaca, manzana, jengibre y almendra.</p>
+            <p class="price">MXN $95</p>
+          </article>
+
+          <article class="card">
+            <img src="assets/shake3.jpg" alt="" />
+            <h3>Tropical Boost</h3>
+            <p>Mango, piña, coco y chía.</p>
+            <p class="price">MXN $99</p>
+          </article>
+        </div>
+        <p class="center"><a class="btn btn-primary" id="order" href="#contact">Ordena ahora</a></p>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <div class="container narrow">
+        <h2>Contacto & pedidos</h2>
+        <p>Pide por WhatsApp o envía un correo a <a href="mailto:info@blendiashakes.com">info@blendiashakes.com</a>.</p>
+
+        <form id="contactForm" class="form">
+          <div class="form-grid">
+            <input name="name" placeholder="Nombre" required />
+            <input name="email" type="email" placeholder="Correo" required />
+            <input name="phone" placeholder="Teléfono (opcional)" />
+            <textarea name="message" rows="5" placeholder="Tu pedido / mensaje" required></textarea>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Enviar mensaje</button>
+            <button class="btn btn-ghost" type="reset">Limpiar</button>
+          </div>
+        </form>
+
+        <p class="muted">También puedes visitarnos en: Calle Falsa 123, Ciudad.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong>Blendia Shakes</strong>
+        <p>Batidos frescos & healthy</p>
+      </div>
+      <div>
+        <p>Email: <a href="mailto:info@blendiashakes.com">info@blendiashakes.com</a></p>
+        <p>Tel: +52 55 1234 5678</p>
+      </div>
+      <div>
+        <small>© <span id="year"></span> Blendia Shakes — Todos los derechos reservados</small>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // small interactivity: mobile nav + form demo
+    const navToggle = document.getElementById('navToggle');
+    const nav = document.querySelector('.nav');
+    navToggle && navToggle.addEventListener('click', () => {
+      nav.classList.toggle('open');
+    });
+
+    // set year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // demo form handler (no backend) - show alert and reset
+    document.getElementById('contactForm').addEventListener('submit', e => {
+      e.preventDefault();
+      alert('Gracias. Tu mensaje fue enviado (simulado).');
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>
