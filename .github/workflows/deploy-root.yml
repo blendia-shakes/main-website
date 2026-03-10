@@ -30,14 +30,41 @@ jobs:
           npm ci
           npm run build
 
+      - name: Debug list root & site (optional)
+        run: |
+          echo "=== ROOT ==="
+          ls -la .
+          echo "=== SITE ==="
+          ls -la site || true
+          echo "=== SITE/DIST ==="
+          ls -la site/dist || true
+          echo "=== DIST ==="
+          ls -la dist || true
+
       - name: Prepare built output
         run: |
-          # Crear carpeta temporal con el build
-          rm -rf published_dist || true
-          mkdir published_dist
-          cp -r site/dist/* published_dist/
-          echo "Contenido de published_dist:"
-          ls -la published_dist
+          echo "Comprobando dist en la raíz..."
+          if [ -d "./dist" ]; then
+            echo "dist encontrado en la raíz. Copiando..."
+            rm -rf published_dist || true
+            mkdir published_dist
+            cp -r dist/* published_dist/
+            echo "Contenido de published_dist (desde root/dist):"
+            ls -la published_dist
+          else
+            echo "dist NO encontrado en la raíz. Intentando site/dist..."
+            if [ -d "./site/dist" ]; then
+              rm -rf published_dist || true
+              mkdir published_dist
+              cp -r site/dist/* published_dist/
+              echo "Contenido de published_dist (desde site/dist):"
+              ls -la published_dist
+            else
+              echo "ERROR: no se encontró dist en ninguna de las rutas esperadas."
+              ls -la
+              exit 1
+            fi
+          fi
 
       - name: Move built files into repo root (overwrite)
         run: |
