@@ -1,22 +1,21 @@
 name: CI / Build & Deploy to root
 
-# Ejecuta en cada push a la rama principal
 on:
   push:
     branches: [ main ]
 
 permissions:
-  contents: write   # necesario para push desde el workflow
+  contents: write
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           persist-credentials: true
-          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -24,68 +23,40 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      - name: Install & build (inside site/)
+      - name: Install & build
         working-directory: ./site
         run: |
           npm ci
           npm run build
 
-      - name: Debug list root & site (optional)
+      - name: Detect build output
         run: |
-          echo "=== ROOT ==="
-          ls -la .
-          echo "=== SITE ==="
-          ls -la site || true
-          echo "=== SITE/DIST ==="
-          ls -la site/dist || true
-          echo "=== DIST ==="
-          ls -la dist || true
-
-      - name: Prepare built output
-        run: |
-          echo "Comprobando dist en la raíz..."
           if [ -d "./dist" ]; then
-            echo "dist encontrado en la raíz. Copiando..."
-            rm -rf published_dist || true
-            mkdir published_dist
-            cp -r dist/* published_dist/
-            echo "Contenido de published_dist (desde root/dist):"
-            ls -la published_dist
+            echo "BUILD_DIR=dist" >> $GITHUB_ENV
+          elif [ -d "./site/dist" ]; then
+            echo "BUILD_DIR=site/dist" >> $GITHUB_ENV
           else
-            echo "dist NO encontrado en la raíz. Intentando site/dist..."
-            if [ -d "./site/dist" ]; then
-              rm -rf published_dist || true
-              mkdir published_dist
-              cp -r site/dist/* published_dist/
-              echo "Contenido de published_dist (desde site/dist):"
-              ls -la published_dist
-            else
-              echo "ERROR: no se encontró dist en ninguna de las rutas esperadas."
-              ls -la
-              exit 1
-            fi
+            echo "No build directory found"
+            exit 1
           fi
 
-      - name: Move built files into repo root (overwrite)
+      - name: Copy build to root
         run: |
-          # Copiamos el contenido del build al root del repo.
-          # Usamos rsync para preservar permisos y sobreescribir archivos.
-          # Esto NO elimina la carpeta .github (se preserva).
-          rsync -av --delete published_dist/ ./
-          echo "Contenido del repo root (post rsync):"
-          ls -la
+          echo "Using build directory: $BUILD_DIR"
 
-      - name: Commit & push built files to main
+          rm -rf ./assets || true
+          rm -f ./index.html || true
+
+          cp -r $BUILD_DIR/assets ./assets
+          cp $BUILD_DIR/index.html ./index.html
+
+      - name: Commit & push build
         run: |
-          # Configuración de usuario de git en GH Actions
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Añadir todos los cambios resultantes del build
-          git add -A
+          git add assets index.html
 
-          # Commit si hay cambios
-          git commit -m "ci(build): update site build [skip ci]" || echo "No changes to commit"
+          git commit -m "ci: update site build" || echo "No changes"
 
-          # Push a la rama actual (main)
-          git push origin HEAD:main
+          git push
