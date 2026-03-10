@@ -1,32 +1,34 @@
+import React from "react";
+
 export default function Hero() {
   return (
-    <section className="hero">
+    <section id="hero" className="hero hero-apple">
       <div className="container hero-grid">
-
-        <div>
-          <h1>Blendia</h1>
-          <p>
-            Vending de bebidas wellness con proteína.
-            Experiencia premium desde la máquina.
+        <div className="hero-copy">
+          <h1 className="hero-title">Wellness que se sirve solo.</h1>
+          <p className="hero-lead">
+            Máquinas automáticas (modelo ) que preparan bebidas saludables
+            con proteína en segundos. Ideal para gimnasios, centros comerciales y
+            espacios premium.
           </p>
 
-          <a href="#catalogo" className="btn">
-            Catálogo
-          </a>
+          <div className="hero-ctas">
+            <a className="btn primary" href="#catalogo">Ver catálogo</a>
+            <a className="btn ghost" href="#contacto">Solicitar máquina</a>
+          </div>
 
-          <ul>
-            <li>3 categorías</li>
-            <li>5 productos cada una</li>
-            <li>Q35–Q45</li>
+          <ul className="hero-features">
+            <li>3 categorías — Latte, Shakes, Essentials</li>
+            <li>Personalizable, sin azúcares añadidos</li>
+            <li>Rango de precio orientativo: Qxx–Qxx</li>
           </ul>
         </div>
 
-        <img
-          src="/assets/hero-mockup.jpg"
-          className="hero-img"
-        />
-
+        <figure className="hero-media">
+          <img src="/assets/-front.jpg" alt="Máquina  Blendia" />
+          <figcaption className="visually-hidden">Máquina </figcaption>
+        </figure>
       </div>
     </section>
-  )
+  );
 }
