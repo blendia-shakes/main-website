@@ -1,0 +1,64 @@
+name: CI / Build & Deploy to root
+
+# Ejecuta en cada push a la rama principal
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write   # necesario para push desde el workflow
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install & build (inside site/)
+        working-directory: ./site
+        run: |
+          npm ci
+          npm run build
+
+      - name: Prepare built output
+        run: |
+          # Crear carpeta temporal con el build
+          rm -rf published_dist || true
+          mkdir published_dist
+          cp -r site/dist/* published_dist/
+          echo "Contenido de published_dist:"
+          ls -la published_dist
+
+      - name: Move built files into repo root (overwrite)
+        run: |
+          # Copiamos el contenido del build al root del repo.
+          # Usamos rsync para preservar permisos y sobreescribir archivos.
+          # Esto NO elimina la carpeta .github (se preserva).
+          rsync -av --delete published_dist/ ./
+          echo "Contenido del repo root (post rsync):"
+          ls -la
+
+      - name: Commit & push built files to main
+        run: |
+          # Configuración de usuario de git en GH Actions
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Añadir todos los cambios resultantes del build
+          git add -A
+
+          # Commit si hay cambios
+          git commit -m "ci(build): update site build [skip ci]" || echo "No changes to commit"
+
+          # Push a la rama actual (main)
+          git push origin HEAD:main
