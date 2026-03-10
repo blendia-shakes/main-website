@@ -3,158 +3,176 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Blendia Shakes — Fresh & Healthy</title>
-  <meta name="description" content="Blendia Shakes — Batidos frescos, naturales y energéticos. Info y pedidos." />
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="assets/favicon.svg" />
+  <title>Blendia — Bebidas wellness en vending</title>
+  <meta name="description" content="Blendia: máquinas vending de bebidas saludables con proteína. 3 categorías, experiencia wellness y adaptación a demanda." />
+  <meta property="og:title" content="Blendia — Vending Wellness" />
+  <meta property="og:site_name" content="Blendia" />
+  <meta property="og:url" content="https://blendiashakes.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="icon" href="./assets/favicon.ico">
 </head>
 <body>
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="/">
-        <img src="assets/logo.svg" alt="Blendia Shakes" class="brand-logo" />
-        <span class="brand-text">BLENDIA SHAKES</span>
+      <a class="brand" href="#hero">
+        <img src="./assets/logo.svg" alt="Blendia logo" class="logo">
+        <span class="brand-text">Blendia</span>
       </a>
-
       <nav class="nav">
-        <ul class="nav-list">
-          <li><a href="#home">Inicio</a></li>
-          <li><a href="#about">Nosotros</a></li>
-          <li><a href="#menu">Menú</a></li>
-          <li><a href="#contact">Contacto</a></li>
-        </ul>
+        <a href="#catalogo" class="nav-link">Catálogo</a>
+        <a href="#como-funciona" class="nav-link">Cómo funciona</a>
+        <a href="#contacto" class="nav-link cta">Contacto</a>
       </nav>
-
-      <a class="btn btn-primary" href="#order">Ordenar</a>
-      <button class="nav-toggle" aria-label="Abrir menú" id="navToggle">☰</button>
+      <button class="menu-btn" aria-label="Abrir menú">☰</button>
     </div>
   </header>
 
   <main>
-    <!-- HERO -->
-    <section id="home" class="hero">
+    <section id="hero" class="hero">
       <div class="container hero-grid">
         <div class="hero-copy">
-          <h1>Batidos frescos, naturales y deliciosos</h1>
-          <p>Ingredientes 100% naturales, recetas hechas a mano y entregas rápidas. Empieza tu día con energía.</p>
-          <p class="hero-ctas">
-            <a class="btn btn-primary" href="#menu">Ver menú</a>
-            <a class="btn btn-ghost" href="#contact">Contacto</a>
-          </p>
+          <h1>Blendia — Vending de bebidas saludables con proteína</h1>
+          <p class="lead">Experiencias wellness desde la máquina: tres categorías, múltiples sabores y una selección diseñada para fidelizar clientes.</p>
+          <div class="hero-ctas">
+            <a href="#catalogo" class="btn primary">Catálogo</a>
+            <a href="#contacto" class="btn ghost">Solicitar demo</a>
+          </div>
+          <ul class="highlights">
+            <li>3 categorías — 5 opciones cada una</li>
+            <li>Adaptable a demanda y fácil reposición</li>
+            <li>Precio orientativo: Q35–Q45</li>
+          </ul>
         </div>
         <div class="hero-media">
-          <img src="assets/hero.jpg" alt="Vaso de batido" />
+          <img src="./assets/hero-mockup.jpg" alt="Máquina Blendia" class="mockup" />
         </div>
       </div>
     </section>
 
-    <!-- ABOUT -->
-    <section id="about" class="section">
-      <div class="container">
-        <div class="two-col">
-          <div>
-            <h2>Quiénes somos</h2>
-            <p>Blendia Shakes nació con la idea de entregar batidos nutritivos y sabrosos, hechos con frutas frescas y superalimentos. Pensado para quienes quieren comer sano sin sacrificar sabor.</p>
-            <ul class="features">
-              <li>Ingredientes locales</li>
-              <li>Opciones veganas y sin azúcar</li>
-              <li>Entregas rápidas</li>
-            </ul>
-          </div>
-          <div>
-            <img src="assets/about.jpg" alt="Preparación de batido" class="glass" />
-          </div>
+    <section id="catalogo" class="section container">
+      <h2 class="section-title">Catálogo</h2>
+      <p class="section-sub">Tres líneas pensadas para distintos momentos del día y perfiles.</p>
+
+      <div class="categories">
+        <article class="card">
+          <h3>Latte</h3>
+          <p class="card-sub">Bebidas cremosas a base de leches con proteína.</p>
+          <ul class="items">
+            <li>Latte Proteico Vainilla</li>
+            <li>Latte Proteico Chai</li>
+            <li>Latte Matcha + Proteína</li>
+            <li>Latte Chocolate oscuro</li>
+            <li>Latte Café frío</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>Shakes</h3>
+          <p class="card-sub">Smoothies y batidos para recuperación y energía.</p>
+          <ul class="items">
+            <li>Shake Proteico Fresa</li>
+            <li>Shake Proteico Banana</li>
+            <li>Shake Proteico Mango</li>
+            <li>Shake Verde Detox</li>
+            <li>Shake Tropical</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>Essentials</h3>
+          <p class="card-sub">Bebidas funcionales: colágeno, electrolitos y tonos wellness.</p>
+          <ul class="items">
+            <li>Bebida Colágeno + Proteína</li>
+            <li>Electrolitos Natural</li>
+            <li>Bebida Digestiva</li>
+            <li>Immunity Shot</li>
+            <li>Calm & Restore</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="como-funciona" class="section alt container">
+      <h2 class="section-title">Cómo funciona — la experiencia</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h4>Selecciona</h4>
+          <p>Elige categoría y sabor desde la interfaz táctil (o QR para pedido rápido).</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h4>Personaliza</h4>
+          <p>Añade extras (proteína extra, leche vegetal, sin azúcar) y ajusta tamaño.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h4>Recibe</h4>
+          <p>Pago integrado, entrega inmediata y packaging con marca.</p>
         </div>
       </div>
     </section>
 
-    <!-- MENU -->
-    <section id="menu" class="section alt">
-      <div class="container">
-        <h2>Menú destacado</h2>
-        <div class="cards">
-          <article class="card">
-            <img src="assets/shake1.jpg" alt="" />
-            <h3>Berry Blast</h3>
-            <p>Fresas, arándanos, plátano y proteína.</p>
-            <p class="price">MXN $89</p>
-          </article>
-
-          <article class="card">
-            <img src="assets/shake2.jpg" alt="" />
-            <h3>Green Energy</h3>
-            <p>Espinaca, manzana, jengibre y almendra.</p>
-            <p class="price">MXN $95</p>
-          </article>
-
-          <article class="card">
-            <img src="assets/shake3.jpg" alt="" />
-            <h3>Tropical Boost</h3>
-            <p>Mango, piña, coco y chía.</p>
-            <p class="price">MXN $99</p>
-          </article>
-        </div>
-        <p class="center"><a class="btn btn-primary" id="order" href="#contact">Ordena ahora</a></p>
+    <section id="galeria" class="section container">
+      <h2 class="section-title">Galería</h2>
+      <p class="section-sub">Mockups y producto — uso del vaso con logo y fotografías para branding.</p>
+      <div class="gallery">
+        <img src="./assets/vase-1.jpg" alt="Vaso Blendia 1">
+        <img src="./assets/vase-2.jpg" alt="Vaso Blendia 2">
+        <img src="./assets/machine-1.jpg" alt="Máquina Blendia 1">
       </div>
     </section>
 
-    <!-- CONTACT -->
-    <section id="contact" class="section">
-      <div class="container narrow">
-        <h2>Contacto & pedidos</h2>
-        <p>Pide por WhatsApp o envía un correo a <a href="mailto:info@blendiashakes.com">info@blendiashakes.com</a>.</p>
+    <section id="contacto" class="section contact container">
+      <h2 class="section-title">Contacto</h2>
+      <p class="section-sub">Solicita un demo o el catálogo completo — sin compromiso.</p>
 
-        <form id="contactForm" class="form">
-          <div class="form-grid">
-            <input name="name" placeholder="Nombre" required />
-            <input name="email" type="email" placeholder="Correo" required />
-            <input name="phone" placeholder="Teléfono (opcional)" />
-            <textarea name="message" rows="5" placeholder="Tu pedido / mensaje" required></textarea>
-          </div>
-          <div class="form-actions">
-            <button class="btn btn-primary" type="submit">Enviar mensaje</button>
-            <button class="btn btn-ghost" type="reset">Limpiar</button>
-          </div>
-        </form>
+      <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <label>
+          Nombre
+          <input type="text" name="name" required>
+        </label>
+        <label>
+          Empresa / Local
+          <input type="text" name="company">
+        </label>
+        <label>
+          Correo
+          <input type="email" name="_replyto" required>
+        </label>
+        <label>
+          Mensaje
+          <textarea name="message" rows="4"></textarea>
+        </label>
 
-        <p class="muted">También puedes visitarnos en: Calle Falsa 123, Ciudad.</p>
+        <input type="hidden" name="_subject" value="Nuevo lead desde Blendia">
+        <button type="submit" class="btn primary">Enviar</button>
+      </form>
+
+      <div class="contact-alt">
+        <p>O envía un WhatsApp a: <a href="https://wa.me/50200000000" target="_blank">+502 0000 0000</a></p>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <div class="container footer-grid">
-      <div>
-        <strong>Blendia Shakes</strong>
-        <p>Batidos frescos & healthy</p>
-      </div>
-      <div>
-        <p>Email: <a href="mailto:info@blendiashakes.com">info@blendiashakes.com</a></p>
-        <p>Tel: +52 55 1234 5678</p>
-      </div>
-      <div>
-        <small>© <span id="year"></span> Blendia Shakes — Todos los derechos reservados</small>
-      </div>
+    <div class="container footer-inner">
+      <div>© <strong>Blendia</strong> — blendiashakes.com</div>
+      <nav class="footer-nav">
+        <a href="#">Política de privacidad</a>
+        <a href="#">Términos</a>
+      </nav>
     </div>
   </footer>
 
   <script>
-    // small interactivity: mobile nav + form demo
-    const navToggle = document.getElementById('navToggle');
-    const nav = document.querySelector('.nav');
-    navToggle && navToggle.addEventListener('click', () => {
-      nav.classList.toggle('open');
+    // menu toggle simple
+    document.querySelector('.menu-btn')?.addEventListener('click', function(){
+      document.body.classList.toggle('menu-open');
     });
-
-    // set year
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // demo form handler (no backend) - show alert and reset
-    document.getElementById('contactForm').addEventListener('submit', e => {
-      e.preventDefault();
-      alert('Gracias. Tu mensaje fue enviado (simulado).');
-      e.target.reset();
-    });
+    // Replace Formspree ID instruction in demo.txt
   </script>
 </body>
 </html>
