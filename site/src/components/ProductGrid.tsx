@@ -112,7 +112,7 @@ export default function ProductGrid() {
                   key={cardId}
                   category={category.name}
                   flavorKey={flavor.key}
-                  displayName={`${flavor.label} — ${category.label}`}
+                  displayName={`— ${flavor.label} —`}
                   isPinned={pinnedCardIds.includes(cardId)}
                   isTransientOpen={transientOpenCardIds.includes(cardId)}
                   onOpenTransient={() => openTransientCard(cardId)}
