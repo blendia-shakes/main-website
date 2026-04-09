@@ -101,8 +101,9 @@ img{
   display:flex;
   justify-content:center;
   align-items:center;
-  margin:0 0 8px;
-  min-height:0;
+  margin:0;              /* elimina margen */
+  padding:0;             /* elimina padding */
+  line-height:0;         /* clave */
 }
 
 .hero-brandmark-text{
