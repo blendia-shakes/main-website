@@ -1,5 +1,5 @@
 
-const brandLogo = "/img-core/extras/logo-texto-completo.png";
+const brandLogo = "/img-core/logos/text.png";
 
 export default function Hero() {
   return (
