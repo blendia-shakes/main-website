@@ -1,4 +1,4 @@
-import { useEffect, useState, type PointerEvent as ReactPointerEvent } from "react";
+import { useEffect, useState, useRef, type PointerEvent as ReactPointerEvent } from "react";
 
 type Props = {
   category: string;
@@ -19,6 +19,8 @@ export default function ProductCard({
 }: Props) {
   const [hovered, setHovered] = useState(false);
   const [canHover, setCanHover] = useState(false);
+
+  const ignoreClickRef = useRef(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -44,7 +46,13 @@ export default function ProductCard({
   const isFlipped = isOpen || isHovered;
 
   const handleCardClick = () => {
+    if (ignoreClickRef.current) {
+      ignoreClickRef.current = false;
+      return;
+    }
+
     if (canHover) return;
+
     if (isOpen) onClose();
     else onOpen();
   };
@@ -52,6 +60,9 @@ export default function ProductCard({
   const handlePinPointerDown = (e: ReactPointerEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
+
+    ignoreClickRef.current = true;
+
     if (isOpen) onClose();
     else onOpen();
   };
