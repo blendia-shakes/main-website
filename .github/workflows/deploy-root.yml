@@ -1,4 +1,4 @@
-name: CI / Build & Deploy to root
+name: CI / Build & Deploy to root (clean)
 
 on:
   push:
@@ -20,8 +20,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install & build
         working-directory: ./site
@@ -29,34 +29,34 @@ jobs:
           npm ci
           npm run build
 
-      - name: Detect build output
+      - name: Verify build output
         run: |
-          if [ -d "./dist" ]; then
-            echo "BUILD_DIR=dist" >> $GITHUB_ENV
-          elif [ -d "./site/dist" ]; then
-            echo "BUILD_DIR=site/dist" >> $GITHUB_ENV
-          else
-            echo "No build directory found"
+          if [ ! -d "./dist" ]; then
+            echo "❌ dist not found"
             exit 1
           fi
 
-      - name: Copy build to root
+          echo "✅ Build contents:"
+          ls -la dist
+
+      - name: Clean root (except git)
         run: |
-          echo "Using build directory: $BUILD_DIR"
+          find . -mindepth 1 \
+            ! -regex '^./\.git\(/.*\)?' \
+            ! -name '.gitignore' \
+            ! -name '.github' \
+            -exec rm -rf {} +
 
-          rm -rf ./assets || true
-          rm -f ./index.html || true
+      - name: Move dist to root
+        run: |
+          cp -r dist/* .
 
-          cp -r $BUILD_DIR/assets ./assets
-          cp $BUILD_DIR/index.html ./index.html
-
-      - name: Commit & push build
+      - name: Commit & push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add assets index.html
+          git add .
 
-          git commit -m "ci: update site build" || echo "No changes"
-
+          git commit -m "ci: deploy clean build" || echo "No changes"
           git push

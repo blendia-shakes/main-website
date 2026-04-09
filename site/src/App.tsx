@@ -1,11 +1,15 @@
 import Hero from "./components/Hero"
 import ProductGrid from "./components/ProductGrid"
+import Experience from "./components/Experience";
+import Footer from "./components/Footer";
 
 export default function App() {
   return (
     <>
       <Hero />
       <ProductGrid />
+      <Experience />
+      <Footer />
     </>
   )
 }
