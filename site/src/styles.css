@@ -93,23 +93,37 @@ img{
    HERO
 ========================================================= */
 .hero{
-  padding:120px 20px 72px;
+  padding:28px 20px 44px;
   text-align:center;
 }
 
+.hero-brandmark{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin:0;              /* elimina margen */
+  padding:0;             /* elimina padding */
+  line-height:0;         /* clave */
+}
+
+.hero-brandmark-text{
+  font-family:'Poppins', system-ui, sans-serif;
+  font-size:clamp(3.4rem, 8vw, 6.8rem);
+  line-height:0.9;
+  font-weight:700;
+  letter-spacing:-0.08em;
+  color:#F5F1E8;
+  opacity:0.98;
+  text-shadow:0 10px 24px rgba(0,0,0,0.22);
+}
+
 .hero h1{
-  font-family:'Poppins', sans-serif;
-  font-size:48px;
-  font-weight:600;
-  letter-spacing:-0.04em;
   margin:0;
-  color:var(--accent);
+  line-height:0.98;
 }
 
 .hero p{
   margin:12px 0 0;
-  color:var(--accent-2);
-  font-size:18px;
 }
 
 /* =========================================================
@@ -1198,4 +1212,63 @@ img{
   .footer-nav{
     gap:16px;
   }
+}
+
+/* =========================================================
+   HERO LOGO
+========================================================= */
+.hero-logo{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-bottom:36px;
+}
+
+/* clave: escala responsiva real */
+.hero-logo img{
+  height:clamp(48px, 6vw, 84px);
+  width:auto;
+  object-fit:contain;
+
+  opacity:0.95;
+
+  filter:
+    drop-shadow(0 14px 34px rgba(0,0,0,0.35))
+    contrast(1.06);
+
+  transition:transform .3s ease, opacity .3s ease;
+}
+
+/* micro interacción premium */
+.hero-logo img:hover{
+  transform:translateY(-2px) scale(1.02);
+  opacity:1;
+}
+
+.hero-brandmark{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:100%;
+  min-height:92px;
+  margin-bottom:34px;
+}
+
+.hero-brandmark-text{
+  font-family:'Poppins', system-ui, sans-serif;
+  font-size:clamp(3.2rem, 7vw, 6.2rem);
+  line-height:0.92;
+  font-weight:700;
+  letter-spacing:-0.08em;
+  color:#F5F1E8;
+  opacity:0.96;
+  text-shadow:0 14px 30px rgba(0,0,0,0.28);
+  transform:translateY(-2px);
+}
+
+.hero-brandmark-img{
+  width:min(72vw, 520px);
+  height:auto;
+  display:block;
+  object-fit:contain;
 }

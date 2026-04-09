@@ -24,8 +24,6 @@ const flavors: Flavor[] = [
   { key: "masala", label: "Masala" },
 ];
 
-const brandLogo = "/img-core/extras/logo-texto-completo.png";
-
 export default function ProductGrid() {
   const gridRef = useRef<HTMLElement | null>(null);
   const [pinnedCardIds, setPinnedCardIds] = useState<string[]>([]);
@@ -65,38 +63,6 @@ export default function ProductGrid() {
 
   return (
     <section ref={gridRef} className="container catalog-shell">
-      <header className="catalog-hero">
-        <div className="brand-lockup">
-          <div className="brand-mark" aria-label="Blendia">
-            <img
-              src={brandLogo}
-              alt="Blendia"
-              className="brand-logo"
-              loading="eager"
-              decoding="async"
-              onError={(e) => {
-                const img = e.currentTarget;
-                img.style.display = "none";
-                const fallback = img.parentElement?.querySelector<HTMLElement>(".brand-fallback");
-                if (fallback) fallback.style.display = "inline-flex";
-              }}
-            />
-            <span className="brand-fallback">Blendia</span>
-          </div>
-
-          <div className="hero-pills" aria-hidden="true">
-            <span className="hero-pill">Dark mode</span>
-            <span className="hero-pill">Premium catalog</span>
-            <span className="hero-pill">Multi-pin compare</span>
-          </div>
-        </div>
-
-        <h1 className="catalog-heading">Discover the Blendia lineup</h1>
-        <p className="catalog-copy">
-          Hover to preview, pin to keep it open, and compare several cards at the same time.
-        </p>
-      </header>
-
       {categories.map((category) => (
         <section key={category.name} className="category-block">
           <div className="category-header">
