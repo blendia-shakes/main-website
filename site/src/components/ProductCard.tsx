@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type PointerEvent as ReactPointerEvent } from "react";
 
 type Props = {
   category: string;
@@ -49,7 +49,7 @@ export default function ProductCard({
     else onOpen();
   };
 
-  const handlePinPointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
+  const handlePinPointerDown = (e: ReactPointerEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
     if (isOpen) onClose();
@@ -85,23 +85,33 @@ export default function ProductCard({
       <div className="product-card-inner">
         <div className="product-card-face product-card-front">
           <div className="product-title">{displayName}</div>
-          <img src={frontImage} alt={displayName} loading="lazy" />
+          <img
+            src={frontImage}
+            alt={displayName}
+            loading={canHover ? "lazy" : "eager"}
+            decoding="async"
+            draggable={false}
+          />
         </div>
 
         <div className="product-card-face product-card-back">
-          <div className="product-title">{displayName}</div>
+          <div className="product-card-back-header">
+            <div className="product-title product-title-back">{displayName}</div>
 
-          <button
-            type="button"
-            className="info-cta"
-            onPointerDown={handlePinPointerDown}
-            aria-label="Anclar detalle"
-          />
+            <button
+              type="button"
+              className="info-cta"
+              onPointerDown={handlePinPointerDown}
+              aria-label="Anclar detalle"
+            />
+          </div>
 
           <img
             src={backImage}
             alt={`Tabla nutricional de ${displayName}`}
-            loading="lazy"
+            loading={canHover ? "lazy" : "eager"}
+            decoding="async"
+            draggable={false}
           />
         </div>
       </div>

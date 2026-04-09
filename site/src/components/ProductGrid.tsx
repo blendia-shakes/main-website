@@ -24,7 +24,7 @@ const flavors: Flavor[] = [
   { key: "masala", label: "Masala" },
 ];
 
-const brandLogo = "/img-core/extras/logo-texto-completo.png";
+const brandLogo = "/img-core/logos/text.png";
 
 export default function ProductGrid() {
   const gridRef = useRef<HTMLElement | null>(null);
@@ -59,6 +59,8 @@ export default function ProductGrid() {
               src={brandLogo}
               alt="Blendia"
               className="brand-logo"
+              loading="eager"
+              decoding="async"
               onError={(e) => {
                 const img = e.currentTarget;
                 img.style.display = "none";
@@ -97,7 +99,7 @@ export default function ProductGrid() {
                   key={cardId}
                   category={category.name}
                   flavorKey={flavor.key}
-                  displayName={`${flavor.label} — ${category.label}`}
+                  displayName={`— ${flavor.label} —`}
                   isOpen={openCardIds.includes(cardId)}
                   onOpen={() => toggleCard(cardId)}
                   onClose={() => toggleCard(cardId)}
