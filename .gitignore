@@ -12,6 +12,7 @@ pnpm-debug.log*
 # ----------------------------
 .vite/
 .cache/
+dist/
 dist-temp/
 coverage/
 
@@ -54,9 +55,3 @@ logs
 # ----------------------------
 tmp/
 temp/
-
-# ----------------------------
-# IMPORTANT FOR THIS REPO
-# ----------------------------
-# Do NOT ignore dist because GitHub Pages serves it
-#!dist/
