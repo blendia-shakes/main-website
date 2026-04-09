@@ -1,26 +1,30 @@
-import { useEffect, useState, useRef, type PointerEvent as ReactPointerEvent } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
   category: string;
   displayName: string;
   flavorKey: string;
-  isOpen: boolean;
-  onOpen: () => void;
-  onClose: () => void;
+  isPinned: boolean;
+  isTransientOpen: boolean;
+  onOpenTransient: () => void;
+  onCloseTransient: () => void;
+  onPin: () => void;
+  onUnpin: () => void;
 };
 
 export default function ProductCard({
   category,
   displayName,
   flavorKey,
-  isOpen,
-  onOpen,
-  onClose,
+  isPinned,
+  isTransientOpen,
+  onOpenTransient,
+  onCloseTransient,
+  onPin,
+  onUnpin,
 }: Props) {
   const [hovered, setHovered] = useState(false);
   const [canHover, setCanHover] = useState(false);
-
-  const ignoreClickRef = useRef(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -42,29 +46,54 @@ export default function ProductCard({
   const frontImage = `/img-core/bebidas/${category}/${category}_${flavorKey}.png`;
   const backImage = `/img-core/tablas-nutricionales/${category}/tabla_nutricional_${category}_${flavorKey}.png`;
 
-  const isHovered = canHover && hovered && !isOpen;
-  const isFlipped = isOpen || isHovered;
+  const pinIcon = isPinned
+    ? "/img-core/extras/pinned.png"
+    : "/img-core/extras/unpinned.png";
 
-  const handleCardClick = () => {
-    if (ignoreClickRef.current) {
-      ignoreClickRef.current = false;
-      return;
-    }
+  const isHovered = canHover && hovered && !isPinned;
+  const isFlipped = isPinned || isHovered || isTransientOpen;
 
+  const handleFrontClick = () => {
     if (canHover) return;
-
-    if (isOpen) onClose();
-    else onOpen();
+    if (isPinned || isTransientOpen) return;
+    onOpenTransient();
   };
 
-  const handlePinPointerDown = (e: ReactPointerEvent<HTMLButtonElement>) => {
+  const handleBackClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLElement | null;
+
+    if (target?.closest('[data-role="pin"]')) return;
+    if (canHover) return;
+    if (isPinned) return;
+
+    onCloseTransient();
+  };
+
+  const handlePinClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
 
-    ignoreClickRef.current = true;
+    if (isPinned) onUnpin();
+    else onPin();
+  };
 
-    if (isOpen) onClose();
-    else onOpen();
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+
+    e.preventDefault();
+
+    if (isPinned) {
+      onUnpin();
+      return;
+    }
+
+    if (canHover) {
+      onPin();
+      return;
+    }
+
+    if (isTransientOpen) onCloseTransient();
+    else onOpenTransient();
   };
 
   return (
@@ -73,28 +102,21 @@ export default function ProductCard({
         "product-card",
         isHovered ? "is-hovered" : "",
         isFlipped ? "is-flipped" : "",
-        isOpen ? "is-locked" : "",
+        isPinned ? "is-locked" : "",
       ]
         .filter(Boolean)
         .join(" ")}
-      onClick={handleCardClick}
       onMouseEnter={() => canHover && setHovered(true)}
       onMouseLeave={() => canHover && setHovered(false)}
       role="button"
       tabIndex={0}
-      aria-pressed={isOpen}
+      aria-pressed={isPinned}
       aria-expanded={isFlipped}
       aria-label={displayName}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          if (isOpen) onClose();
-          else onOpen();
-        }
-      }}
+      onKeyDown={handleKeyDown}
     >
       <div className="product-card-inner">
-        <div className="product-card-face product-card-front">
+        <div className="product-card-face product-card-front" onClick={handleFrontClick}>
           <div className="product-title">{displayName}</div>
           <img
             src={frontImage}
@@ -105,16 +127,21 @@ export default function ProductCard({
           />
         </div>
 
-        <div className="product-card-face product-card-back">
+        <div className="product-card-face product-card-back" onClick={handleBackClick}>
           <div className="product-card-back-header">
             <div className="product-title product-title-back">{displayName}</div>
 
             <button
               type="button"
               className="info-cta"
-              onPointerDown={handlePinPointerDown}
+              data-role="pin"
+              onPointerDown={(e) => e.stopPropagation()}
+              onTouchStart={(e) => e.stopPropagation()}
+              onClick={handlePinClick}
               aria-label="Anclar detalle"
-            />
+            >
+              <img src={pinIcon} alt="" aria-hidden="true" draggable={false} />
+            </button>
           </div>
 
           <img
