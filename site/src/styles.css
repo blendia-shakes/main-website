@@ -961,3 +961,241 @@ img{
     scroll-behavior:auto !important;
   }
 }
+
+/* =========================================================
+   EXPERIENCE V2 — PREMIUM FLOW
+========================================================= */
+.experience-v2{
+  margin-top:120px;
+  padding:0 24px;
+}
+
+.experience-v2-inner{
+  max-width:880px;
+  margin:0 auto;
+  padding:56px 48px;
+  border-radius:32px;
+  background:
+    linear-gradient(180deg, rgba(245,241,232,0.06), rgba(245,241,232,0.02)),
+    rgba(245,241,232,0.015);
+  border:1px solid rgba(245,241,232,0.08);
+  backdrop-filter:blur(10px);
+}
+
+/* HEADER */
+.exp-eyebrow{
+  font-size:11px;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+.exp-title{
+  font-size:40px;
+  margin:10px 0;
+  letter-spacing:-0.03em;
+}
+
+.exp-description{
+  color:var(--accent-2);
+  max-width:560px;
+}
+
+.exp-metrics{
+  display:flex;
+  gap:28px;
+  margin-top:24px;
+}
+
+.exp-metrics div{
+  display:flex;
+  flex-direction:column;
+}
+
+.exp-metrics strong{
+  font-size:22px;
+}
+
+.exp-metrics span{
+  font-size:11px;
+  letter-spacing:0.14em;
+  color:var(--muted);
+}
+
+/* TIMELINE */
+.exp-timeline{
+  position:relative;
+  margin-top:48px;
+  display:flex;
+  flex-direction:column;
+  gap:34px;
+}
+
+.exp-rail{
+  position:absolute;
+  left:22px;
+  top:0;
+  bottom:0;
+  width:1px;
+  background:linear-gradient(
+    to bottom,
+    transparent,
+    rgba(245,241,232,0.2),
+    transparent
+  );
+}
+
+/* STEP */
+.exp-step{
+  position:relative;
+  display:flex;
+  gap:20px;
+  align-items:flex-start;
+}
+
+/* NODE */
+.exp-node{
+  position:relative;
+  z-index:2;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:#F5F1E8;
+  color:#403F45;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:600;
+  box-shadow:0 10px 28px rgba(0,0,0,0.25);
+  flex-shrink:0;
+}
+
+/* CARD */
+.exp-card{
+  flex:1;
+  padding:18px 20px;
+  border-radius:18px;
+  background:rgba(245,241,232,0.04);
+  border:1px solid rgba(245,241,232,0.06);
+  transition:all .25s ease;
+}
+
+.exp-step:hover .exp-card{
+  background:rgba(245,241,232,0.08);
+  transform:translateY(-2px);
+}
+
+.exp-meta{
+  font-size:10px;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+.exp-card h3{
+  margin:6px 0 4px;
+  font-size:18px;
+}
+
+.exp-card p{
+  margin:0;
+  font-size:14px;
+  color:var(--accent-2);
+}
+
+/* =========================================================
+   FOOTER V2 — PREMIUM MINIMAL
+========================================================= */
+.footer-v2{
+  margin-top:120px;
+  padding:32px 24px;
+}
+
+.footer-inner{
+  max-width:1100px;
+  margin:0 auto;
+  padding:28px 32px;
+  border-radius:22px;
+
+  background:
+    linear-gradient(180deg, rgba(245,241,232,0.05), rgba(245,241,232,0.02)),
+    rgba(245,241,232,0.015);
+
+  border:1px solid rgba(245,241,232,0.08);
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+/* LEFT */
+.footer-left{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.footer-brand{
+  font-family:'Poppins', sans-serif;
+  font-size:16px;
+  font-weight:600;
+  letter-spacing:-0.02em;
+  color:var(--accent);
+}
+
+.footer-copy{
+  font-size:12px;
+  color:var(--muted);
+}
+
+/* RIGHT */
+.footer-nav{
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+.footer-nav a{
+  position:relative;
+  font-size:12px;
+  color:var(--muted);
+  text-decoration:none;
+  transition:color .2s ease;
+}
+
+/* subtle underline animation */
+.footer-nav a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-3px;
+  width:0%;
+  height:1px;
+  background:var(--accent);
+  transition:width .25s ease;
+}
+
+.footer-nav a:hover{
+  color:var(--accent);
+}
+
+.footer-nav a:hover::after{
+  width:100%;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media (max-width:640px){
+  .footer-inner{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:16px;
+  }
+
+  .footer-nav{
+    gap:16px;
+  }
+}
