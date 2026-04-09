@@ -24,30 +24,43 @@ const flavors: Flavor[] = [
   { key: "masala", label: "Masala" },
 ];
 
-const brandLogo = "/img-core/logos/text.png";
+const brandLogo = "/img-core/extras/logo-texto-completo.png";
 
 export default function ProductGrid() {
   const gridRef = useRef<HTMLElement | null>(null);
-  const [openCardIds, setOpenCardIds] = useState<string[]>([]);
+  const [pinnedCardIds, setPinnedCardIds] = useState<string[]>([]);
+  const [transientOpenCardIds, setTransientOpenCardIds] = useState<string[]>([]);
 
   useEffect(() => {
     const handlePointerDown = (event: PointerEvent) => {
-      if (openCardIds.length === 0) return;
+      if (pinnedCardIds.length === 0 && transientOpenCardIds.length === 0) return;
 
       const target = event.target as Node;
       if (gridRef.current && !gridRef.current.contains(target)) {
-        setOpenCardIds([]);
+        setPinnedCardIds([]);
+        setTransientOpenCardIds([]);
       }
     };
 
     document.addEventListener("pointerdown", handlePointerDown, true);
     return () => document.removeEventListener("pointerdown", handlePointerDown, true);
-  }, [openCardIds]);
+  }, [pinnedCardIds, transientOpenCardIds]);
 
-  const toggleCard = (cardId: string) => {
-    setOpenCardIds((prev) =>
-      prev.includes(cardId) ? prev.filter((id) => id !== cardId) : [...prev, cardId]
-    );
+  const pinCard = (cardId: string) => {
+    setPinnedCardIds((prev) => (prev.includes(cardId) ? prev : [...prev, cardId]));
+    setTransientOpenCardIds((prev) => (prev.includes(cardId) ? prev : [...prev, cardId]));
+  };
+
+  const unpinCard = (cardId: string) => {
+    setPinnedCardIds((prev) => prev.filter((id) => id !== cardId));
+  };
+
+  const openTransientCard = (cardId: string) => {
+    setTransientOpenCardIds((prev) => (prev.includes(cardId) ? prev : [...prev, cardId]));
+  };
+
+  const closeTransientCard = (cardId: string) => {
+    setTransientOpenCardIds((prev) => prev.filter((id) => id !== cardId));
   };
 
   return (
@@ -100,9 +113,12 @@ export default function ProductGrid() {
                   category={category.name}
                   flavorKey={flavor.key}
                   displayName={`— ${flavor.label} —`}
-                  isOpen={openCardIds.includes(cardId)}
-                  onOpen={() => toggleCard(cardId)}
-                  onClose={() => toggleCard(cardId)}
+                  isPinned={pinnedCardIds.includes(cardId)}
+                  isTransientOpen={transientOpenCardIds.includes(cardId)}
+                  onOpenTransient={() => openTransientCard(cardId)}
+                  onCloseTransient={() => closeTransientCard(cardId)}
+                  onPin={() => pinCard(cardId)}
+                  onUnpin={() => unpinCard(cardId)}
                 />
               );
             })}
