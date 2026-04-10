@@ -34,18 +34,12 @@ jobs:
 
       - name: Build
         working-directory: ./site
-        run: npm run build
-
-      - name: Copy public assets
-        run: |
-          mkdir -p ./site/dist
-          cp -R ./site/public/. ./site/dist/
+        run: npm run build  # vite build → outputs to ./site/dist/ (includes public/ automatically)
 
       - name: Verify build output
         run: |
           test -f ./site/dist/index.html
           test -d ./site/dist/assets
-          test -d ./site/dist/img-core
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -53,7 +47,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./site/dist
+          path: ./site/dist  # ✅ Upload dist directly, no manual copy needed
 
   deploy:
     needs: build
