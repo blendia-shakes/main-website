@@ -30,110 +30,62 @@ export default function ProductCard({
   const [canHover, setCanHover] = useState(false);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
     const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
     const update = () => setCanHover(mq.matches);
-
     update();
-
-    if (mq.addEventListener) {
-      mq.addEventListener("change", update);
-      return () => mq.removeEventListener("change", update);
-    }
-
-    mq.addListener(update);
-    return () => mq.removeListener(update);
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
   }, []);
 
   const frontImage = `/img-core/bebidas/${category}/${category}_${flavorKey}.png`;
-  const backImage = `/img-core/tablas-nutricionales/${category}/tabla_nutricional_${category}_${flavorKey}.png`;
-
-  const pinIcon = isPinned
-    ? "/img-core/extras/pinned.png"
-    : "/img-core/extras/unpinned.png";
+  const backImage  = `/img-core/tablas-nutricionales/${category}/tabla_nutricional_${category}_${flavorKey}.png`;
+  const pinIcon    = isPinned ? "/img-core/extras/pinned.png" : "/img-core/extras/unpinned.png";
 
   const isHovered = canHover && hovered;
   const isFlipped = isPinned || isHovered || isTransientOpen;
 
+  const openAfterUnpin = () => window.requestAnimationFrame(onOpenTransient);
+
   const handleFrontClick = () => {
-    if (canHover) return;
-    if (isPinned || isTransientOpen) return;
+    if (canHover || isPinned || isTransientOpen) return;
     onOpenTransient();
   };
 
   const handleBackClick = (e: MouseEvent<HTMLDivElement>) => {
-    const target = e.target as HTMLElement | null;
-
-    if (target?.closest('[data-role="pin"]')) return;
-    if (canHover) return;
-    if (isPinned) return;
-
+    if ((e.target as HTMLElement).closest('[data-role="pin"]')) return;
+    if (canHover || isPinned) return;
     onCloseTransient();
-  };
-
-  const openAfterUnpin = () => {
-    if (typeof window === "undefined") {
-      onOpenTransient();
-      return;
-    }
-
-    window.requestAnimationFrame(() => {
-      onOpenTransient();
-    });
   };
 
   const handlePinClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
-
-    if (isPinned) {
-      onUnpin();
-
-      if (!canHover) {
-        openAfterUnpin();
-      }
-
-      return;
-    }
-
+    if (isPinned) { onUnpin(); if (!canHover) openAfterUnpin(); return; }
     onPin();
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key !== "Enter" && e.key !== " ") return;
-
     e.preventDefault();
+    if (isPinned) { onUnpin(); if (!canHover) openAfterUnpin(); return; }
+    if (canHover) { onPin(); return; }
+    isTransientOpen ? onCloseTransient() : onOpenTransient();
+  };
 
-    if (isPinned) {
-      onUnpin();
-
-      if (!canHover) {
-        openAfterUnpin();
-      }
-
-      return;
-    }
-
-    if (canHover) {
-      onPin();
-      return;
-    }
-
-    if (isTransientOpen) onCloseTransient();
-    else onOpenTransient();
+  const imgProps = {
+    loading: canHover ? ("lazy" as const) : ("eager" as const),
+    decoding: "async" as const,
+    draggable: false,
   };
 
   return (
     <div
       className={[
         "product-card",
-        isHovered ? "is-hovered" : "",
-        isFlipped ? "is-flipped" : "",
-        isPinned ? "is-locked" : "",
-      ]
-        .filter(Boolean)
-        .join(" ")}
+        isHovered  && "is-hovered",
+        isFlipped  && "is-flipped",
+        isPinned   && "is-locked",
+      ].filter(Boolean).join(" ")}
       onMouseEnter={() => canHover && setHovered(true)}
       onMouseLeave={() => canHover && setHovered(false)}
       role="button"
@@ -144,27 +96,16 @@ export default function ProductCard({
       onKeyDown={handleKeyDown}
     >
       <div className="product-card-inner">
-        <div
-          className="product-card-face product-card-front"
-          onClick={handleFrontClick}
-        >
+        {/* FRONT */}
+        <div className="product-card-face product-card-front" onClick={handleFrontClick}>
           <div className="product-title">{displayName}</div>
-          <img
-            src={frontImage}
-            alt={displayName}
-            loading={canHover ? "lazy" : "eager"}
-            decoding="async"
-            draggable={false}
-          />
+          <img src={frontImage} alt={displayName} {...imgProps} />
         </div>
 
-        <div
-          className="product-card-face product-card-back"
-          onClick={handleBackClick}
-        >
+        {/* BACK */}
+        <div className="product-card-face product-card-back" onClick={handleBackClick}>
           <div className="product-card-back-header">
             <div className="product-title product-title-back">{displayName}</div>
-
             <button
               type="button"
               className="info-cta"
@@ -178,14 +119,7 @@ export default function ProductCard({
               <img src={pinIcon} alt="" aria-hidden="true" draggable={false} />
             </button>
           </div>
-
-          <img
-            src={backImage}
-            alt={`Tabla nutricional de ${displayName}`}
-            loading={canHover ? "lazy" : "eager"}
-            decoding="async"
-            draggable={false}
-          />
+          <img src={backImage} alt={`Tabla nutricional de ${displayName}`} {...imgProps} />
         </div>
       </div>
     </div>
