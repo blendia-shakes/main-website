@@ -1,17 +1,11 @@
-//Corregir el size de la imagen web
+//Corregir el size de la imagen
 
 .product-card-back img{
-  flex:1 1 auto;
-  height:100%;
   filter:drop-shadow(0 18px 26px rgba(0,0,0,0.16));
-  transform:scale(1.28);
+  transform:scale(1.12);
   transform-origin:center top;
-  margin-top:-4px;
 }
 
-//Corregir el size de la imgen back movil 
-
-  /* imagen back: sube y ocupa más alto visible */
   .product-card-back img{
     flex:1 1 auto;
     height:100%;
