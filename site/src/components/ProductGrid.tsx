@@ -1,85 +1,70 @@
 import { useEffect, useRef, useState } from "react";
 import ProductCard from "./ProductCard";
+
 type CategoryKey = "essentials" | "shakes" | "latte";
-type FlavorKey = "moon" | "midnight" | "zen" | "masala";
-type Category = {
-  name: CategoryKey;
-  label: string;
-};
-type Flavor = {
-  key: FlavorKey;
-  label: string;
-};
-const categories: Category[] = [
+type FlavorKey   = "moon" | "midnight" | "zen" | "masala";
+
+const categories: { name: CategoryKey; label: string }[] = [
   { name: "essentials", label: "Essentials" },
-  { name: "shakes", label: "Blendia Shakes" },
-  { name: "latte", label: "Blendia Latte" },
+  { name: "shakes",     label: "Blendia Shakes" },
+  { name: "latte",      label: "Blendia Latte" },
 ];
-const flavors: Flavor[] = [
-  { key: "moon", label: "Moon" },
+
+const flavors: { key: FlavorKey; label: string }[] = [
+  { key: "moon",     label: "Moon" },
   { key: "midnight", label: "Midnight" },
-  { key: "zen", label: "Zen" },
-  { key: "masala", label: "Masala" },
+  { key: "zen",      label: "Zen" },
+  { key: "masala",   label: "Masala" },
 ];
+
 export default function ProductGrid() {
   const gridRef = useRef<HTMLElement | null>(null);
-  const [pinnedCardIds, setPinnedCardIds] = useState<string[]>([]);
-  const [transientOpenCardIds, setTransientOpenCardIds] = useState<string[]>([]);
+  const [pinnedIds, setPinnedIds]     = useState<string[]>([]);
+  const [transientIds, setTransientIds] = useState<string[]>([]);
+
   useEffect(() => {
-    const handlePointerDown = (event: PointerEvent) => {
-      if (pinnedCardIds.length === 0 && transientOpenCardIds.length === 0) return;
-      const target = event.target as Node;
-      if (gridRef.current && !gridRef.current.contains(target)) {
-        setPinnedCardIds([]);
-        setTransientOpenCardIds([]);
+    const handlePointerDown = (e: PointerEvent) => {
+      if (!pinnedIds.length && !transientIds.length) return;
+      if (!gridRef.current?.contains(e.target as Node)) {
+        setPinnedIds([]);
+        setTransientIds([]);
       }
     };
     document.addEventListener("pointerdown", handlePointerDown, true);
     return () => document.removeEventListener("pointerdown", handlePointerDown, true);
-  }, [pinnedCardIds, transientOpenCardIds]);
-  const pinCard = (cardId: string) => {
-    setPinnedCardIds((prev) => (prev.includes(cardId) ? prev : [...prev, cardId]));
-    setTransientOpenCardIds((prev) =>
-      prev.includes(cardId) ? prev : [...prev, cardId]
-    );
-  };
-  const unpinCard = (cardId: string) => {
-    setPinnedCardIds((prev) => prev.filter((id) => id !== cardId));
-    // ✅ FIX: also clear transient state so hover can re-drive the flip on desktop
-    setTransientOpenCardIds((prev) => prev.filter((id) => id !== cardId));
-  };
-  const openTransientCard = (cardId: string) => {
-    setTransientOpenCardIds((prev) =>
-      prev.includes(cardId) ? prev : [...prev, cardId]
-    );
-  };
-  const closeTransientCard = (cardId: string) => {
-    setTransientOpenCardIds((prev) => prev.filter((id) => id !== cardId));
-  };
+  }, [pinnedIds, transientIds]);
+
+  const addId   = (set: React.Dispatch<React.SetStateAction<string[]>>, id: string) =>
+    set((prev) => prev.includes(id) ? prev : [...prev, id]);
+
+  const removeId = (set: React.Dispatch<React.SetStateAction<string[]>>, id: string) =>
+    set((prev) => prev.filter((x) => x !== id));
+
+  const pinCard   = (id: string) => { addId(setPinnedIds, id); addId(setTransientIds, id); };
+  const unpinCard = (id: string) => { removeId(setPinnedIds, id); removeId(setTransientIds, id); };
+
   return (
     <section ref={gridRef} className="container catalog-shell">
-      {categories.map((category) => (
-        <section key={category.name} className="category-block">
+      {categories.map(({ name, label }) => (
+        <section key={name} className="category-block">
           <div className="category-header">
-            <span className="category-chip category-chip-large">
-              {category.label}
-            </span>
+            <span className="category-chip category-chip-large">{label}</span>
           </div>
           <div className="grid">
-            {flavors.map((flavor) => {
-              const cardId = `${category.name}-${flavor.key}`;
+            {flavors.map(({ key, label: flavorLabel }) => {
+              const id = `${name}-${key}`;
               return (
                 <ProductCard
-                  key={cardId}
-                  category={category.name}
-                  flavorKey={flavor.key}
-                  displayName={`— ${flavor.label} —`}
-                  isPinned={pinnedCardIds.includes(cardId)}
-                  isTransientOpen={transientOpenCardIds.includes(cardId)}
-                  onOpenTransient={() => openTransientCard(cardId)}
-                  onCloseTransient={() => closeTransientCard(cardId)}
-                  onPin={() => pinCard(cardId)}
-                  onUnpin={() => unpinCard(cardId)}
+                  key={id}
+                  category={name}
+                  flavorKey={key}
+                  displayName={`— ${flavorLabel} —`}
+                  isPinned={pinnedIds.includes(id)}
+                  isTransientOpen={transientIds.includes(id)}
+                  onOpenTransient={() => addId(setTransientIds, id)}
+                  onCloseTransient={() => removeId(setTransientIds, id)}
+                  onPin={() => pinCard(id)}
+                  onUnpin={() => unpinCard(id)}
                 />
               );
             })}
