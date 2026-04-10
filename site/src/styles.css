@@ -1365,3 +1365,98 @@ img{
   display:block;
   object-fit:contain;
 }
+
+/* =========================================================
+   MOBILE ONLY — PRODUCT CARDS
+   No altera la versión web
+========================================================= */
+@media (max-width:600px){
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  /* card más vertical */
+  .product-card{
+    min-height:500px;
+  }
+
+  .product-card-inner{
+    min-height:500px;
+  }
+
+  .product-card-face{
+    padding:14px;
+    border-radius:22px;
+  }
+
+  /* frente: conserva el pill y gana altura visual */
+  .product-card-front{
+    padding-top:50px;
+  }
+
+  /* back: usa mejor el espacio superior */
+  .product-card-back{
+    padding-top:12px;
+    padding-bottom:12px;
+  }
+
+  .product-card-back-header{
+    margin:0 0 8px;
+    gap:8px;
+    grid-template-columns:minmax(0, 1fr) 44px;
+  }
+
+  .product-title{
+    top:10px;
+    width:calc(100% - 18px);
+    max-width:none;
+    padding:11px 14px;
+    font-size:15px;
+  }
+
+  .product-title-back{
+    position:relative !important;
+    top:auto;
+    left:auto;
+    transform:none;
+    width:100%;
+    max-width:none;
+    text-align:left;
+  }
+
+  /* imagen frontal: más proporcionada en card vertical */
+  .product-card-front img{
+    flex:1 1 auto;
+    height:100%;
+    transform:scale(1.18);
+    transform-origin:center top;
+    object-position:center 8px;
+    filter:drop-shadow(0 14px 22px rgba(0,0,0,0.18));
+  }
+
+  /* imagen back: sube y ocupa más alto visible */
+  .product-card-back img{
+    flex:1 1 auto;
+    height:100%;
+    transform:scale(1.25);
+    transform-origin:center top;
+    object-position:center 0;
+    margin-top:4px;
+    filter:drop-shadow(0 14px 22px rgba(0,0,0,0.16));
+  }
+
+  .info-cta{
+    width:44px;
+    height:44px;
+    min-width:44px;
+    min-height:44px;
+    max-width:44px;
+    max-height:44px;
+    flex:0 0 44px;
+  }
+
+  .info-cta img{
+    width:20px;
+    height:20px;
+  }
+}

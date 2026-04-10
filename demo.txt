@@ -1,1 +1,23 @@
-demo
+//Corregir el size de la imagen web
+
+.product-card-back img{
+  flex:1 1 auto;
+  height:100%;
+  filter:drop-shadow(0 18px 26px rgba(0,0,0,0.16));
+  transform:scale(1.28);
+  transform-origin:center top;
+  margin-top:-4px;
+}
+
+//Corregir el size de la imgen back movil 
+
+  /* imagen back: sube y ocupa más alto visible */
+  .product-card-back img{
+    flex:1 1 auto;
+    height:100%;
+    transform:scale(1.25);
+    transform-origin:center top;
+    object-position:center 0;
+    margin-top:4px;
+    filter:drop-shadow(0 14px 22px rgba(0,0,0,0.16));
+  }
