@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent, type KeyboardEvent } from "react";
+
+type CategoryKey = "essentials" | "shakes" | "latte";
+type FlavorKey = "moon" | "midnight" | "zen" | "masala";
 
 type Props = {
-  category: string;
+  category: CategoryKey;
   displayName: string;
-  flavorKey: string;
+  flavorKey: FlavorKey;
   isPinned: boolean;
   isTransientOpen: boolean;
   onOpenTransient: () => void;
@@ -50,7 +53,7 @@ export default function ProductCard({
     ? "/img-core/extras/pinned.png"
     : "/img-core/extras/unpinned.png";
 
-  const isHovered = canHover && hovered && !isPinned;
+  const isHovered = canHover && hovered;
   const isFlipped = isPinned || isHovered || isTransientOpen;
 
   const handleFrontClick = () => {
@@ -59,7 +62,7 @@ export default function ProductCard({
     onOpenTransient();
   };
 
-  const handleBackClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleBackClick = (e: MouseEvent<HTMLDivElement>) => {
     const target = e.target as HTMLElement | null;
 
     if (target?.closest('[data-role="pin"]')) return;
@@ -69,21 +72,46 @@ export default function ProductCard({
     onCloseTransient();
   };
 
-  const handlePinClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const openAfterUnpin = () => {
+    if (typeof window === "undefined") {
+      onOpenTransient();
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      onOpenTransient();
+    });
+  };
+
+  const handlePinClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (isPinned) onUnpin();
-    else onPin();
+    if (isPinned) {
+      onUnpin();
+
+      if (!canHover) {
+        openAfterUnpin();
+      }
+
+      return;
+    }
+
+    onPin();
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key !== "Enter" && e.key !== " ") return;
 
     e.preventDefault();
 
     if (isPinned) {
       onUnpin();
+
+      if (!canHover) {
+        openAfterUnpin();
+      }
+
       return;
     }
 
@@ -116,7 +144,10 @@ export default function ProductCard({
       onKeyDown={handleKeyDown}
     >
       <div className="product-card-inner">
-        <div className="product-card-face product-card-front" onClick={handleFrontClick}>
+        <div
+          className="product-card-face product-card-front"
+          onClick={handleFrontClick}
+        >
           <div className="product-title">{displayName}</div>
           <img
             src={frontImage}
@@ -127,7 +158,10 @@ export default function ProductCard({
           />
         </div>
 
-        <div className="product-card-face product-card-back" onClick={handleBackClick}>
+        <div
+          className="product-card-face product-card-back"
+          onClick={handleBackClick}
+        >
           <div className="product-card-back-header">
             <div className="product-title product-title-back">{displayName}</div>
 
@@ -136,6 +170,7 @@ export default function ProductCard({
               className="info-cta"
               data-role="pin"
               onPointerDown={(e) => e.stopPropagation()}
+              onMouseDown={(e) => e.stopPropagation()}
               onTouchStart={(e) => e.stopPropagation()}
               onClick={handlePinClick}
               aria-label="Anclar detalle"
