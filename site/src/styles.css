@@ -108,14 +108,14 @@ img { max-width: 100%; display: block; }
 }
 
 .hero h1 { margin: 0; line-height: 0.98; }
-.hero p { margin: 12px 0 0; }
+.hero p  { margin: 12px 0 0; }
 
 /* =========================================================
    CATALOG HERO
 ========================================================= */
 .catalog-shell { padding-top: 28px; }
 
-/* Shared glass-surface pattern */
+/* Shared glass-surface */
 .catalog-hero,
 .experience-v2-inner,
 .footer-v2 .footer-inner {
@@ -274,6 +274,9 @@ img { max-width: 100%; display: block; }
   border-color: rgba(var(--accent-rgb), 0.12);
 }
 
+/* =========================================================
+   GRID — DESKTOP: 4-col CSS grid (unchanged)
+========================================================= */
 .grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -731,15 +734,9 @@ img { max-width: 100%; display: block; }
 }
 
 .exp-title { font-size: 40px; margin: 10px 0; letter-spacing: -0.03em; }
-
 .exp-description { color: var(--accent-2); max-width: 560px; }
 
-.exp-metrics {
-  display: flex;
-  gap: 28px;
-  margin-top: 24px;
-}
-
+.exp-metrics { display: flex; gap: 28px; margin-top: 24px; }
 .exp-metrics div { display: flex; flex-direction: column; }
 .exp-metrics strong { font-size: 22px; }
 .exp-metrics span { font-size: 11px; letter-spacing: 0.14em; color: var(--muted); }
@@ -852,41 +849,102 @@ img { max-width: 100%; display: block; }
 .footer-v2 .footer-nav a:hover::after { width: 100%; }
 
 /* =========================================================
-   RESPONSIVE
+   RESPONSIVE — TABLET  ≤ 980px
+   Peek carousel: ~2.3 cards visible, 3rd peeking
 ========================================================= */
 @media (max-width: 980px) {
-  .grid                  { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .catalog-hero          { padding: 24px; }
-  .catalog-heading       { font-size: clamp(30px, 6vw, 42px); }
-  .catalog-copy          { max-width: 100%; }
-  .catalog-grid          { grid-template-columns: 1fr; }
-  .usecases-grid         { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .contact-grid          { grid-template-columns: 1fr; }
-  .machine-grid          { grid-template-columns: 1fr; }
-  .gallery-grid          { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .hero h1               { font-size: 36px; }
+  /* Switch grid → horizontal scroll carousel */
+  .grid {
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;          /* Firefox */
+    gap: 16px;
+    /* left padding matches container; right padding creates the peek gap */
+    padding: 8px 20% 16px 0;
+    /* pull the row edge-to-edge so the peek bleeds past the container */
+    margin-left: -24px;
+    margin-right: -24px;
+    padding-left: 24px;
+  }
+
+  .grid::-webkit-scrollbar { display: none; }   /* Chrome/Safari */
+
+  /* Each card: fixed width so ~2.3 fit before the peek */
+  .product-card {
+    flex: 0 0 58%;
+    max-width: 58%;
+    scroll-snap-align: start;
+    /* keep aspect-ratio from the base rule */
+  }
+
+  /* Fade-out right edge to hint there's more */
+  .category-block {
+    position: relative;
+    overflow: hidden;             /* clip the fade mask */
+    margin-top: 38px;
+  }
+
+  .category-block::after {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 72px;
+    background: linear-gradient(to right, transparent, var(--bg) 90%);
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* Other layout fixes */
+  .catalog-hero    { padding: 24px; }
+  .catalog-heading { font-size: clamp(30px, 6vw, 42px); }
+  .catalog-copy    { max-width: 100%; }
+  .catalog-grid    { grid-template-columns: 1fr; }
+  .usecases-grid   { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .contact-grid    { grid-template-columns: 1fr; }
+  .machine-grid    { grid-template-columns: 1fr; }
+  .gallery-grid    { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hero h1         { font-size: 36px; }
 }
 
-@media (max-width: 640px) {
-  .footer-v2 .footer-inner { flex-direction: column; align-items: flex-start; gap: 16px; }
-  .footer-v2 .footer-nav   { gap: 16px; }
-}
-
+/* =========================================================
+   RESPONSIVE — MOBILE  ≤ 600px
+   Peek carousel: ~1.25 cards visible, 2nd peeking
+========================================================= */
 @media (max-width: 600px) {
-  .grid                          { grid-template-columns: 1fr; }
-  .catalog-hero                  { padding: 22px 18px; border-radius: 22px; }
-  .brand-lockup                  { gap: 12px; }
-  .brand-logo                    { height: 38px; }
-  .hero-pills                    { justify-content: flex-start; }
-  .hero                          { padding: 96px 20px 56px; }
-  .hero h1                       { font-size: 32px; }
-  .section                       { padding: 64px 0; }
-  .product-card-face             { padding: 14px; border-radius: 22px; }
-  .product-card-front            { padding-top: 50px; }
-  .product-card-back             { padding-top: 12px; padding-bottom: 12px; }
-  .product-card-back-header      { margin: 0 0 8px; gap: 8px; }
-  .product-title                 { top: 10px; width: calc(100% - 18px); max-width: none; padding: 11px 14px; font-size: 15px; }
-  .product-title-back            { width: 100%; max-width: none; text-align: left; }
+  .grid {
+    gap: 14px;
+    padding: 8px 28% 16px 0;
+    padding-left: 18px;
+    margin-left: -18px;
+    margin-right: -18px;
+  }
+
+  /* ~1.25 cards visible */
+  .product-card {
+    flex: 0 0 76%;
+    max-width: 76%;
+  }
+
+  /* Wider fade mask on mobile */
+  .category-block::after { width: 56px; }
+
+  /* Card face tweaks */
+  .catalog-hero         { padding: 22px 18px; border-radius: 22px; }
+  .brand-lockup         { gap: 12px; }
+  .brand-logo           { height: 38px; }
+  .hero-pills           { justify-content: flex-start; }
+  .hero                 { padding: 96px 20px 56px; }
+  .hero h1              { font-size: 32px; }
+  .section              { padding: 64px 0; }
+  .product-card-face    { padding: 14px; border-radius: 22px; }
+  .product-card-front   { padding-top: 50px; }
+  .product-card-back    { padding-top: 12px; padding-bottom: 12px; }
+  .product-card-back-header { margin: 0 0 8px; gap: 8px; }
+  .product-title        { top: 10px; width: calc(100% - 18px); max-width: none; padding: 11px 14px; font-size: 15px; }
+  .product-title-back   { width: 100%; max-width: none; text-align: left; }
 
   .product-card-front img {
     transform: scale(1.18);
@@ -913,11 +971,16 @@ img { max-width: 100%; display: block; }
   .info-cta img { width: 20px; height: 20px; }
 }
 
+/* =========================================================
+   DESKTOP  ≥ 981px — restore 4-col grid
+========================================================= */
 @media (min-width: 981px) {
-  .container       { max-width: 1440px; }
-  .catalog-shell   { padding-left: 40px; padding-right: 40px; }
-  .grid            { gap: 24px; }
-  .category-block  { margin-top: 48px; }
+  .container      { max-width: 1440px; }
+  .catalog-shell  { padding-left: 40px; padding-right: 40px; }
+  .grid           { gap: 24px; }
+  .category-block { margin-top: 48px; overflow: visible; }
+  /* Remove peek fade on desktop */
+  .category-block::after { display: none; }
 }
 
 @media (min-width: 1400px) {

@@ -19,7 +19,7 @@ const flavors: { key: FlavorKey; label: string }[] = [
 
 export default function ProductGrid() {
   const gridRef = useRef<HTMLElement | null>(null);
-  const [pinnedIds, setPinnedIds]     = useState<string[]>([]);
+  const [pinnedIds,   setPinnedIds]   = useState<string[]>([]);
   const [transientIds, setTransientIds] = useState<string[]>([]);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function ProductGrid() {
     return () => document.removeEventListener("pointerdown", handlePointerDown, true);
   }, [pinnedIds, transientIds]);
 
-  const addId   = (set: React.Dispatch<React.SetStateAction<string[]>>, id: string) =>
+  const addId    = (set: React.Dispatch<React.SetStateAction<string[]>>, id: string) =>
     set((prev) => prev.includes(id) ? prev : [...prev, id]);
 
   const removeId = (set: React.Dispatch<React.SetStateAction<string[]>>, id: string) =>
@@ -50,7 +50,16 @@ export default function ProductGrid() {
           <div className="category-header">
             <span className="category-chip category-chip-large">{label}</span>
           </div>
-          <div className="grid">
+
+          {/*
+            role="region" + aria-label makes the scroll container
+            discoverable as a landmark for assistive tech.
+          */}
+          <div
+            className="grid"
+            role="region"
+            aria-label={`${label} — desliza para ver más`}
+          >
             {flavors.map(({ key, label: flavorLabel }) => {
               const id = `${name}-${key}`;
               return (

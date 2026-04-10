@@ -37,16 +37,14 @@ export default function ProductCard({
     return () => mq.removeEventListener("change", update);
   }, []);
 
-  const base = `/img-core/bebidas/${category}/${category}_${flavorKey}`;
-  const frontImage = `${base}.png`;
+  const frontImage = `/img-core/bebidas/${category}/${category}_${flavorKey}.png`;
   const backImage  = `/img-core/tablas-nutricionales/${category}/tabla_nutricional_${category}_${flavorKey}.png`;
   const pinIcon    = isPinned ? "/img-core/extras/pinned.png" : "/img-core/extras/unpinned.png";
 
   const isHovered = canHover && hovered;
   const isFlipped = isPinned || isHovered || isTransientOpen;
 
-  const openAfterUnpin = () =>
-    window.requestAnimationFrame(onOpenTransient);
+  const openAfterUnpin = () => window.requestAnimationFrame(onOpenTransient);
 
   const handleFrontClick = () => {
     if (canHover || isPinned || isTransientOpen) return;
@@ -62,34 +60,32 @@ export default function ProductCard({
   const handlePinClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
-
-    if (isPinned) {
-      onUnpin();
-      if (!canHover) openAfterUnpin();
-      return;
-    }
+    if (isPinned) { onUnpin(); if (!canHover) openAfterUnpin(); return; }
     onPin();
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key !== "Enter" && e.key !== " ") return;
     e.preventDefault();
-
-    if (isPinned) {
-      onUnpin();
-      if (!canHover) openAfterUnpin();
-      return;
-    }
-
+    if (isPinned) { onUnpin(); if (!canHover) openAfterUnpin(); return; }
     if (canHover) { onPin(); return; }
     isTransientOpen ? onCloseTransient() : onOpenTransient();
   };
 
-  const imgProps = { loading: canHover ? ("lazy" as const) : ("eager" as const), decoding: "async" as const, draggable: false };
+  const imgProps = {
+    loading: canHover ? ("lazy" as const) : ("eager" as const),
+    decoding: "async" as const,
+    draggable: false,
+  };
 
   return (
     <div
-      className={["product-card", isHovered && "is-hovered", isFlipped && "is-flipped", isPinned && "is-locked"].filter(Boolean).join(" ")}
+      className={[
+        "product-card",
+        isHovered  && "is-hovered",
+        isFlipped  && "is-flipped",
+        isPinned   && "is-locked",
+      ].filter(Boolean).join(" ")}
       onMouseEnter={() => canHover && setHovered(true)}
       onMouseLeave={() => canHover && setHovered(false)}
       role="button"
