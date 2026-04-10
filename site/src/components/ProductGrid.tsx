@@ -19,7 +19,7 @@ const flavors: { key: FlavorKey; label: string }[] = [
 
 export default function ProductGrid() {
   const gridRef = useRef<HTMLElement | null>(null);
-  const [pinnedIds,   setPinnedIds]   = useState<string[]>([]);
+  const [pinnedIds,    setPinnedIds]    = useState<string[]>([]);
   const [transientIds, setTransientIds] = useState<string[]>([]);
 
   useEffect(() => {
@@ -52,31 +52,34 @@ export default function ProductGrid() {
           </div>
 
           {/*
-            role="region" + aria-label makes the scroll container
-            discoverable as a landmark for assistive tech.
+            .carousel-track  — visual container: transparent bg + rounded corners.
+                               On desktop this is invisible (reset via media query).
+            .grid            — scrollable flex row on mobile/tablet, 4-col grid on desktop.
           */}
-          <div
-            className="grid"
-            role="region"
-            aria-label={`${label} — desliza para ver más`}
-          >
-            {flavors.map(({ key, label: flavorLabel }) => {
-              const id = `${name}-${key}`;
-              return (
-                <ProductCard
-                  key={id}
-                  category={name}
-                  flavorKey={key}
-                  displayName={`— ${flavorLabel} —`}
-                  isPinned={pinnedIds.includes(id)}
-                  isTransientOpen={transientIds.includes(id)}
-                  onOpenTransient={() => addId(setTransientIds, id)}
-                  onCloseTransient={() => removeId(setTransientIds, id)}
-                  onPin={() => pinCard(id)}
-                  onUnpin={() => unpinCard(id)}
-                />
-              );
-            })}
+          <div className="carousel-track">
+            <div
+              className="grid"
+              role="region"
+              aria-label={`${label} — desliza para ver más`}
+            >
+              {flavors.map(({ key, label: flavorLabel }) => {
+                const id = `${name}-${key}`;
+                return (
+                  <ProductCard
+                    key={id}
+                    category={name}
+                    flavorKey={key}
+                    displayName={`— ${flavorLabel} —`}
+                    isPinned={pinnedIds.includes(id)}
+                    isTransientOpen={transientIds.includes(id)}
+                    onOpenTransient={() => addId(setTransientIds, id)}
+                    onCloseTransient={() => removeId(setTransientIds, id)}
+                    onPin={() => pinCard(id)}
+                    onUnpin={() => unpinCard(id)}
+                  />
+                );
+              })}
+            </div>
           </div>
         </section>
       ))}

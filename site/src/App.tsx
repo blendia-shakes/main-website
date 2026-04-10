@@ -6,6 +6,16 @@ import Footer from "./components/Footer";
 export default function App() {
   return (
     <>
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'fixed',
+          inset: 0,
+          backgroundColor: '#403F45',
+          zIndex: -1,
+          pointerEvents: 'none',
+        }}
+      />
       <Hero />
       <ProductGrid />
       <Experience />
