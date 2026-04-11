@@ -136,9 +136,40 @@ img { max-width: 100%; display: block; }
 /* =========================================================
    HERO
 ========================================================= */
+/* Base */
 .hero {
-  padding: 0 20px 44px;
+  padding: 0; /* ← remove the 24px sides, .container.hero-inner handles it */
   text-align: center;
+}
+
+/* Mobile ≤ 500px */
+@media (max-width: 500px) {
+  .hero {
+    padding: 4px 0 0; /* ← sides stay 0 */
+  }
+}
+
+/* Desktop ≥ 981px */
+@media (min-width: 981px) {
+  .hero {
+    padding: 0; /* ← no sides needed here either */
+  }
+}
+
+/* Base */
+.hero-inner {
+  max-width: 1100px; /* matches --container */
+  margin: 0 auto;
+}
+
+/* Desktop ≥ 981px */
+@media (min-width: 981px) {
+  .hero-inner { max-width: 1440px; }
+}
+
+/* Wide ≥ 1400px */
+@media (min-width: 1400px) {
+  .hero-inner { max-width: 1560px; }
 }
 
 .hero-brandmark {
@@ -175,7 +206,13 @@ img { max-width: 100%; display: block; }
 /* =========================================================
    CATALOG HERO
 ========================================================= */
-.catalog-shell { padding-top: 36px; }
+.catalog-shell { padding-top: 0px; }
+
+@media (max-width: 500px) {
+  .catalog-shell {
+    padding-top: 0;
+  }
+}
 
 .catalog-hero,
 .experience-v2-inner,
@@ -202,6 +239,16 @@ img { max-width: 100%; display: block; }
   overflow: hidden;
 }
 
+@media (max-width: 500px) {
+  .catalog-hero {
+    margin-bottom: -50px; 
+  }
+
+  .category-block {
+    margin-top: 0px; 
+  }
+}
+
 .catalog-hero::before {
   content: "";
   position: absolute;
@@ -217,7 +264,6 @@ img { max-width: 100%; display: block; }
   position: relative;
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
   gap: 16px;
   flex-wrap: wrap;
   z-index: 1;
@@ -252,7 +298,10 @@ img { max-width: 100%; display: block; }
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
-  justify-content: flex-end;
+  justify-content: center;
+  width: 100%;
+  margin-top: -50px;
+  margin-bottom: 28px;
 }
 
 .hero-pill {
@@ -274,7 +323,7 @@ img { max-width: 100%; display: block; }
 .catalog-heading {
   position: relative;
   z-index: 1;
-  margin: 18px 0 8px;
+  margin: 0 0 8px;
   font-family: 'Poppins', sans-serif;
   font-size: clamp(32px, 4vw, 52px);
   line-height: 1.02;
@@ -291,6 +340,16 @@ img { max-width: 100%; display: block; }
   font-size: 16px;
 }
 
+@media (max-width: 500px) {
+  .hero-pills {
+    justify-content: center;
+    margin-top: -50px;
+  }
+  .catalog-heading {
+    margin-top: 24px;
+    margin-bottom: 28px;
+  }
+}
 /* =========================================================
    GRID / CATEGORIES
 ========================================================= */
@@ -704,14 +763,41 @@ img { max-width: 100%; display: block; }
 /* =========================================================
    EXPERIENCE V2
 ========================================================= */
-.experience-v2 { margin-top: 120px; padding: 0 24px; }
+.experience-v2 {
+  margin-top: 120px;
+  padding: 0 24px;
+}
 
 .experience-v2-inner {
-  max-width: 880px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 56px 48px;
   border-radius: 32px;
-  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.04) 0%, rgba(var(--accent-rgb), 0.012) 100%);
+  background: linear-gradient(180deg,
+    rgba(var(--accent-rgb), 0.04) 0%,
+    rgba(var(--accent-rgb), 0.012) 100%
+  );
+}
+
+/* Tablet ≤ 980px */
+@media (max-width: 980px) {
+  .experience-v2-inner {
+    padding: 40px 32px;
+  }
+}
+/* Mobile ≤ 500px */
+@media (max-width: 500px) {
+  .experience-v2        { padding: 0 16px; margin-top: 72px; }
+  .experience-v2-inner  { padding: 32px 20px; border-radius: 22px; }
+}
+/* Desktop ≥ 981px — matches catalog-shell override */
+@media (min-width: 981px) {
+  .experience-v2        { padding: 0 40px; } /* matches catalog-shell padding */
+  .experience-v2-inner  { max-width: 1440px; } /* matches .container desktop override */
+}
+/* Wide ≥ 1400px */
+@media (min-width: 1400px) {
+  .experience-v2-inner  { max-width: 1560px; } /* matches .container wide override */
 }
 
 .exp-eyebrow { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
@@ -732,17 +818,27 @@ img { max-width: 100%; display: block; }
   background: linear-gradient(to bottom, transparent, rgba(var(--accent-rgb), 0.14), transparent);
 }
 
-.exp-step { position: relative; display: flex; gap: 20px; align-items: flex-start; }
+.exp-step {
+  position: relative;
+  display: flex;
+  gap: 20px;
+  align-items: center; /* ← this is the key line */
+}
 
 .exp-node {
-  position: relative; z-index: 2;
-  width: 44px; height: 44px;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  position: relative; 
+  z-index: 2;
   border-radius: 50%;
-  background: var(--accent); color: var(--bg);
-  display: flex; align-items: center; justify-content: center;
+  background: var(--accent); 
+  color: var(--bg);
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
   font-weight: 600;
   box-shadow: 0 5px 18px rgba(0,0,0,0.18);
-  flex-shrink: 0;
 }
 
 .exp-card {
@@ -907,7 +1003,7 @@ img { max-width: 100%; display: block; }
   .brand-lockup         { gap: 12px; }
   .brand-logo           { height: 38px; }
   .hero-pills           { justify-content: flex-start; }
-  .section              { padding: 64px 0; }
+  .section              { padding: 48px 0; }
   .product-card-face    { padding: 14px; border-radius: 22px; }
   .product-card-front   { padding-top: 50px; }
   .product-card-back    { padding-top: 12px; padding-bottom: 12px; }

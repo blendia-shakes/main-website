@@ -1,4 +1,3 @@
-
 const brandLogo = "/img-core/extras/logo-texto-completo.png";
 
 export default function Hero() {
@@ -16,14 +15,9 @@ export default function Hero() {
           />
         </div>
 
-        {/* <h1>Wellness que se sirve solo</h1>
-
-        <p>
-          Bebidas funcionales preparadas al instante.
-          Diseñadas para espacios premium.
-        </p> */}
-
         <header className="catalog-hero">
+
+          {/* ── Logo row ── */}
           <div className="brand-lockup">
             <div className="brand-mark" aria-label="Blendia">
               <img
@@ -39,23 +33,24 @@ export default function Hero() {
                   if (fallback) fallback.style.display = "inline-flex";
                 }}
               />
-              <span className="brand-fallback">Blendia</span>
             </div>
+          </div>
 
-            <div className="hero-pills" aria-hidden="true">
-              <span className="hero-pill">Dark mode</span>
-              <span className="hero-pill">Premium catalog</span>
-              <span className="hero-pill">Multi-pin compare</span>
-            </div>
+          {/* ── Pills — now their own centered row ── */}
+          <div className="hero-pills" aria-hidden="true">
+            <span className="hero-pill">Dark mode</span>
+            <span className="hero-pill">Premium catalog</span>
+            <span className="hero-pill">Multi-pin compare</span>
           </div>
 
           <h1 className="catalog-heading">Discover the Blendia lineup</h1>
           <p className="catalog-copy">
             Hover to preview, pin to keep it open, and compare several cards at the same time.
           </p>
+
         </header>
 
       </div>
     </section>
-  )
+  );
 }
