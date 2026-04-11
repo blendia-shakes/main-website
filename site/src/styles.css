@@ -145,7 +145,7 @@ img { max-width: 100%; display: block; }
 /* Mobile ≤ 500px */
 @media (max-width: 500px) {
   .hero {
-    padding: 4px 0 0; /* ← sides stay 0 */
+    padding: 0 40px; /* ← sides stay 0 */
   }
 }
 
@@ -898,6 +898,23 @@ img { max-width: 100%; display: block; }
 
 .footer-v2 .footer-nav a:hover { color: var(--accent); }
 .footer-v2 .footer-nav a:hover::after { width: 100%; }
+
+/* Desktop ≥ 981px */
+@media (min-width: 981px) {
+  .footer-v2 {
+    padding: 32px 40px; /* ← was: 32px 24px — now matches catalog-shell & experience-v2 */
+  }
+  .footer-v2 .footer-inner {
+    max-width: 1440px; /* ← was: 1100px — now matches .container & experience-v2-inner */
+  }
+}
+
+/* Wide ≥ 1400px */
+@media (min-width: 1400px) {
+  .footer-v2 .footer-inner {
+    max-width: 1560px; /* ← matches .container & experience-v2-inner wide override */
+  }
+}
 
 /* =========================================================
    RESPONSIVE — TABLET  ≤ 980px
