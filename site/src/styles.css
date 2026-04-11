@@ -152,7 +152,7 @@ img { max-width: 100%; display: block; }
 /* Desktop ≥ 981px */
 @media (min-width: 981px) {
   .hero {
-    padding: 0; /* ← no sides needed here either */
+    padding: 0 40px; /* ← no sides needed here either */
   }
 }
 
