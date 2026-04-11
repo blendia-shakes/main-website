@@ -31,7 +31,9 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 /* =========================================================
-   HTML
+   HTML — rubber-band overscroll colour
+   Single flat value. No gradient. Safari paints this colour
+   in the bounce zone above and below the page.
 ========================================================= */
 html {
   min-height: 100%;
@@ -39,7 +41,15 @@ html {
 }
 
 /* =========================================================
-   BODY
+   BODY — solid colour only, no gradient
+   The gradient lives on body::before (position:fixed) so it
+   never scrolls and Safari can sample a real background-color.
+
+   Safe-area padding requires viewport-fit=cover in <head>:
+     <meta name="viewport"
+           content="width=device-width, initial-scale=1,
+                    viewport-fit=cover">
+     <meta name="theme-color" content="#403F45">
 ========================================================= */
 body {
   min-height: 100%;
@@ -49,7 +59,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.45;
   position: relative;
+
+  /* Solid colour — no gradient here.
+     body::before (fixed) provides the visual gradient. */
   background-color: #403F45;
+
+  /* Push content into the safe zone so nothing hides behind
+     the notch or home-indicator bar. Values are 0 on
+     non-notched devices so this is harmless everywhere else.
+     Requires viewport-fit=cover in the viewport meta tag. */
   padding-top:    env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
   padding-left:   env(safe-area-inset-left);
@@ -57,7 +75,21 @@ body {
 }
 
 /* =========================================================
-   BODY::BEFORE — fixed full-viewport gradient layer
+   BODY::BEFORE — the ONLY fixed full-viewport layer
+
+   THIS IS THE KEY FIX.
+
+   Previously body::before used the "background" shorthand
+   with only gradient values. The shorthand resets
+   background-color to "transparent". Safari's toolbar
+   colour-sampling algorithm finds this element first
+   (it is position:fixed, 100% wide, covers top & bottom
+   viewport edges) and reads background-color: transparent
+   → cannot resolve a real colour → shows OS default colour.
+
+   Fix: give it an explicit background-color: #403F45 and
+   put ALL visual layers (page gradient + corner vignettes)
+   on background-image. Safari now samples #403F45. ✓
 ========================================================= */
 body::before {
   content: "";
@@ -72,6 +104,7 @@ body::before {
     radial-gradient(ellipse 32% 16% at   0% 100%, rgba(0,0,0,0.26) 0%, transparent 100%),
     radial-gradient(ellipse 32% 16% at 100% 100%, rgba(0,0,0,0.26) 0%, transparent 100%),
     radial-gradient(ellipse 100% 45% at 50% 108%, rgba(0,0,0,0.10) 0%, transparent 65%),
+
     linear-gradient(180deg,
       #403F45 0%,
       #3e3d44 45%,
@@ -82,6 +115,8 @@ body::before {
 
 /* =========================================================
    ROOT
+   overflow-x: hidden lives here, NOT on body.
+   On body it breaks Safari's vertical rubber-band paint.
 ========================================================= */
 #root {
   position: relative;
@@ -123,7 +158,7 @@ img { max-width: 100%; display: block; }
    Both scale automatically when tokens change.
 ========================================================= */
 .hero {
-  padding: 0 var(--page-pad);
+  padding: 0 20px 44px;
   text-align: center;
 }
 
@@ -168,13 +203,8 @@ img { max-width: 100%; display: block; }
    Outer pad  = var(--page-pad)   → token-driven
    Inner w    = var(--container)  → via .container
 ========================================================= */
-.catalog-shell {
-  padding-top: 0;
-  padding-left:  var(--page-pad);
-  padding-right: var(--page-pad);
-}
+.catalog-shell { padding-top: 36px; }
 
-/* Shared glass border on the three card surfaces */
 .catalog-hero,
 .experience-v2-inner,
 .footer-v2 .footer-inner {
@@ -716,10 +746,7 @@ img { max-width: 100%; display: block; }
   margin: 0 auto;
   padding: 56px 48px;
   border-radius: 32px;
-  background: linear-gradient(180deg,
-    rgba(var(--accent-rgb), 0.04) 0%,
-    rgba(var(--accent-rgb), 0.012) 100%
-  );
+  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.04) 0%, rgba(var(--accent-rgb), 0.012) 100%);
 }
 
 .exp-eyebrow { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
@@ -740,27 +767,17 @@ img { max-width: 100%; display: block; }
   background: linear-gradient(to bottom, transparent, rgba(var(--accent-rgb), 0.14), transparent);
 }
 
-.exp-step {
-  position: relative;
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
+.exp-step { position: relative; display: flex; gap: 20px; align-items: flex-start; }
 
 .exp-node {
-  flex-shrink: 0;
-  width: 44px;
-  height: 44px;
-  position: relative;
-  z-index: 2;
+  position: relative; z-index: 2;
+  width: 44px; height: 44px;
   border-radius: 50%;
-  background: var(--accent);
-  color: var(--bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: var(--accent); color: var(--bg);
+  display: flex; align-items: center; justify-content: center;
   font-weight: 600;
   box-shadow: 0 5px 18px rgba(0,0,0,0.18);
+  flex-shrink: 0;
 }
 
 .exp-card {
@@ -793,10 +810,7 @@ img { max-width: 100%; display: block; }
   margin: 0 auto;
   padding: 28px 32px;
   border-radius: 22px;
-  background: linear-gradient(180deg,
-    rgba(var(--accent-rgb), 0.035) 0%,
-    rgba(var(--accent-rgb), 0.012) 100%
-  );
+  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.035) 0%, rgba(var(--accent-rgb), 0.012) 100%);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -808,8 +822,7 @@ img { max-width: 100%; display: block; }
 
 .footer-brand {
   font-family: 'Poppins', sans-serif;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 16px; font-weight: 600;
   letter-spacing: -0.02em;
   color: var(--accent);
 }
@@ -831,11 +844,6 @@ img { max-width: 100%; display: block; }
 .footer-v2 .footer-nav a:hover::after { width: 100%; }
 
 /* =========================================================
-   RESPONSIVE — MOBILE <= 500px
-   catalog-shell has --page-pad = 24px side padding here.
-   Carousel negative margins bleed the track to the viewport
-   edge: -30px = -(24px shell pad + 6px extra bleed).
-========================================================= */
 @media (max-width: 500px) {
 
   /* Carousel */
@@ -912,7 +920,6 @@ img { max-width: 100%; display: block; }
 
 /* =========================================================
    RESPONSIVE — TABLET <= 980px
-========================================================= */
 @media (max-width: 980px) {
 
   .experience-v2-inner { padding: 40px 32px; }
@@ -966,6 +973,58 @@ img { max-width: 100%; display: block; }
   .grid > .product-card:last-child { scroll-snap-align: end; }
 
   .category-block  { overflow: visible; margin-top: 44px; }
+   RESPONSIVE — TABLET  ≤ 980px
+@media (max-width: 980px) {
+
+  .carousel-track {
+    margin-left: -10px;
+    margin-right: 0;
+    border-radius: 24px;
+    background: transparent;
+    border: none;
+    overflow: visible;
+    box-shadow: none;
+  }
+
+  .carousel-track::after {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 100px;
+    background: linear-gradient(
+      to right,
+      transparent           0%,
+      rgba(60,59,65,0.40)  38%,
+      rgba(60,59,65,0.86)  70%,
+      #403F45              100%
+    );
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .grid {
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 18px;
+    padding: 22px 16px 26px 10px;
+  }
+
+  .grid::-webkit-scrollbar { display: none; }
+
+  .product-card {
+    flex: 0 0 74%;
+    max-width: 74%;
+    scroll-snap-align: start;
+  }
+
+  .grid > .product-card:last-child { scroll-snap-align: end; }
+
+  .category-block { overflow: visible; margin-top: 44px; }
+
   .catalog-hero    { padding: 24px; }
   .catalog-heading { font-size: clamp(30px, 6vw, 42px); }
   .catalog-copy    { max-width: 100%; }
@@ -978,15 +1037,6 @@ img { max-width: 100%; display: block; }
 }
 
 /* =========================================================
-   DESKTOP >= 981px
-   ─────────────────────────────────────────────────────────
-   Upgrading --page-pad to --page-pad-lg (40px) here means
-   every section using padding: X var(--page-pad) widens
-   automatically — no per-section overrides needed.
-
-   All four inner wrappers share one max-width declaration
-   so they are guaranteed to stay in sync.
-========================================================= */
 @media (min-width: 981px) {
 
   /* Single token upgrade — all four sections update */
@@ -1016,7 +1066,72 @@ img { max-width: 100%; display: block; }
 /* =========================================================
    WIDE >= 1400px
    Single rule — all four inner wrappers scale up together.
-========================================================= */
+   RESPONSIVE — MOBILE  ≤ 500px
+@media (max-width: 500px) {
+
+  .carousel-track {
+    margin-left: -30px;
+    margin-right: -30px;
+    border-radius: 15px;
+  }
+
+  .carousel-track::after {
+    width: 80px;
+    background: linear-gradient(
+      to right,
+      transparent           0%,
+      rgba(61,60,66,0.38)  32%,
+      rgba(61,60,66,0.84)  65%,
+      #403F45              100%
+    );
+  }
+
+  .grid {
+    gap: 14px;
+    padding: 18px 16px 18px 10px;
+  }
+
+  .product-card {
+    flex: 0 0 82%;
+    max-width: 82%;
+  }
+
+  .hero                 { padding: 4px 20px 56px; }
+  .hero h1              { font-size: 32px; }
+
+  .catalog-hero         { padding: 22px 18px; border-radius: 22px; }
+  .brand-lockup         { gap: 12px; }
+  .brand-logo           { height: 38px; }
+  .hero-pills           { justify-content: flex-start; }
+  .section              { padding: 64px 0; }
+  .product-card-face    { padding: 14px; border-radius: 22px; }
+  .product-card-front   { padding-top: 50px; }
+  .product-card-back    { padding-top: 12px; padding-bottom: 12px; }
+  .product-card-back-header { margin: 0 0 8px; gap: 8px; }
+  .product-title        { top: 10px; width: calc(100% - 18px); max-width: none; padding: 11px 14px; font-size: 15px; }
+  .product-title-back   { top: auto; width: 100%; max-width: none; text-align: left; }
+  .info-cta             { width: 44px; height: 44px; min-width: 44px; min-height: 44px; max-width: 44px; max-height: 44px; flex: 0 0 44px; }
+  .info-cta img         { width: 20px; height: 20px; }
+}
+
+/* =========================================================
+   DESKTOP  ≥ 981px
+@media (min-width: 981px) {
+  .container      { max-width: 1440px; }
+  .catalog-shell  { padding-left: 40px; padding-right: 40px; }
+  .grid           { gap: 24px; }
+  .category-block { margin-top: 52px; overflow: visible; padding-bottom: 0; }
+
+  .carousel-track {
+    margin-left: 0; margin-right: 0;
+    background: none; border: none;
+    border-radius: 0; overflow: visible;
+    box-shadow: none;
+  }
+
+  .carousel-track::after { display: none; }
+}
+
 @media (min-width: 1400px) {
   .hero-inner,
   .container,

@@ -29,15 +29,3 @@
   flex: 0 0 82%;   /* ← change this value */
   max-width: 82%;
 }
-
-//What you want to change	Where to edit	Sections affected
-
-Side padding base/tablet | --page-pad: 24px in :root	| All 4 sections
-
-Side padding desktop | --page-pad-lg: 40px in :root	| All 4 sections
-
-Max-width base/tablet	| --container: 1100px in :root	| All 4 inner wrappers
-
-Max-width desktop |	1440px in @media (min-width: 981px)	| All 4 inner wrappers
-
-Max-width wide screen |	1560px in @media (min-width: 1400px)	| All 4 inner wrappers
