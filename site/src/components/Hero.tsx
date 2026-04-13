@@ -1,13 +1,41 @@
-const brandLogo = "/img-core/extras/logo-texto-completo.png";
+import { useEffect, useState } from "react";
 
 export default function Hero() {
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+
+  useEffect(() => {
+    const html = document.documentElement;
+    let initial: "dark" | "light" = "dark";
+    try {
+      const saved = localStorage.getItem("theme");
+      if (saved === "light" || saved === "dark") initial = saved;
+    } catch (_) {}
+    html.setAttribute("data-theme", initial);
+    setTheme(initial);
+  }, []);
+
+  function toggleTheme() {
+    const next = theme === "light" ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", next);
+    setTheme(next);
+    try {
+      localStorage.setItem("theme", next);
+    } catch (_) {}
+  }
+
+  const brandLogo =
+    theme === "light"
+      ? "/img-core/logos/text.png"
+      : "/img-core/logos/text-white.png";
+
   return (
     <section className="hero">
       <div className="container hero-inner">
 
+        {/* ── Large brandmark — now uses dynamic brandLogo, no hardcoded path ── */}
         <div className="hero-brandmark" aria-label="Blendia">
           <img
-            src="/img-core/logos/text.png"
+            src={brandLogo}
             alt="Blendia"
             className="hero-brandmark-img"
             loading="eager"
@@ -36,9 +64,20 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* ── Pills — now their own centered row ── */}
+          {/* ── Pills ── */}
           <div className="hero-pills" aria-hidden="true">
-            <span className="hero-pill">Dark mode</span>
+
+            <button
+              className="hero-pill-toggle"
+              onClick={toggleTheme}
+              aria-label="Toggle colour theme"
+              type="button"
+            >
+              <span className="pill-icon" aria-hidden="true">☽</span>
+              <span className="pill-label-dark">Dark mode</span>
+              <span className="pill-label-light">Light mode</span>
+            </button>
+
             <span className="hero-pill">Premium catalog</span>
             <span className="hero-pill">Multi-pin compare</span>
           </div>

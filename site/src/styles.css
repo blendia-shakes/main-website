@@ -1,31 +1,47 @@
 /* =========================================================
-   TOKENS — DARK MODE + LAYOUT
+   TOKENS — DARK MODE (default) + LAYOUT
    ─────────────────────────────────────────────────────────
-   To change the page width:
-     --container    → base/tablet inner max-width
-     --page-pad     → base/tablet outer side padding
-     --page-pad-lg  → desktop (>= 981px) outer side padding
-
-   The desktop block overrides --page-pad to --page-pad-lg,
-   so all four sections (hero, catalog, experience, footer)
-   update automatically from these three token values.
+   Theme: add data-theme="light" to <html> → light mode.
+   Layout: --container / --page-pad / --page-pad-lg
+   NOTE: --page-pad-lg is applied directly to selectors in
+   the desktop @media block — NOT via :root inside @media —
+   to prevent the @media :root block from overriding the
+   [data-theme="light"] token values on desktop.
 ========================================================= */
 :root {
-  /* Brand */
   --bg:         #403F45;
+  --bg-mid-1:   #3e3d44;
+  --bg-mid-2:   #3c3b41;
+  --bg-rgb:     64, 63, 69;
   --accent:     #F5F1E8;
   --accent-rgb: 245, 241, 232;
   --accent-2:   rgba(var(--accent-rgb), 0.78);
   --muted:      rgba(var(--accent-rgb), 0.62);
   --surface:    rgba(var(--accent-rgb), 0.08);
   --radius:     14px;
-
-  /* Layout — edit these three to resize all sections at once */
-  --container:   1100px;  /* inner max-width: base + tablet   */
-  --page-pad:      24px;  /* outer side pad:  base + tablet   */
-  --page-pad-lg:   40px;  /* outer side pad:  desktop >= 981px */
-
+  --container:  1100px;
+  --page-pad:     24px;
+  --page-pad-lg:  40px;
   font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+}
+
+/* =========================================================
+   LIGHT MODE — declared AFTER :root so it wins the cascade.
+   Only colour tokens change. Layout tokens unchanged.
+   FIX: --bg-rgb corrected to match --bg: #F5F1E8 = rgb(245,241,232).
+   Previous value (200,195,182) caused wrong shadow/overlay
+   tones throughout the light theme.
+========================================================= */
+[data-theme="light"] {
+  --bg:         #F5F1E8;
+  --bg-mid-1:   #f0ece2;
+  --bg-mid-2:   #ebe7dc;
+  --bg-rgb:     245, 241, 232;
+  --accent:     #403F45;
+  --accent-rgb: 64, 63, 69;
+  --accent-2:   rgba(var(--accent-rgb), 0.72);
+  --muted:      rgba(var(--accent-rgb), 0.52);
+  --surface:    rgba(var(--accent-rgb), 0.06);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -35,7 +51,8 @@
 ========================================================= */
 html {
   min-height: 100%;
-  background: #403F45;
+  background: var(--bg);
+  transition: background 0.3s ease;
 }
 
 /* =========================================================
@@ -49,36 +66,28 @@ body {
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.45;
   position: relative;
-  background-color: #403F45;
+  background-color: var(--bg);
   padding-top:    env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
   padding-left:   env(safe-area-inset-left);
   padding-right:  env(safe-area-inset-right);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* =========================================================
-   BODY::BEFORE — fixed full-viewport gradient layer
+   BODY::BEFORE — REMOVED
+   ─────────────────────────────────────────────────────────
+   FIX: body::before was a position:fixed, inset:0 pseudo-
+   element with a hardcoded dark gradient background-image.
+   Since background-image cannot be CSS-transitioned, it
+   stayed dark even after the theme switched — creating:
+     - A persistent dark overlay on mobile (visible through
+       the site content, blocking the full view).
+     - A "button does nothing" effect on desktop (the dark
+       gradient dominated visually, hiding the theme change).
+   The background is already handled by html + body via
+   var(--bg) with proper transitions. No ::before needed.
 ========================================================= */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background-color: #403F45;
-  background-image:
-    radial-gradient(ellipse 32% 16% at   0%   0%, rgba(0,0,0,0.30) 0%, transparent 100%),
-    radial-gradient(ellipse 32% 16% at 100%   0%, rgba(0,0,0,0.30) 0%, transparent 100%),
-    radial-gradient(ellipse 32% 16% at   0% 100%, rgba(0,0,0,0.26) 0%, transparent 100%),
-    radial-gradient(ellipse 32% 16% at 100% 100%, rgba(0,0,0,0.26) 0%, transparent 100%),
-    radial-gradient(ellipse 100% 45% at 50% 108%, rgba(0,0,0,0.10) 0%, transparent 65%),
-    linear-gradient(180deg,
-      #403F45 0%,
-      #3e3d44 45%,
-      #3c3b41 55%,
-      #403F45 100%
-    );
-}
 
 /* =========================================================
    ROOT
@@ -93,9 +102,6 @@ img { max-width: 100%; display: block; }
 
 /* =========================================================
    LAYOUT — .container
-   Inner wrapper for catalog-shell. Padding is intentionally
-   0 — the shell provides the outer side spacing, so the
-   catalog-hero card edge aligns with the other section cards.
 ========================================================= */
 .container {
   max-width: var(--container);
@@ -118,9 +124,6 @@ img { max-width: 100%; display: block; }
 
 /* =========================================================
    HERO
-   Outer pad  = var(--page-pad)   → token-driven
-   Inner w    = var(--container)  → token-driven
-   Both scale automatically when tokens change.
 ========================================================= */
 .hero {
   padding: 0 var(--page-pad);
@@ -150,7 +153,7 @@ img { max-width: 100%; display: block; }
   letter-spacing: -0.08em;
   color: var(--accent);
   opacity: 0.96;
-  text-shadow: 0 10px 24px rgba(0,0,0,0.18);
+  text-shadow: 0 10px 24px rgba(var(--bg-rgb), 0.18);
   transform: translateY(-2px);
 }
 
@@ -165,8 +168,6 @@ img { max-width: 100%; display: block; }
 
 /* =========================================================
    CATALOG SHELL
-   Outer pad  = var(--page-pad)   → token-driven
-   Inner w    = var(--container)  → via .container
 ========================================================= */
 .catalog-shell {
   padding-top: 0;
@@ -174,7 +175,6 @@ img { max-width: 100%; display: block; }
   padding-right: var(--page-pad);
 }
 
-/* Shared glass border on the three card surfaces */
 .catalog-hero,
 .experience-v2-inner,
 .footer-v2 .footer-inner {
@@ -194,10 +194,11 @@ img { max-width: 100%; display: block; }
       rgba(var(--accent-rgb), 0.015) 100%
     );
   box-shadow:
-    0 4px 16px  rgba(0,0,0,0.06),
-    0 16px 48px rgba(0,0,0,0.10),
+    0 4px 16px  rgba(var(--bg-rgb), 0.12),
+    0 16px 48px rgba(var(--bg-rgb), 0.18),
     inset 0 1px 0 rgba(var(--accent-rgb), 0.04);
   overflow: hidden;
+  transition: box-shadow 0.3s ease;
 }
 
 .catalog-hero::before {
@@ -231,7 +232,7 @@ img { max-width: 100%; display: block; }
   width: auto;
   height: 44px;
   object-fit: contain;
-  filter: drop-shadow(0 6px 14px rgba(0,0,0,0.16));
+  filter: drop-shadow(0 6px 14px rgba(var(--bg-rgb), 0.16));
 }
 
 .brand-fallback {
@@ -253,6 +254,8 @@ img { max-width: 100%; display: block; }
   width: 100%;
   margin-top: -50px;
   margin-bottom: 28px;
+  position: relative;
+  z-index: 2;
 }
 
 .hero-pill {
@@ -269,7 +272,60 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.02em;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
+
+.hero-pill-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 12px;
+  border-radius: 999px;
+  background: rgba(var(--accent-rgb), 0.06);
+  border: 1px solid rgba(var(--accent-rgb), 0.08);
+  color: var(--accent-2);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  font-family: inherit;
+  line-height: 1;
+  transition: background 0.2s ease, color 0.2s ease,
+              border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hero-pill-toggle:hover {
+  background: rgba(var(--accent-rgb), 0.12);
+  border-color: rgba(var(--accent-rgb), 0.18);
+  color: var(--accent);
+  box-shadow: 0 2px 10px rgba(var(--bg-rgb), 0.14);
+}
+
+.hero-pill-toggle:active { transform: scale(0.96); }
+
+.hero-pill-toggle:focus-visible {
+  outline: 2px solid rgba(var(--accent-rgb), 0.78);
+  outline-offset: 2px;
+}
+
+.hero-pill-toggle .pill-icon {
+  font-size: 13px;
+  line-height: 1;
+  transition: transform 0.4s ease;
+}
+
+[data-theme="light"] .hero-pill-toggle .pill-icon { transform: rotate(180deg); }
+
+.hero-pill-toggle .pill-label-dark  { display: inline; }
+.hero-pill-toggle .pill-label-light { display: none;   }
+
+[data-theme="light"] .hero-pill-toggle .pill-label-dark  { display: none;   }
+[data-theme="light"] .hero-pill-toggle .pill-label-light { display: inline; }
 
 .catalog-heading {
   position: relative;
@@ -309,11 +365,7 @@ img { max-width: 100%; display: block; }
   background: linear-gradient(90deg, transparent, rgba(var(--accent-rgb), 0.06), transparent);
 }
 
-.category-header {
-  display: flex;
-  align-items: center;
-  margin: 0 0 16px;
-}
+.category-header { display: flex; align-items: center; margin: 0 0 16px; }
 
 .category-chip {
   width: max-content;
@@ -326,7 +378,7 @@ img { max-width: 100%; display: block; }
   font-weight: 700;
   letter-spacing: 0.10em;
   text-transform: uppercase;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.07);
+  box-shadow: 0 4px 14px rgba(var(--bg-rgb), 0.10);
 }
 
 .category-chip-large {
@@ -339,9 +391,6 @@ img { max-width: 100%; display: block; }
   border-color: rgba(var(--accent-rgb), 0.10);
 }
 
-/* =========================================================
-   GRID — DESKTOP: 4-col CSS grid
-========================================================= */
 .grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -349,9 +398,6 @@ img { max-width: 100%; display: block; }
   align-items: stretch;
 }
 
-/* =========================================================
-   CAROUSEL TRACK WRAPPER
-========================================================= */
 .carousel-track { position: relative; }
 
 /* =========================================================
@@ -378,9 +424,6 @@ img { max-width: 100%; display: block; }
 
 .product-card:hover { transform: translateY(-3px); }
 
-/* =========================================================
-   PINNED STATE
-========================================================= */
 .product-card.is-locked {
   transform: translateY(-3px) scale(1.015);
   opacity: 1;
@@ -402,22 +445,20 @@ img { max-width: 100%; display: block; }
 .product-card.is-locked .product-card-face {
   border-color: rgba(var(--accent-rgb), 0.16);
   box-shadow:
-    0 6px 20px  rgba(0,0,0,0.12),
-    0 24px 52px rgba(0,0,0,0.18),
+    0 6px 20px  rgba(var(--bg-rgb), 0.14),
+    0 24px 52px rgba(var(--bg-rgb), 0.20),
     inset 0 1px 0 rgba(var(--accent-rgb), 0.06);
 }
 
 .product-card.is-locked .product-title,
 .product-card.is-locked .product-title-back {
-  background: linear-gradient(180deg, rgba(64,63,69,0.96), rgba(64,63,69,0.80));
+  background: linear-gradient(180deg, rgba(var(--bg-rgb), 0.96), rgba(var(--bg-rgb), 0.80));
   border-color: rgba(var(--accent-rgb), 0.14);
 }
 
 .product-card.is-locked .info-cta {
   background-color: rgba(var(--accent-rgb), 0.18);
-  box-shadow:
-    0 0 0 2px rgba(var(--accent-rgb), 0.26),
-    0 8px 22px rgba(0,0,0,0.26);
+  box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.26), 0 8px 22px rgba(var(--bg-rgb), 0.26);
 }
 
 @keyframes pinPulse {
@@ -432,9 +473,6 @@ img { max-width: 100%; display: block; }
   .product-card.is-locked::after { opacity: 0.60; }
 }
 
-/* =========================================================
-   CARD FLIP CORE
-========================================================= */
 .product-card-inner {
   position: relative;
   width: 100%;
@@ -448,9 +486,6 @@ img { max-width: 100%; display: block; }
 
 .product-card.is-flipped .product-card-inner { transform: rotateY(180deg); }
 
-/* =========================================================
-   CARD FACE
-========================================================= */
 .product-card-face {
   position: absolute;
   inset: 0;
@@ -464,8 +499,8 @@ img { max-width: 100%; display: block; }
     rgba(var(--accent-rgb), 0.04);
   border: 1px solid rgba(var(--accent-rgb), 0.08);
   box-shadow:
-    0 2px 8px   rgba(0,0,0,0.06),
-    0 12px 32px rgba(0,0,0,0.12),
+    0 2px 8px   rgba(var(--bg-rgb), 0.08),
+    0 12px 32px rgba(var(--bg-rgb), 0.14),
     inset 0 1px 0 rgba(var(--accent-rgb), 0.04);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
@@ -477,11 +512,7 @@ img { max-width: 100%; display: block; }
   height: 100%;
 }
 
-.product-card-front {
-  padding-top: 78px;
-  z-index: 2;
-  pointer-events: auto;
-}
+.product-card-front { padding-top: 78px; z-index: 2; pointer-events: auto; }
 
 .product-card-back {
   padding-top: 18px;
@@ -495,9 +526,6 @@ img { max-width: 100%; display: block; }
 .product-card.is-flipped .product-card-front { pointer-events: none; }
 .product-card.is-flipped .product-card-back  { pointer-events: auto; }
 
-/* =========================================================
-   BACK HEADER
-========================================================= */
 .product-card-back-header {
   position: relative;
   z-index: 20;
@@ -519,7 +547,7 @@ img { max-width: 100%; display: block; }
   max-width: 280px;
   padding: 12px 16px;
   border-radius: 18px;
-  background: linear-gradient(180deg, rgba(64,63,69,0.88), rgba(64,63,69,0.70));
+  background: linear-gradient(180deg, rgba(var(--bg-rgb), 0.88), rgba(var(--bg-rgb), 0.70));
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   font-weight: 700;
@@ -527,9 +555,10 @@ img { max-width: 100%; display: block; }
   color: var(--accent);
   border: 1px solid rgba(var(--accent-rgb), 0.08);
   text-align: center;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.09);
+  box-shadow: 0 4px 16px rgba(var(--bg-rgb), 0.12);
   letter-spacing: -0.01em;
   pointer-events: none;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 .product-title-back {
@@ -541,9 +570,6 @@ img { max-width: 100%; display: block; }
   text-align: left;
 }
 
-/* =========================================================
-   IMAGES
-========================================================= */
 .product-card-front img,
 .product-card-back img {
   backface-visibility: hidden;
@@ -559,12 +585,9 @@ img { max-width: 100%; display: block; }
   object-position: center center;
 }
 
-.product-card-front img { filter: drop-shadow(0 14px 24px rgba(0,0,0,0.18)); }
-.product-card-back img  { filter: drop-shadow(0 14px 24px rgba(0,0,0,0.16)); }
+.product-card-front img { filter: drop-shadow(0 14px 24px rgba(var(--bg-rgb), 0.20)); }
+.product-card-back img  { filter: drop-shadow(0 14px 24px rgba(var(--bg-rgb), 0.18)); }
 
-/* =========================================================
-   INFO CTA (PIN BUTTON)
-========================================================= */
 .info-cta {
   appearance: none;
   -webkit-appearance: none;
@@ -581,7 +604,7 @@ img { max-width: 100%; display: block; }
   border-radius: 9999px;
   background: rgba(var(--accent-rgb), 0.08);
   border: 1px solid rgba(var(--accent-rgb), 0.14);
-  box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+  box-shadow: 0 3px 10px rgba(var(--bg-rgb), 0.18);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   cursor: pointer;
@@ -603,7 +626,7 @@ img { max-width: 100%; display: block; }
 
 .product-card:hover .info-cta {
   background-color: rgba(var(--accent-rgb), 0.15);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.24);
+  box-shadow: 0 6px 18px rgba(var(--bg-rgb), 0.22);
 }
 
 .info-cta:active { transform: scale(0.96); }
@@ -626,7 +649,7 @@ img { max-width: 100%; display: block; }
   cursor: pointer;
 }
 
-.btn.primary { background: var(--accent); color: var(--bg); box-shadow: 0 6px 22px rgba(0,0,0,0.15); }
+.btn.primary { background: var(--accent); color: var(--bg); box-shadow: 0 6px 22px rgba(var(--bg-rgb), 0.18); }
 .btn.ghost   { background: transparent; color: var(--accent); border: 1px solid rgba(var(--accent-rgb), 0.10); }
 .hero-ctas .btn { margin-right: 12px; }
 
@@ -637,7 +660,7 @@ img { max-width: 100%; display: block; }
   background: rgba(var(--accent-rgb), 0.05);
   border-radius: 12px;
   border: 1px solid rgba(var(--accent-rgb), 0.07);
-  box-shadow: 0 3px 12px rgba(0,0,0,0.07), 0 10px 26px rgba(0,0,0,0.09);
+  box-shadow: 0 3px 12px rgba(var(--bg-rgb), 0.08), 0 10px 26px rgba(var(--bg-rgb), 0.10);
 }
 
 .steps { display: flex; gap: 16px; justify-content: space-between; flex-wrap: wrap; }
@@ -657,7 +680,7 @@ img { max-width: 100%; display: block; }
 .catalog-card:hover { transform: translateY(-8px); }
 
 .machine-grid { display: grid; grid-template-columns: 48% 1fr; gap: 28px; align-items: center; }
-.machine-media img { width: 100%; border-radius: 14px; box-shadow: 0 10px 36px rgba(0,0,0,0.12), 0 28px 72px rgba(0,0,0,0.10); }
+.machine-media img { width: 100%; border-radius: 14px; box-shadow: 0 10px 36px rgba(var(--bg-rgb), 0.14), 0 28px 72px rgba(var(--bg-rgb), 0.12); }
 
 .feature-list { list-style: none; padding: 0; margin: 16px 0; color: var(--muted); }
 .feature-list li { margin-bottom: 10px; }
@@ -667,7 +690,7 @@ img { max-width: 100%; display: block; }
 .usecase-emoji { font-size: 28px; margin-bottom: 6px; }
 
 .gallery-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-.gallery-item img { width: 100%; border-radius: 12px; box-shadow: 0 5px 18px rgba(0,0,0,0.09), 0 14px 32px rgba(0,0,0,0.09); }
+.gallery-item img { width: 100%; border-radius: 12px; box-shadow: 0 5px 18px rgba(var(--bg-rgb), 0.10), 0 14px 32px rgba(var(--bg-rgb), 0.10); }
 
 .contact-grid { display: grid; grid-template-columns: 1fr 420px; gap: 32px; align-items: start; }
 .contact-form { display: grid; gap: 12px; max-width: 560px; }
@@ -703,8 +726,6 @@ img { max-width: 100%; display: block; }
 
 /* =========================================================
    EXPERIENCE V2
-   Outer pad  = var(--page-pad)   → token-driven
-   Inner w    = var(--container)  → token-driven
 ========================================================= */
 .experience-v2 {
   margin-top: 120px;
@@ -740,27 +761,19 @@ img { max-width: 100%; display: block; }
   background: linear-gradient(to bottom, transparent, rgba(var(--accent-rgb), 0.14), transparent);
 }
 
-.exp-step {
-  position: relative;
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
+.exp-step { position: relative; display: flex; gap: 20px; align-items: center; }
 
 .exp-node {
   flex-shrink: 0;
-  width: 44px;
-  height: 44px;
+  width: 44px; height: 44px;
   position: relative;
   z-index: 2;
   border-radius: 50%;
   background: var(--accent);
   color: var(--bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   font-weight: 600;
-  box-shadow: 0 5px 18px rgba(0,0,0,0.18);
+  box-shadow: 0 5px 18px rgba(var(--bg-rgb), 0.18);
 }
 
 .exp-card {
@@ -780,8 +793,6 @@ img { max-width: 100%; display: block; }
 
 /* =========================================================
    FOOTER V2
-   Outer pad  = var(--page-pad)   → token-driven
-   Inner w    = var(--container)  → token-driven
 ========================================================= */
 .footer-v2 {
   margin-top: 120px;
@@ -808,8 +819,7 @@ img { max-width: 100%; display: block; }
 
 .footer-brand {
   font-family: 'Poppins', sans-serif;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 16px; font-weight: 600;
   letter-spacing: -0.02em;
   color: var(--accent);
 }
@@ -832,13 +842,9 @@ img { max-width: 100%; display: block; }
 
 /* =========================================================
    RESPONSIVE — MOBILE <= 500px
-   catalog-shell has --page-pad = 24px side padding here.
-   Carousel negative margins bleed the track to the viewport
-   edge: -30px = -(24px shell pad + 6px extra bleed).
 ========================================================= */
 @media (max-width: 500px) {
 
-  /* Carousel */
   .carousel-track {
     margin-left:  -30px;
     margin-right: -30px;
@@ -849,52 +855,32 @@ img { max-width: 100%; display: block; }
     width: 80px;
     background: linear-gradient(
       to right,
-      transparent           0%,
-      rgba(61,60,66,0.38)  32%,
-      rgba(61,60,66,0.84)  65%,
-      #403F45              100%
+      transparent                0%,
+      rgba(var(--bg-rgb), 0.38) 32%,
+      rgba(var(--bg-rgb), 0.84) 65%,
+      var(--bg)                 100%
     );
   }
 
-  .grid {
-    gap: 14px;
-    padding: 18px 16px 18px 10px;
-  }
+  .grid { gap: 14px; padding: 18px 16px 18px 10px; }
+  .product-card { flex: 0 0 82%; max-width: 82%; }
 
-  .product-card {
-    flex: 0 0 82%;
-    max-width: 82%;
-  }
-
-  /* Hero needs explicit 4-side shorthand for the bottom pad */
   .hero    { padding: 4px 20px 56px; }
   .hero h1 { font-size: 32px; }
 
-  /* Catalog */
   .catalog-shell { padding-top: 0; }
 
-  .catalog-hero {
-    margin-bottom: -50px;
-    padding: 22px 18px;
-    border-radius: 22px;
-  }
+  .catalog-hero { margin-bottom: -50px; padding: 22px 18px; border-radius: 22px; }
 
   .category-block  { margin-top: 0; }
   .hero-pills      { justify-content: center; margin-top: -50px; }
 
-  .catalog-heading {
-    margin-top: 24px;
-    margin-bottom: 28px;
-    font-size: clamp(30px, 6vw, 42px);
-  }
-
+  .catalog-heading { margin-top: 24px; margin-bottom: 28px; font-size: clamp(30px, 6vw, 42px); }
   .catalog-copy    { max-width: 100%; }
 
-  /* Experience */
   .experience-v2       { margin-top: 72px; }
   .experience-v2-inner { padding: 32px 20px; border-radius: 22px; }
 
-  /* Misc */
   .brand-lockup  { gap: 12px; }
   .brand-logo    { height: 38px; }
   .hero-pills    { justify-content: flex-start; }
@@ -917,15 +903,11 @@ img { max-width: 100%; display: block; }
 
   .experience-v2-inner { padding: 40px 32px; }
 
-  /* Carousel */
   .carousel-track {
-    margin-left: -10px;
-    margin-right: 0;
+    margin-left: -10px; margin-right: 0;
     border-radius: 24px;
-    background: transparent;
-    border: none;
-    overflow: visible;
-    box-shadow: none;
+    background: transparent; border: none;
+    overflow: visible; box-shadow: none;
   }
 
   .carousel-track::after {
@@ -935,10 +917,10 @@ img { max-width: 100%; display: block; }
     width: 100px;
     background: linear-gradient(
       to right,
-      transparent           0%,
-      rgba(60,59,65,0.40)  38%,
-      rgba(60,59,65,0.86)  70%,
-      #403F45              100%
+      transparent                0%,
+      rgba(var(--bg-rgb), 0.40) 38%,
+      rgba(var(--bg-rgb), 0.86) 70%,
+      var(--bg)                 100%
     );
     pointer-events: none;
     z-index: 10;
@@ -957,12 +939,7 @@ img { max-width: 100%; display: block; }
 
   .grid::-webkit-scrollbar { display: none; }
 
-  .product-card {
-    flex: 0 0 74%;
-    max-width: 74%;
-    scroll-snap-align: start;
-  }
-
+  .product-card { flex: 0 0 74%; max-width: 74%; scroll-snap-align: start; }
   .grid > .product-card:last-child { scroll-snap-align: end; }
 
   .category-block  { overflow: visible; margin-top: 44px; }
@@ -980,34 +957,30 @@ img { max-width: 100%; display: block; }
 /* =========================================================
    DESKTOP >= 981px
    ─────────────────────────────────────────────────────────
-   Upgrading --page-pad to --page-pad-lg (40px) here means
-   every section using padding: X var(--page-pad) widens
-   automatically — no per-section overrides needed.
-
-   All four inner wrappers share one max-width declaration
-   so they are guaranteed to stay in sync.
+   FIX: NO :root block here. Using :root inside @media
+   caused it to override [data-theme="light"] tokens on
+   desktop (later in file = higher cascade priority).
+   40px padding applied directly to section selectors.
 ========================================================= */
 @media (min-width: 981px) {
 
-  /* Single token upgrade — all four sections update */
-  :root { --page-pad: var(--page-pad-lg); }
+  .hero,
+  .catalog-shell,
+  .experience-v2  { padding-left: 40px; padding-right: 40px; }
+  .footer-v2      { padding-left: 40px; padding-right: 40px; }
 
-  /* Single rule — all four inner wrappers in sync */
   .hero-inner,
   .container,
   .experience-v2-inner,
   .footer-v2 .footer-inner { max-width: 1440px; }
 
-  /* Grid */
   .grid           { gap: 24px; }
   .category-block { margin-top: 52px; overflow: visible; padding-bottom: 0; }
 
-  /* Carousel reset */
   .carousel-track {
     margin-left: 0; margin-right: 0;
     background: none; border: none;
-    border-radius: 0; overflow: visible;
-    box-shadow: none;
+    border-radius: 0; overflow: visible; box-shadow: none;
   }
 
   .carousel-track::after { display: none; }
@@ -1015,7 +988,6 @@ img { max-width: 100%; display: block; }
 
 /* =========================================================
    WIDE >= 1400px
-   Single rule — all four inner wrappers scale up together.
 ========================================================= */
 @media (min-width: 1400px) {
   .hero-inner,
