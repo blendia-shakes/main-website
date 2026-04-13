@@ -11,9 +11,10 @@ export default function App() {
         style={{
           position: 'fixed',
           inset: 0,
-          backgroundColor: '#403F45',
+          backgroundColor: 'var(--bg)',
           zIndex: -1,
           pointerEvents: 'none',
+          transition: 'background-color 0.3s ease',
         }}
       />
       <Hero />
@@ -23,7 +24,6 @@ export default function App() {
     </>
   )
 }
-
 
 
 
