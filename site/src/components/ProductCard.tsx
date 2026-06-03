@@ -1,7 +1,5 @@
 import { useEffect, useState, type MouseEvent, type KeyboardEvent } from "react";
-
-type CategoryKey = "essentials" | "shakes" | "latte";
-type FlavorKey = "moon" | "midnight" | "zen" | "masala";
+import { type CategoryKey, type FlavorKey } from "../data/products";
 
 type Props = {
   category: CategoryKey;
@@ -82,7 +80,6 @@ export default function ProductCard({
     <div
       className={[
         "product-card",
-        isHovered  && "is-hovered",
         isFlipped  && "is-flipped",
         isPinned   && "is-locked",
       ].filter(Boolean).join(" ")}

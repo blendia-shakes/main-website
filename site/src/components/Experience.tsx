@@ -28,7 +28,7 @@ export default function Experience() {
       <div className="experience-v2-inner">
         
         {/* HEADER */}
-        <div className="experience-v2-header">
+        <div>
           <span className="exp-eyebrow">Blendia experience</span>
 
           <h2 className="exp-title">
