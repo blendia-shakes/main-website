@@ -120,9 +120,7 @@ img { max-width: 100%; display: block; }
   top: 0;
   z-index: 150;
   padding: 0 var(--page-pad);
-  background: rgba(var(--bg-rgb), 0.82);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: var(--bg);
   border-bottom: 1px solid transparent;
   transition:
     border-color 0.3s ease,
@@ -131,7 +129,7 @@ img { max-width: 100%; display: block; }
 
 .navbar.is-scrolled {
   border-color: rgba(var(--accent-rgb), 0.08);
-  background: rgba(var(--bg-rgb), 0.94);
+  background: var(--bg-mid-1);
 }
 
 .navbar-inner {
