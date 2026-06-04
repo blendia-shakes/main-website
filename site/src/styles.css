@@ -589,7 +589,7 @@ img { max-width: 100%; display: block; }
 .hero-headline {
   font-size: clamp(2.6rem, 7.5vw, 5rem);
   font-weight: 800;
-  line-height: 1.21;
+  line-height: 1.18;
   letter-spacing: -0.01em;
   color: var(--accent);
   margin: 0 0 40px;
@@ -2184,7 +2184,7 @@ img { max-width: 100%; display: block; }
   .grid { gap: 14px; padding: 18px 16px 18px 10px; }
   .product-card { flex: 0 0 82%; max-width: 82%; }
 
-  .hero    { padding: 0 20px; min-height: calc(100vh - 240px); min-height: calc(100svh - 240px); }
+  .hero    { padding: 0 20px; min-height: calc(100vh - 230px); min-height: calc(100svh - 230px); }
   .hero h1 { font-size: 32px; }
 
   .catalog-shell { padding-top: 0; }
@@ -2299,6 +2299,10 @@ img { max-width: 100%; display: block; }
    40px padding applied directly to section selectors.
 ========================================================= */
 @media (min-width: 981px) {
+
+  /* Reduce hero height by 26px to compensate line-height growth; min-height override keeps Why section in place */
+  .hero { min-height: calc(100vh - 305px); min-height: calc(100svh - 305px); }
+  .hero .hero-headline { margin-bottom: -10px; }
 
   .navbar,
   .hero,
