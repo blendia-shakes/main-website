@@ -1,5 +1,6 @@
 import { useEffect, useState, type MouseEvent, type KeyboardEvent } from "react";
 import { type CategoryKey, type FlavorKey } from "../data/products";
+import { getFicha } from "../data/productCopy";
 
 type Props = {
   category: CategoryKey;
@@ -38,6 +39,7 @@ export default function ProductCard({
   const frontImage = `/img-core/bebidas/${category}/${category}_${flavorKey}.png`;
   const backImage  = `/img-core/tablas-nutricionales/${category}/tabla_nutricional_${category}_${flavorKey}.png`;
   const pinIcon    = isPinned ? "/img-core/extras/pinned.png" : "/img-core/extras/unpinned.png";
+  const ficha      = getFicha(category, flavorKey);
 
   const isHovered = canHover && hovered;
   const isFlipped = isPinned || isHovered || isTransientOpen;
@@ -97,6 +99,12 @@ export default function ProductCard({
         <div className="product-card-face product-card-front" onClick={handleFrontClick}>
           <div className="product-title">{displayName}</div>
           <img src={frontImage} alt={displayName} {...imgProps} />
+          {ficha && (
+            <div className="product-card-footer">
+              <p className="product-tagline">{ficha.tagline}</p>
+              <span className="product-price">{ficha.price}</span>
+            </div>
+          )}
         </div>
 
         {/* BACK */}

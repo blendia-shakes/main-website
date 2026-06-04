@@ -1,26 +1,91 @@
-import Hero from "./components/Hero"
-import ProductGrid from "./components/ProductGrid"
+import { useEffect, useState } from "react";
+import FloatingCta from "./components/FloatingCta";
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import WhyBlendia from "./components/WhyBlendia";
+import ProductGrid from "./components/ProductGrid";
 import Experience from "./components/Experience";
+import Locations from "./components/Locations";
+import Faq from "./components/Faq";
 import Footer from "./components/Footer";
 
 export default function App() {
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+
+  useEffect(() => {
+    const html = document.documentElement;
+    let initial: "dark" | "light" = "dark";
+    try {
+      const saved = localStorage.getItem("theme");
+      if (saved === "light" || saved === "dark") initial = saved;
+    } catch (_) {}
+    html.setAttribute("data-theme", initial);
+    setTheme(initial);
+  }, []);
+
+  const toggleTheme = () => {
+    const next = theme === "light" ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", next);
+    setTheme(next);
+    try { localStorage.setItem("theme", next); } catch (_) {}
+  };
+
+  const brandLogo =
+    theme === "light"
+      ? "/img-core/logos/text.png"
+      : "/img-core/logos/text-white.png";
+
+  const scrollTo = (id: string) =>
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+
   return (
     <>
       <div
         aria-hidden="true"
         style={{
-          position: 'fixed',
+          position: "fixed",
           inset: 0,
-          backgroundColor: 'var(--bg)',
+          backgroundColor: "var(--bg)",
           zIndex: -1,
-          pointerEvents: 'none',
-          transition: 'background-color 0.3s ease',
+          pointerEvents: "none",
+          transition: "background-color 0.3s ease",
         }}
       />
-      <Hero />
+
+      <FloatingCta />
+
+      <Navbar
+        theme={theme}
+        onToggle={toggleTheme}
+        brandLogo={brandLogo}
+        scrollTo={scrollTo}
+      />
+
+      <Hero brandLogo={brandLogo} scrollTo={scrollTo} />
+
+      <WhyBlendia />
+
       <ProductGrid />
+
+      {/* ── Contextual CTA — converts product intent into machine search ── */}
+      <div className="section-cta-strip">
+        <p className="section-cta-text">¿Ya encontraste tu sabor?</p>
+        <button
+          type="button"
+          className="section-cta-btn"
+          onClick={() => scrollTo("ubicaciones")}
+        >
+          Encuentra dónde conseguirlo →
+        </button>
+      </div>
+
       <Experience />
-      <Footer />
+
+      <Locations />
+
+      <Faq />
+
+      <Footer brandLogo={brandLogo} scrollTo={scrollTo} />
     </>
-  )
+  );
 }

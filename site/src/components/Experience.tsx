@@ -24,7 +24,7 @@ export default function Experience() {
   ];
 
   return (
-    <section className="experience-v2">
+    <section id="experiencia" className="experience-v2">
       <div className="experience-v2-inner">
         
         {/* HEADER */}

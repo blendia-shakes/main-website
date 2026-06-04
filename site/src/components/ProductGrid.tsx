@@ -29,7 +29,7 @@ export default function ProductGrid() {
   const unpinCard = (id: string) => { removeId(setPinnedIds, id); removeId(setTransientIds, id); };
 
   return (
-    <section ref={gridRef} className="container catalog-shell">
+    <section id="catalogo" ref={gridRef} className="container catalog-shell">
       {categories.map(({ name, label }) => (
         <section key={name} className="category-block">
           <div className="category-header">
