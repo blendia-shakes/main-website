@@ -26,6 +26,7 @@ export default function Navbar({ theme, onToggle, brandLogo, scrollTo }: Props) 
   return (
     <nav className={`navbar${scrolled ? " is-scrolled" : ""}`} aria-label="Navegación principal">
       <div className="navbar-inner">
+      <div className="navbar-content">
 
         {/* Logo */}
         <button
@@ -75,6 +76,7 @@ export default function Navbar({ theme, onToggle, brandLogo, scrollTo }: Props) 
           </button>
         </div>
 
+      </div>
       </div>
     </nav>
   );
