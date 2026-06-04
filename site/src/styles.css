@@ -1002,7 +1002,6 @@ img { max-width: 100%; display: block; }
   touch-action: manipulation;
   transition: transform .22s ease, opacity .22s ease, filter .22s ease;
   opacity: 0.93;
-  filter: saturate(0.98);
   isolation: isolate;
 }
 
@@ -1064,11 +1063,13 @@ img { max-width: 100%; display: block; }
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
   transition: transform 700ms cubic-bezier(.2,.9,.2,1);
-  will-change: transform;
   z-index: 1;
 }
 
-.product-card.is-flipped .product-card-inner { transform: rotateY(180deg); }
+.product-card.is-flipped .product-card-inner {
+  transform: rotateY(180deg);
+  will-change: transform;
+}
 
 .product-card-face {
   position: absolute;
@@ -1462,8 +1463,6 @@ img { max-width: 100%; display: block; }
   border-radius: 20px;
   background: rgba(var(--accent-rgb), 0.04);
   border: 1px solid rgba(var(--accent-rgb), 0.07);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   animation: locCardIn 0.32s ease both;
   transition: background 0.2s ease, border-color 0.2s ease,
               box-shadow 0.2s ease, transform 0.2s ease;
@@ -1475,6 +1474,10 @@ img { max-width: 100%; display: block; }
 }
 
 @media (hover: hover) and (pointer: fine) {
+  .loc-card {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
   .loc-card:hover {
     background: rgba(var(--accent-rgb), 0.07);
     border-color: rgba(var(--accent-rgb), 0.13);

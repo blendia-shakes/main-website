@@ -8,6 +8,7 @@ type Props = {
   flavorKey: FlavorKey;
   isPinned: boolean;
   isTransientOpen: boolean;
+  eager?: boolean;
   onOpenTransient: () => void;
   onCloseTransient: () => void;
   onPin: () => void;
@@ -20,6 +21,7 @@ export default function ProductCard({
   flavorKey,
   isPinned,
   isTransientOpen,
+  eager = false,
   onOpenTransient,
   onCloseTransient,
   onPin,
@@ -72,8 +74,13 @@ export default function ProductCard({
     isTransientOpen ? onCloseTransient() : onOpenTransient();
   };
 
-  const imgProps = {
-    loading: canHover ? ("lazy" as const) : ("eager" as const),
+  const frontImgProps = {
+    loading: eager ? ("eager" as const) : ("lazy" as const),
+    decoding: "async" as const,
+    draggable: false,
+  };
+  const backImgProps = {
+    loading: "lazy" as const,
     decoding: "async" as const,
     draggable: false,
   };
@@ -98,7 +105,7 @@ export default function ProductCard({
         {/* FRONT */}
         <div className="product-card-face product-card-front" onClick={handleFrontClick}>
           <div className="product-title">{displayName}</div>
-          <img src={frontImage} alt={displayName} {...imgProps} />
+          <img src={frontImage} alt={displayName} {...frontImgProps} />
           {ficha && (
             <div className="product-card-footer">
               <p className="product-tagline">{ficha.tagline}</p>
@@ -124,7 +131,7 @@ export default function ProductCard({
               <img src={pinIcon} alt="" aria-hidden="true" draggable={false} />
             </button>
           </div>
-          <img src={backImage} alt={`Tabla nutricional de ${displayName}`} {...imgProps} />
+          <img src={backImage} alt={`Tabla nutricional de ${displayName}`} {...backImgProps} />
         </div>
       </div>
     </div>

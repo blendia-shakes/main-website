@@ -34,7 +34,7 @@ export default function Navbar({ theme, onToggle, brandLogo, scrollTo }: Props) 
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           aria-label="Ir al inicio"
         >
-          <img src={brandLogo} alt="Blendia" className="navbar-logo" loading="eager" decoding="async" />
+          <img src={brandLogo} alt="Blendia" className="navbar-logo" loading="eager" decoding="async" fetchPriority="high" />
         </button>
 
         {/* Desktop links */}
