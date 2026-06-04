@@ -1,5 +1,13 @@
-export type LocationZone = 'zona-10' | 'zona-11' | 'zona-15' | 'zona-16';
-export type LocationType = 'gym' | 'office' | 'university' | 'mall' | 'clinic';
+export type LocationZone = 'zona-7'
+| 'zona-10' 
+| 'zona-11' 
+| 'zona-15' 
+| 'zona-16';
+export type LocationType = 'gym' 
+| 'office' 
+| 'university' 
+| 'mall' 
+| 'clinic';
 
 export type Location = {
   id: string;
@@ -12,6 +20,7 @@ export type Location = {
 };
 
 export const ZONE_LABELS: Record<LocationZone, string> = {
+  'zona-7': 'Zona 7',
   'zona-10': 'Zona 10',
   'zona-11': 'Zona 11',
   'zona-15': 'Zona 15',
@@ -21,9 +30,9 @@ export const ZONE_LABELS: Record<LocationZone, string> = {
 export const locations: Location[] = [
   {
     id: 'golds-z10',
-    name: "Gold's Gym Zona 10",
-    address: 'Av. La Reforma 1-61, Zona 10',
-    zone: 'zona-10',
+    name: "Gold's Gym Zona 7",
+    address: 'Av. La Reforma 1-61, Zona 7',
+    zone: 'zona-7',
     type: 'gym',
     hours: 'Lun–Vie 5am–11pm · Sáb–Dom 7am–9pm',
     mapsUrl: 'https://maps.google.com/?q=Av+La+Reforma+1-61+Zona+10+Guatemala+City',

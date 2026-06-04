@@ -32,8 +32,8 @@ export default function App() {
 
   const brandLogo =
     theme === "light"
-      ? "/img-core/logos/text.png"
-      : "/img-core/logos/text-white.png";
+      ? "/img-core/logos/text.webp"
+      : "/img-core/logos/text-white.webp";
 
   const scrollTo = (id: string) =>
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });

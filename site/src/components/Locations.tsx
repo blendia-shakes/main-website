@@ -167,7 +167,7 @@ export default function Locations() {
           <div className="loc-grid">
             {filtered.map((loc, i) => (
               <article
-                key={`${loc.id}-${activeZone}`}
+                key={loc.id}
                 className="loc-card"
                 style={{ animationDelay: `${i * 0.07}s` }}
               >

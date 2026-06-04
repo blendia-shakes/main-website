@@ -30,7 +30,7 @@ export default function ProductGrid() {
 
   return (
     <section id="catalogo" ref={gridRef} className="container catalog-shell">
-      {categories.map(({ name, label }) => (
+      {categories.map(({ name, label }, catIndex) => (
         <section key={name} className="category-block">
           <div className="category-header">
             <span className="category-chip category-chip-large">{label}</span>
@@ -55,6 +55,7 @@ export default function ProductGrid() {
                     category={name}
                     flavorKey={key}
                     displayName={`— ${flavorLabel} —`}
+                    eager={catIndex === 0}
                     isPinned={pinnedIds.includes(id)}
                     isTransientOpen={transientIds.includes(id)}
                     onOpenTransient={() => addId(setTransientIds, id)}
