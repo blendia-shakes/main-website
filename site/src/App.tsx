@@ -12,20 +12,27 @@ import Footer from "./components/Footer";
 export default function App() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
 
+  const THEME_COLORS = { dark: "#403F45", light: "#F5F1E8" };
+
+  const applyTheme = (t: "dark" | "light") => {
+    document.documentElement.setAttribute("data-theme", t);
+    const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    if (meta) meta.content = THEME_COLORS[t];
+  };
+
   useEffect(() => {
-    const html = document.documentElement;
     let initial: "dark" | "light" = "dark";
     try {
       const saved = localStorage.getItem("theme");
       if (saved === "light" || saved === "dark") initial = saved;
     } catch (_) {}
-    html.setAttribute("data-theme", initial);
+    applyTheme(initial);
     setTheme(initial);
   }, []);
 
   const toggleTheme = () => {
     const next = theme === "light" ? "dark" : "light";
-    document.documentElement.setAttribute("data-theme", next);
+    applyTheme(next);
     setTheme(next);
     try { localStorage.setItem("theme", next); } catch (_) {}
   };
