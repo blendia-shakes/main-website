@@ -157,7 +157,7 @@ img { max-width: 100%; display: block; }
 }
 
 .navbar-logo {
-  height: 26px;
+  height: 31px;
   width: auto;
   object-fit: contain;
 }
@@ -403,7 +403,7 @@ img { max-width: 100%; display: block; }
 }
 
 .hero-logo {
-  height: 32px;
+  height: 38px;
   width: auto;
   object-fit: contain;
   filter: drop-shadow(0 2px 8px rgba(var(--bg-rgb), 0.12));
@@ -1953,7 +1953,7 @@ img { max-width: 100%; display: block; }
 }
 
 .footer-logo {
-  height: 22px;
+  height: 26px;
   width: auto;
   object-fit: contain;
   opacity: 0.7;
