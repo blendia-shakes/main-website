@@ -56,7 +56,7 @@ const reasons = [
   },
   {
     id: "azucar",
-    kicker: "Menos azúcar",
+    kicker: "Sin azúcares añadidos",
     title: "Menos culpa, mismo placer",
     copy: "Menos azúcar que un frappé de cafetería. El antojo que no te pasa factura después de tomarlo.",
     stat: "Menos que un frappé",
