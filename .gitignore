@@ -12,7 +12,7 @@ pnpm-debug.log*
 # ----------------------------
 .vite/
 .cache/
-#dist/
+dist/
 dist-temp/
 coverage/
 
