@@ -359,8 +359,8 @@ img { max-width: 100%; display: block; }
 .hero {
   padding: 0 var(--page-pad);
   text-align: center;
-  min-height: calc(100vh - 300px);
-  min-height: calc(100svh - 300px);
+  min-height: calc(100vh - 285px);
+  min-height: calc(100svh - 285px);
   display: flex;
   align-items: center;
 }
