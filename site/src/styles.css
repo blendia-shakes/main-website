@@ -296,61 +296,122 @@ img { max-width: 100%; display: block; }
 .navbar-hamburger.is-open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
 .navbar-hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-/* ─── Mobile dropdown menu ─── */
-.navbar-mobile-menu {
+/* ─── Launchy radial backdrop ─── */
+.radial-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(var(--bg-rgb), 0.68);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  z-index: 200;
+  animation: radialBackdropIn 0.22s ease;
+}
+
+@keyframes radialBackdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ─── Radial menu anchor (fixed at hamburger center) ─── */
+.radial-menu {
+  position: fixed;
+  z-index: 201;
+  pointer-events: none;
+  /* left / top set via inline style (JS-measured hamPos) */
+}
+
+/* ─── Individual circular launcher items ─── */
+.radial-item {
   position: absolute;
-  top: calc(100% + 10px);
-  left: calc(-1 * var(--page-pad));
-  right: calc(-1 * var(--page-pad));
+  pointer-events: all;
+  -webkit-tap-highlight-color: transparent;
+
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  padding: 10px;
-  border-radius: 20px;
-  border: 1px solid rgba(var(--accent-rgb), 0.08);
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  width: 88px;
+  height: 88px;
+  padding: 0;
+  border-radius: 50%;
+
   background: var(--bg-mid-1);
-  animation: menuSlideIn 0.2s ease;
-  z-index: 10;
-}
+  border: 1px solid rgba(var(--accent-rgb), 0.18);
+  box-shadow:
+    0 12px 40px rgba(var(--bg-rgb), 0.45),
+    0 3px 10px rgba(var(--bg-rgb), 0.25),
+    inset 0 1px 0 rgba(var(--accent-rgb), 0.08);
 
-@keyframes menuSlideIn {
-  from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.navbar-mobile-link {
-  display: block;
-  width: 100%;
-  padding: 16px 20px;
-  border-radius: 12px;
-  background: none;
-  border: none;
-  font-family: inherit;
-  font-size: 17px;
-  font-weight: 600;
   color: var(--accent);
-  text-align: left;
+  font-family: inherit;
   cursor: pointer;
-  letter-spacing: 0.005em;
-  transition: background 0.15s ease;
+
+  /* Fly-out from hamburger center with spring overshoot */
+  animation: radialItemIn 0.42s cubic-bezier(0.34, 1.52, 0.64, 1) var(--delay, 0ms) both;
+  transform: translate(calc(var(--rx) - 50%), calc(var(--ry) - 50%));
 }
 
-.navbar-mobile-link:hover  { background: rgba(var(--accent-rgb), 0.06); }
-.navbar-mobile-link:active { background: rgba(var(--accent-rgb), 0.10); }
+@keyframes radialItemIn {
+  from {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: translate(calc(var(--rx) - 50%), calc(var(--ry) - 50%)) scale(1);
+    opacity: 1;
+  }
+}
 
-/* Mobile: hide links and CTA, show hamburger */
+.radial-item:active {
+  transform: translate(calc(var(--rx) - 50%), calc(var(--ry) - 50%)) scale(0.88) !important;
+  transition: transform 0.1s ease;
+}
+
+.radial-item-icon {
+  display: block;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.radial-item-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  opacity: 0.75;
+}
+
+/* Mobile: hide links and CTA, show hamburger as launcher button */
 @media (max-width: 980px) {
   .navbar-links        { display: none; }
   .navbar-cta          { display: none; }
-  .navbar-hamburger    { display: flex; }
+  .navbar-hamburger    {
+    display: flex;
+    border-radius: 50%;
+    background: rgba(var(--accent-rgb), 0.07);
+    border: 1px solid rgba(var(--accent-rgb), 0.11);
+    transition: background 0.18s ease, box-shadow 0.25s ease;
+  }
+  .navbar-hamburger.is-open {
+    background: rgba(var(--accent-rgb), 0.14);
+    box-shadow:
+      0 0 0 6px rgba(var(--accent-rgb), 0.09),
+      0 0 0 13px rgba(var(--accent-rgb), 0.04);
+  }
   .navbar-toggle-label { display: inline; }
   .navbar-inner        { position: relative; }
 }
 
-/* Desktop: hide hamburger */
+/* Desktop: hide hamburger and radial menu */
 @media (min-width: 981px) {
-  .navbar-hamburger     { display: none; }
-  .navbar-mobile-menu   { display: none; }
+  .navbar-hamburger { display: none; }
+  .radial-backdrop,
+  .radial-menu      { display: none; }
 }
 
 /* =========================================================
