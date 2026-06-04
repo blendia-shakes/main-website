@@ -24,11 +24,11 @@ export default function Experience() {
   ];
 
   return (
-    <section className="experience-v2">
+    <section id="experiencia" className="experience-v2">
       <div className="experience-v2-inner">
         
         {/* HEADER */}
-        <div className="experience-v2-header">
+        <div>
           <span className="exp-eyebrow">Blendia experience</span>
 
           <h2 className="exp-title">

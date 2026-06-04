@@ -1,21 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import ProductCard from "./ProductCard";
-
-type CategoryKey = "essentials" | "shakes" | "latte";
-type FlavorKey   = "moon" | "midnight" | "zen" | "masala";
-
-const categories: { name: CategoryKey; label: string }[] = [
-  { name: "essentials", label: "Essentials" },
-  { name: "shakes",     label: "Blendia Shakes" },
-  { name: "latte",      label: "Blendia Latte" },
-];
-
-const flavors: { key: FlavorKey; label: string }[] = [
-  { key: "moon",     label: "Moon" },
-  { key: "midnight", label: "Midnight" },
-  { key: "zen",      label: "Zen" },
-  { key: "masala",   label: "Masala" },
-];
+import { categories, flavors } from "../data/products";
 
 export default function ProductGrid() {
   const gridRef = useRef<HTMLElement | null>(null);
@@ -44,7 +29,7 @@ export default function ProductGrid() {
   const unpinCard = (id: string) => { removeId(setPinnedIds, id); removeId(setTransientIds, id); };
 
   return (
-    <section ref={gridRef} className="container catalog-shell">
+    <section id="catalogo" ref={gridRef} className="container catalog-shell">
       {categories.map(({ name, label }) => (
         <section key={name} className="category-block">
           <div className="category-header">
