@@ -38,9 +38,7 @@ export default function ProductCard({
     return () => mq.removeEventListener("change", update);
   }, []);
 
-  const webpFlavors: Partial<Record<FlavorKey, true>> = { masala: true };
-  const frontExt = webpFlavors[flavorKey] ? "webp" : "png";
-  const frontImage = `/img-core/bebidas/${category}/${category}_${flavorKey}.${frontExt}`;
+  const frontImage = `/img-core/bebidas/${category}/${category}_${flavorKey}.webp`;
   const backImage  = `/img-core/tablas-nutricionales/${category}/tabla_nutricional_${category}_${flavorKey}.png`;
   const pinIcon    = isPinned ? "/img-core/extras/pinned.png" : "/img-core/extras/unpinned.png";
   const ficha      = getFicha(category, flavorKey);
