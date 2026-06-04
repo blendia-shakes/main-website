@@ -2216,7 +2216,7 @@ img { max-width: 100%; display: block; }
   /* ── Hero mobile fixes ── */
   .hero-content             { padding: 28px 0 24px; }
   .hero-eyebrow             { margin-bottom: 20px; }
-  .hero .hero-headline      { font-size: 38px; letter-spacing: 0.018em; }
+  .hero .hero-headline      { font-size: 38px; letter-spacing: 0.018em; line-height: 46px; }
   .hero-sub                 { margin: 16px auto 96px; }
   .hero-ctas                { flex-direction: column; gap: 10px; margin-bottom: 28px; }
   .hero-cta-primary,
