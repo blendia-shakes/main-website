@@ -1,55 +1,50 @@
-const brandLogo = "/img-core/extras/logo-texto-completo.png";
+type Props = {
+  brandLogo: string;
+  scrollTo: (id: string) => void;
+};
 
-export default function Hero() {
+export default function Hero({ scrollTo }: Props) {
   return (
     <section className="hero">
       <div className="container hero-inner">
+        <div className="hero-content">
 
-        <div className="hero-brandmark" aria-label="Blendia">
-          <img
-            src="/img-core/logos/text.png"
-            alt="Blendia"
-            className="hero-brandmark-img"
-            loading="eager"
-            decoding="async"
-          />
-        </div>
+          <span className="hero-eyebrow">Bebidas funcionales · Guatemala</span>
 
-        <header className="catalog-hero">
+          <h1 className="hero-headline">
+            Saben a antojo.<br />
+            Tienen proteína.
+          </h1>
 
-          {/* ── Logo row ── */}
-          <div className="brand-lockup">
-            <div className="brand-mark" aria-label="Blendia">
-              <img
-                src={brandLogo}
-                alt="Blendia"
-                className="brand-logo"
-                loading="eager"
-                decoding="async"
-                onError={(e) => {
-                  const img = e.currentTarget;
-                  img.style.display = "none";
-                  const fallback = img.parentElement?.querySelector<HTMLElement>(".brand-fallback");
-                  if (fallback) fallback.style.display = "inline-flex";
-                }}
-              />
-            </div>
-          </div>
-
-          {/* ── Pills — now their own centered row ── */}
-          <div className="hero-pills" aria-hidden="true">
-            <span className="hero-pill">Dark mode</span>
-            <span className="hero-pill">Premium catalog</span>
-            <span className="hero-pill">Multi-pin compare</span>
-          </div>
-
-          <h1 className="catalog-heading">Discover the Blendia lineup</h1>
-          <p className="catalog-copy">
-            Hover to preview, pin to keep it open, and compare several cards at the same time.
+          <p className="hero-sub">
+            Shake, latte o esencial — listo en segundos
+            desde una máquina Blendia cerca de ti.
           </p>
 
-        </header>
+          <div className="hero-ctas">
+            <button
+              className="hero-cta-primary"
+              type="button"
+              onClick={() => scrollTo("ubicaciones")}
+            >
+              Encuentra una máquina
+            </button>
+            <button
+              className="hero-cta-secondary"
+              type="button"
+              onClick={() => scrollTo("catalogo")}
+            >
+              Ver el catálogo
+            </button>
+          </div>
 
+          <div className="hero-trust" aria-hidden="true">
+            <span className="hero-trust-chip">12 sabores</span>
+            <span className="hero-trust-chip">Proteína real</span>
+            <span className="hero-trust-chip">Solo en Guatemala</span>
+          </div>
+
+        </div>
       </div>
     </section>
   );
