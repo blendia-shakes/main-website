@@ -39,7 +39,6 @@ export default function Faq() {
 
   return (
     <section id="faq" className="faq-section">
-      <div className="container">
         <div className="faq-card">
 
           <div className="faq-card-header">
@@ -87,13 +86,12 @@ export default function Faq() {
 
           <div className="faq-card-footer">
             <span className="faq-footer-text">¿Tienes una pregunta que no está aquí?</span>
-            <a href="mailto:hola@blendia.gt" className="faq-footer-link">
+            <a href="mailto:info@blendiashakes.com" className="faq-footer-link">
               Escríbenos →
             </a>
           </div>
 
         </div>
-      </div>
     </section>
   );
 }

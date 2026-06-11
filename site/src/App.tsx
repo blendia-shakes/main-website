@@ -3,18 +3,20 @@ import FloatingCta from "./components/FloatingCta";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import WhyBlendia from "./components/WhyBlendia";
-import ProductGrid from "./components/ProductGrid";
+import MenuSection from "./components/MenuSection";
 import Experience from "./components/Experience";
+import Benefits from "./components/Benefits";
 import Locations from "./components/Locations";
 import Faq from "./components/Faq";
+import CtaBand from "./components/CtaBand";
 import Footer from "./components/Footer";
 
 export default function App() {
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [theme, setTheme] = useState<"dark" | "light">("light");
 
   useEffect(() => {
     const html = document.documentElement;
-    let initial: "dark" | "light" = "dark";
+    let initial: "dark" | "light" = "light";
     try {
       const saved = localStorage.getItem("theme");
       if (saved === "light" || saved === "dark") initial = saved;
@@ -31,9 +33,9 @@ export default function App() {
   };
 
   const brandLogo =
-    theme === "light"
-      ? "/img-core/logos/text.webp"
-      : "/img-core/logos/text-white.webp";
+    theme === "dark"
+      ? "/img-core/logos/text-white.webp"
+      : "/img-core/logos/text.webp";
 
   const scrollTo = (id: string) =>
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -61,31 +63,21 @@ export default function App() {
         scrollTo={scrollTo}
       />
 
-      <Hero brandLogo={brandLogo} scrollTo={scrollTo} />
+      <Hero scrollTo={scrollTo} brandLogo={brandLogo} />
 
       <WhyBlendia />
 
-      <ProductGrid />
-
-      {/* ── Contextual CTA — converts product intent into machine search ── */}
-      <div className="section-cta-strip">
-        <p className="section-cta-text">¿Ya encontraste tu sabor?</p>
-        <button
-          type="button"
-          className="section-cta-btn"
-          onClick={() => scrollTo("ubicaciones")}
-        >
-          Encuentra dónde conseguirlo →
-        </button>
-      </div>
+      <MenuSection />
 
       <Experience />
+
+      <Benefits />
 
       <Locations />
 
       <Faq />
 
-      <Footer brandLogo={brandLogo} scrollTo={scrollTo} />
+      <Footer brandLogo={brandLogo} />
     </>
   );
 }
