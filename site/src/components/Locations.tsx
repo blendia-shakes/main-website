@@ -73,8 +73,6 @@ function TypeIcon({ type }: { type: LocationType }) {
   }
 }
 
-// ─── Empty state icon ─────────────────────────────────────────────────────────
-
 function IconEmpty() {
   return (
     <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -83,8 +81,6 @@ function IconEmpty() {
     </svg>
   );
 }
-
-// ─── Arrow icon ───────────────────────────────────────────────────────────────
 
 function IconArrow() {
   return (
@@ -127,7 +123,7 @@ export default function Locations() {
     <section id="ubicaciones" className="locations-section">
       <div className="container locations-inner">
 
-        {/* ── Header ── */}
+        {/* Header */}
         <div className="loc-header loc-animate-header" ref={headerRef}>
           <span className="loc-eyebrow">Encuéntranos</span>
           <h2 className="loc-title">Encuentra tu máquina Blendia</h2>
@@ -136,7 +132,7 @@ export default function Locations() {
           </p>
         </div>
 
-        {/* ── Sticky filter bar ── */}
+        {/* Zone filter */}
         <div
           className="loc-filter-bar"
           role="group"
@@ -155,14 +151,14 @@ export default function Locations() {
           ))}
         </div>
 
-        {/* ── Result count ── */}
+        {/* Count */}
         <p className="loc-count" aria-live="polite" aria-atomic="true">
           {filtered.length}{' '}
           {filtered.length === 1 ? 'ubicación' : 'ubicaciones'}
           {activeZone !== 'todas' ? ` en ${activeLabel}` : ' disponibles'}
         </p>
 
-        {/* ── Cards / empty ── */}
+        {/* Cards / empty */}
         {filtered.length > 0 ? (
           <div className="loc-grid">
             {filtered.map((loc, i) => (
@@ -176,34 +172,36 @@ export default function Locations() {
                     <TypeIcon type={loc.type} />
                   </div>
                   <span className="loc-zone-tag">{ZONE_LABELS[loc.zone]}</span>
+                  <span className={`loc-status${loc.status === 'live' ? ' is-live' : ' is-soon'}`}>
+                    {loc.status === 'live' ? 'Disponible' : 'Pronto'}
+                  </span>
                 </div>
 
                 <h3 className="loc-name">{loc.name}</h3>
                 <p className="loc-address">{loc.address}</p>
                 <p className="loc-hours">{loc.hours}</p>
 
-                <a
-                  href={loc.mapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="loc-cta"
-                  aria-label={`Cómo llegar a ${loc.name}`}
-                >
-                  Cómo llegar
-                  <IconArrow />
-                </a>
+                {loc.status === 'live' && (
+                  <a
+                    href={loc.mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="loc-cta"
+                    aria-label={`Cómo llegar a ${loc.name}`}
+                  >
+                    Cómo llegar
+                    <IconArrow />
+                  </a>
+                )}
               </article>
             ))}
           </div>
         ) : (
           <div className="loc-empty" role="status" aria-live="polite">
-            <div className="loc-empty-icon">
-              <IconEmpty />
-            </div>
+            <div className="loc-empty-icon"><IconEmpty /></div>
             <p className="loc-empty-title">Aún no hay máquinas aquí</p>
             <p className="loc-empty-copy">
-              Estamos expandiendo. ¿Conoces un lugar que sería perfecto para
-              una máquina Blendia?
+              Estamos expandiendo. ¿Conoces un lugar que sería perfecto para una máquina Blendia?
             </p>
             <button
               type="button"
@@ -215,15 +213,12 @@ export default function Locations() {
           </div>
         )}
 
-        {/* ── Section footer ── */}
+        {/* Footer */}
         <div className="loc-footer-cta">
           <p className="loc-footer-text">
             ¿Tu lugar favorito no tiene Blendia todavía?
           </p>
-          <a
-            href="mailto:hola@blendia.gt"
-            className="loc-suggest-link"
-          >
+          <a href="mailto:hola@blendia.gt" className="loc-suggest-link">
             Sugerir una ubicación
           </a>
         </div>

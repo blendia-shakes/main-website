@@ -4,10 +4,9 @@ type Props = {
 };
 
 const FOOTER_NAV = [
-  { label: "Sabores",     id: "catalogo"    },
-  { label: "Experiencia", id: "experiencia" },
+  { label: "Menú",        id: "menu"        },
+  { label: "Beneficios",  id: "benefits"    },
   { label: "Ubicaciones", id: "ubicaciones" },
-  { label: "FAQ",         id: "faq"         },
 ];
 
 export default function Footer({ brandLogo, scrollTo }: Props) {
@@ -15,24 +14,7 @@ export default function Footer({ brandLogo, scrollTo }: Props) {
     <footer className="footer-v2">
       <div className="footer-inner">
 
-        {/* ── Conversion block ── */}
-        <div className="footer-conversion">
-          <p className="footer-conversion-headline">
-            Ya sabés lo que querés.
-          </p>
-          <button
-            type="button"
-            className="footer-conversion-cta"
-            onClick={() => scrollTo("ubicaciones")}
-          >
-            Encuentra una máquina cerca de ti
-          </button>
-          <a href="mailto:hola@blendia.gt" className="footer-suggest">
-            ¿No hay una cerca? Sugerí una ubicación →
-          </a>
-        </div>
-
-        {/* ── Bottom bar ── */}
+        {/* Bottom bar */}
         <div className="footer-bottom">
           <div className="footer-bottom-left">
             <button
@@ -43,7 +25,7 @@ export default function Footer({ brandLogo, scrollTo }: Props) {
             >
               <img src={brandLogo} alt="Blendia" className="footer-logo" loading="lazy" />
             </button>
-            <span className="footer-copy">© 2026 · Guatemala City</span>
+            <span className="footer-copy">© 2026 Blendia</span>
           </div>
 
           <nav className="footer-nav" aria-label="Pie de página">

@@ -8,12 +8,11 @@ type Props = {
 };
 
 const NAV_LINKS = [
-  { label: "Sabores",     id: "catalogo",    icon: "✦" },
-  { label: "Experiencia", id: "experiencia",  icon: "◈" },
+  { label: "Sabores",     id: "menu",        icon: "✦" },
+  { label: "Experiencia", id: "how",          icon: "◈" },
   { label: "Ubicaciones", id: "ubicaciones",  icon: "◎" },
 ];
 
-// Fan of 3 items below the hamburger: -50°, 0°, +50° from straight-down
 const RADIAL_ANGLES = [-50, 0, 50];
 const RADIAL_RADIUS = 122;
 
@@ -25,20 +24,36 @@ function getOffset(angleDeg: number, radius: number) {
   };
 }
 
+function MoonIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+  );
+}
+
+function SunIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="5" />
+      <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+    </svg>
+  );
+}
+
 export default function Navbar({ theme, onToggle, brandLogo, scrollTo }: Props) {
-  const [scrolled, setScrolled]   = useState(false);
-  const [menuOpen, setMenuOpen]   = useState(false);
-  const [hamPos, setHamPos]       = useState<{ x: number; y: number } | null>(null);
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [hamPos, setHamPos]     = useState<{ x: number; y: number } | null>(null);
   const hamRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    const handle = () => setScrolled(window.scrollY > 24);
+    const handle = () => setScrolled(window.scrollY > 16);
     window.addEventListener("scroll", handle, { passive: true });
     handle();
     return () => window.removeEventListener("scroll", handle);
   }, []);
 
-  // Capture hamburger center in viewport coords when menu opens
   useEffect(() => {
     if (menuOpen && hamRef.current) {
       const r = hamRef.current.getBoundingClientRect();
@@ -48,7 +63,6 @@ export default function Navbar({ theme, onToggle, brandLogo, scrollTo }: Props) 
     }
   }, [menuOpen]);
 
-  // Close on Escape
   useEffect(() => {
     if (!menuOpen) return;
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setMenuOpen(false); };
@@ -56,7 +70,6 @@ export default function Navbar({ theme, onToggle, brandLogo, scrollTo }: Props) 
     return () => document.removeEventListener("keydown", handler);
   }, [menuOpen]);
 
-  // Close on scroll
   useEffect(() => {
     if (!menuOpen) return;
     const handler = () => setMenuOpen(false);
@@ -81,7 +94,7 @@ export default function Navbar({ theme, onToggle, brandLogo, scrollTo }: Props) 
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             aria-label="Ir al inicio"
           >
-            <img src={brandLogo} alt="Blendia" className="navbar-logo" loading="eager" decoding="async" fetchPriority="high" />
+            <img src={brandLogo} alt="Blendia" className="navbar-logo" loading="eager" decoding="async" />
           </button>
 
           {/* Hamburger — mobile only */}
@@ -117,11 +130,10 @@ export default function Navbar({ theme, onToggle, brandLogo, scrollTo }: Props) 
               type="button"
               className="navbar-toggle"
               onClick={onToggle}
-              aria-label={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+              aria-label={theme === "light" ? "Cambiar a modo oscuro" : "Cambiar a modo claro"}
             >
-              <span className="navbar-toggle-icon" aria-hidden="true">☽</span>
-              <span className="navbar-toggle-label">
-                {theme === "dark" ? "Claro" : "Oscuro"}
+              <span className="navbar-toggle-icon">
+                {theme === "light" ? <MoonIcon /> : <SunIcon />}
               </span>
             </button>
 
@@ -137,7 +149,7 @@ export default function Navbar({ theme, onToggle, brandLogo, scrollTo }: Props) 
         </div>
       </div>
 
-      {/* ── Launchy-style radial menu (mobile only) ── */}
+      {/* Radial menu — mobile only */}
       {menuOpen && hamPos && (
         <>
           <div
