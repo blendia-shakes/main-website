@@ -28,8 +28,8 @@ export default function Hero({ scrollTo }: Props) {
           </div>
 
           <h1 className="hero-headline">
-            Real protein shakes.<br />
-            Blended in 60 seconds.
+            Saben a antojo.<br />
+            Tienen proteína.
           </h1>
 
           <p className="hero-sub">

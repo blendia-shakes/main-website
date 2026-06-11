@@ -167,32 +167,38 @@ export default function Locations() {
                 className="loc-card"
                 style={{ animationDelay: `${i * 0.07}s` }}
               >
+                {/* Top row: icon + zone */}
                 <div className="loc-card-top">
                   <div className="loc-type-icon">
                     <TypeIcon type={loc.type} />
                   </div>
                   <span className="loc-zone-tag">{ZONE_LABELS[loc.zone]}</span>
-                  <span className={`loc-status${loc.status === 'live' ? ' is-live' : ' is-soon'}`}>
-                    {loc.status === 'live' ? 'Disponible' : 'Pronto'}
-                  </span>
                 </div>
 
                 <h3 className="loc-name">{loc.name}</h3>
                 <p className="loc-address">{loc.address}</p>
                 <p className="loc-hours">{loc.hours}</p>
 
-                {loc.status === 'live' && (
-                  <a
-                    href={loc.mapsUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="loc-cta"
-                    aria-label={`Cómo llegar a ${loc.name}`}
-                  >
-                    Cómo llegar
-                    <IconArrow />
-                  </a>
-                )}
+                {/* Bottom row: CTA + status */}
+                <div className="loc-card-bottom">
+                  {loc.status === 'live' ? (
+                    <a
+                      href={loc.mapsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="loc-cta"
+                      aria-label={`Cómo llegar a ${loc.name}`}
+                    >
+                      Cómo llegar
+                      <IconArrow />
+                    </a>
+                  ) : (
+                    <span />
+                  )}
+                  <span className={`loc-status${loc.status === 'live' ? ' is-live' : ' is-soon'}`}>
+                    {loc.status === 'live' ? 'Disponible' : 'Pronto'}
+                  </span>
+                </div>
               </article>
             ))}
           </div>

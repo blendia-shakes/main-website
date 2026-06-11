@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-type Tint = "vanilla" | "cacao" | "matcha" | "masala";
+type Tint   = "vanilla" | "cacao" | "matcha" | "masala";
 type Category = "essentials" | "shakes" | "latte";
-type Filter = "all" | Category;
+type Filter   = "all" | Category;
 
 type MenuItem = {
   id: string;
@@ -182,82 +182,87 @@ const FILTERS: { key: Filter; label: string }[] = [
   { key: "latte",      label: "Lattes" },
 ];
 
-function ChevronIcon() {
-  return (
-    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
-      <path d="M2 4l4 4 4-4" />
-    </svg>
-  );
-}
-
 function MenuCard({ item }: { item: MenuItem }) {
-  const [expanded, setExpanded] = useState(false);
+  const [flipped, setFlipped] = useState(false);
 
-  const frontImage = `/img-core/bebidas/${item.category}/${item.category}_${item.flavor}.webp`;
+  const frontImage     = `/img-core/bebidas/${item.category}/${item.category}_${item.flavor}.webp`;
   const nutritionImage = `/img-core/tablas-nutricionales/${item.category}/tabla_nutricional_${item.category}_${item.flavor}.webp`;
 
   return (
     <article className="menu-card">
-      {/* Image well */}
-      <div
-        className="menu-card-image-well"
-        style={{ background: TINT_GRADIENTS[item.tint] }}
-      >
-        <span className="menu-card-category">{item.categoryLabel}</span>
-        <img
-          className="menu-card-img"
-          src={frontImage}
-          alt={item.name}
-          loading="lazy"
-          decoding="async"
-          draggable={false}
-        />
-        <span className="menu-card-price">{item.price}</span>
-      </div>
+      <div className={`menu-card-flip-inner${flipped ? " is-flipped" : ""}`}>
 
-      {/* Body */}
-      <div className="menu-card-body">
-        <div className="menu-card-fn">
-          <span
-            className="menu-fn-dot"
-            style={{ background: TINT_DOT[item.tint] }}
-          />
-          <span className="menu-fn-label">{item.fn}</span>
-        </div>
+        {/* ── FRONT ── */}
+        <div className="menu-card-front">
+          {/* Image well */}
+          <div
+            className="menu-card-image-well"
+            style={{ background: TINT_GRADIENTS[item.tint] }}
+          >
+            <span className="menu-card-category">{item.categoryLabel}</span>
+            <img
+              className="menu-card-img"
+              src={frontImage}
+              alt={item.name}
+              loading="lazy"
+              decoding="async"
+              draggable={false}
+            />
+            <span className="menu-card-price">{item.price}</span>
+          </div>
 
-        <h3 className="menu-card-name">{item.name}</h3>
-        <p className="menu-card-ingredients">{item.ingredients}</p>
-
-        <div className="menu-card-macros">
-          <span className="menu-macro">{item.protein} proteína</span>
-          <span className="menu-macro">{item.calories}</span>
-        </div>
-
-        {item.hasNutrition && (
-          <>
-            <button
-              type="button"
-              className={`menu-card-expand-btn${expanded ? " is-open" : ""}`}
-              onClick={() => setExpanded(v => !v)}
-              aria-expanded={expanded}
-            >
-              {expanded ? "Ver menos" : "Ver más"}
-              <ChevronIcon />
-            </button>
-
-            <div className={`menu-card-nutrition${expanded ? " is-open" : ""}`}>
-              <div className="menu-card-nutrition-inner">
-                <img
-                  className="menu-nutrition-img"
-                  src={nutritionImage}
-                  alt={`Tabla nutricional ${item.name}`}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
+          {/* Body */}
+          <div className="menu-card-body">
+            <div className="menu-card-fn">
+              <span className="menu-fn-dot" style={{ background: TINT_DOT[item.tint] }} />
+              <span className="menu-fn-label">{item.fn}</span>
             </div>
-          </>
+
+            <h3 className="menu-card-name">{item.name}</h3>
+            <p className="menu-card-ingredients">{item.ingredients}</p>
+
+            <div className="menu-card-macros">
+              <div className="menu-card-macros-pills">
+                <span className="menu-macro">{item.protein} proteína</span>
+                <span className="menu-macro">{item.calories}</span>
+              </div>
+
+              {item.hasNutrition && (
+                <button
+                  type="button"
+                  className="menu-card-expand-btn"
+                  onClick={() => setFlipped(true)}
+                >
+                  Ver más
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* ── BACK ── */}
+        {item.hasNutrition && (
+          <div className="menu-card-back">
+            <img
+              className="menu-nutrition-img-flip"
+              src={nutritionImage}
+              alt={`Tabla nutricional ${item.name}`}
+              loading="lazy"
+              decoding="async"
+            />
+            <div className="menu-card-back-footer">
+              <span className="menu-card-back-name">{item.name}</span>
+              <button
+                type="button"
+                className="menu-card-expand-btn"
+                onClick={() => setFlipped(false)}
+              >
+                Regresar
+              </button>
+            </div>
+          </div>
         )}
+
       </div>
     </article>
   );
