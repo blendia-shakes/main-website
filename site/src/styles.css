@@ -729,7 +729,7 @@ section[id], div[id] {
 .vm-tile:hover { filter: brightness(1.06); }
 
 .vm-tile-vanilla { background: oklch(0.90 0.03 90); }
-.vm-tile-cacao   { background: oklch(0.42 0.05 45); }
+.vm-tile-chocolate   { background: oklch(0.42 0.05 45); }
 .vm-tile-matcha  { background: oklch(0.42 0.08 150); }
 .vm-tile-chai    { background: oklch(0.40 0.06 52); }
 
@@ -749,10 +749,10 @@ section[id], div[id] {
   line-height: 1;
 }
 
-.vm-tile-cacao .vm-tile-name,
+.vm-tile-chocolate .vm-tile-name,
 .vm-tile-matcha .vm-tile-name,
 .vm-tile-chai .vm-tile-name { color: rgba(255,255,255,0.75); }
-.vm-tile-cacao .vm-tile-sub,
+.vm-tile-chocolate .vm-tile-sub,
 .vm-tile-matcha .vm-tile-sub,
 .vm-tile-chai .vm-tile-sub  { color: rgba(255,255,255,0.38); }
 
@@ -1605,7 +1605,7 @@ section[id], div[id] {
 }
 
 .stat-number {
-  font-family: 'Geist Mono', monospace;
+  font-family: 'Geist', system-ui, sans-serif;
   font-size: clamp(40px, 4.5vw, 56px);
   font-weight: 600;
   letter-spacing: -0.04em;
