@@ -2404,13 +2404,13 @@ section[id], div[id] {
 
   .vm-body { width: 200px; }
 
-  .why-blendia { padding: 40px var(--page-pad); }
+  .why-blendia { padding: 28px var(--page-pad); }
   .why-grid    { grid-template-columns: 1fr; gap: 10px; }
   .why-card    { flex-direction: row; align-items: flex-start; gap: 16px; padding: 18px 16px; }
   .why-icon-wrap { margin-bottom: 0; flex-shrink: 0; margin-top: 2px; }
   .why-card-content { flex: 1; min-width: 0; }
 
-  .menu-section { padding: 40px var(--page-pad); }
+  .menu-section { padding: 28px var(--page-pad); }
   .menu-grid    { grid-template-columns: 1fr; gap: 14px; }
 
   .experience-v2 { padding: 60px var(--page-pad); }
