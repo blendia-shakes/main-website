@@ -27,8 +27,8 @@ export default function Experience() {
       <div className="experience-v2-inner">
 
         <div className="exp-header">
-          <span className="exp-eyebrow">How it works</span>
-          <h2 className="exp-title">Three taps from craving to cup.</h2>
+          <span className="exp-eyebrow">Cómo funciona</span>
+          <h2 className="exp-title">Tres taps desde el antojo hasta el vaso en tus manos.</h2>
         </div>
 
         <div className="exp-steps">
