@@ -67,7 +67,7 @@ const reasons = [
     kicker: "Conveniencia",
     title: "Listo en segundos, donde estás",
     copy: "Sin fila, sin barista, sin esperar. Encuentra la máquina Blendia más cercana y en segundos tienes tu bebida.",
-    stat: "Sin filas · Sin esperas",
+    stat: "Sin filas • Sin esperas",
     Icon: IconConveniencia,
   },
 ] as const;

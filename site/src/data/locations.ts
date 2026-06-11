@@ -25,7 +25,7 @@ export const locations: Location[] = [
     address: 'Av. La Reforma 1-61, Zona 7',
     zone: 'zona-7',
     type: 'gym',
-    hours: 'Lun–Vie 5am–11pm · Sáb–Dom 7am–9pm',
+    hours: 'Lun–Vie 5am–11pm • Sáb–Dom 7am–9pm',
     mapsUrl: 'https://maps.google.com/?q=Av+La+Reforma+1-61+Zona+7+Guatemala+City',
     status: 'live',
   },

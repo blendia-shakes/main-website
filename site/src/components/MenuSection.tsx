@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-type Tint   = "vanilla" | "cacao" | "matcha" | "masala";
+type Tint   = "vanilla" | "chocolate" | "matcha" | "masala";
 type Category = "essentials" | "shakes" | "latte";
 type Filter   = "all" | Category;
 
@@ -22,14 +22,14 @@ type MenuItem = {
 
 const TINT_GRADIENTS: Record<Tint, string> = {
   vanilla: "linear-gradient(145deg, oklch(0.95 0.025 95), oklch(0.90 0.035 88))",
-  cacao:   "linear-gradient(145deg, oklch(0.91 0.04 55),  oklch(0.85 0.05 45))",
+  chocolate:   "linear-gradient(145deg, oklch(0.91 0.04 55),  oklch(0.85 0.05 45))",
   matcha:  "linear-gradient(145deg, oklch(0.91 0.04 145), oklch(0.85 0.05 150))",
   masala:  "linear-gradient(145deg, oklch(0.89 0.04 60),  oklch(0.82 0.05 52))",
 };
 
 const TINT_DOT: Record<Tint, string> = {
   vanilla: "oklch(0.6 0.09 90)",
-  cacao:   "oklch(0.55 0.11 50)",
+  chocolate:   "oklch(0.55 0.11 50)",
   matcha:  "oklch(0.52 0.10 150)",
   masala:  "oklch(0.48 0.07 55)",
 };
@@ -44,7 +44,7 @@ const ITEMS: MenuItem[] = [
     flavorLabel: "Vainilla",
     name: "Moon Blendia Essential",
     fn: "Post-workout",
-    ingredients: "· Proteína whey vainilla",
+    ingredients: "• Proteína whey vainilla",
     protein: "30g",
     calories: "320 kcal",
     price: "Q30",
@@ -56,14 +56,14 @@ const ITEMS: MenuItem[] = [
     category: "essentials",
     categoryLabel: "Essentials",
     flavor: "midnight",
-    flavorLabel: "Cacao",
+    flavorLabel: "chocolate",
     name: "Midnight Blendia Essential",
     fn: "Post-workout",
-    ingredients: "· Proteína whey cacao",
+    ingredients: "• Proteína whey chocolate",
     protein: "30g",
     calories: "320 kcal",
     price: "Q30",
-    tint: "cacao",
+    tint: "chocolate",
     hasNutrition: true,
   },
   // Shakes
@@ -75,7 +75,7 @@ const ITEMS: MenuItem[] = [
     flavorLabel: "Vainilla",
     name: "Moon Blendia Shake",
     fn: "Post-workout",
-    ingredients: "· Proteína whey vainilla · Leche",
+    ingredients: "• Proteína whey vainilla • Leche",
     protein: "30g",
     calories: "320 kcal",
     price: "Q35",
@@ -87,14 +87,14 @@ const ITEMS: MenuItem[] = [
     category: "shakes",
     categoryLabel: "Shakes",
     flavor: "midnight",
-    flavorLabel: "Cacao",
+    flavorLabel: "chocolate",
     name: "Midnight Blendia Shake",
     fn: "Post-workout",
-    ingredients: "· Proteína whey cacao · Leche",
+    ingredients: "• Proteína whey chocolate • Leche",
     protein: "30g",
     calories: "320 kcal",
     price: "Q35",
-    tint: "cacao",
+    tint: "chocolate",
     hasNutrition: false,
   },
   {
@@ -105,7 +105,7 @@ const ITEMS: MenuItem[] = [
     flavorLabel: "Matcha",
     name: "Zen Blendia Shake",
     fn: "Post-workout",
-    ingredients: "· Proteína whey vainilla · Matcha · Leche",
+    ingredients: "• Proteína whey vainilla • Matcha • Leche",
     protein: "30g",
     calories: "320 kcal",
     price: "Q45",
@@ -120,7 +120,7 @@ const ITEMS: MenuItem[] = [
     flavorLabel: "Chai",
     name: "Masala Blendia Shake",
     fn: "Post-workout",
-    ingredients: "Proteína whey vainilla · Chai · Leche ",
+    ingredients: "• Proteína whey vainilla • Chai • Leche ",
     protein: "30g",
     calories: "320 kcal",
     price: "Q35",
@@ -136,7 +136,7 @@ const ITEMS: MenuItem[] = [
     flavorLabel: "Vainilla",
     name: "Moon Blendia Latte",
     fn: "Post-workout",
-    ingredients: "· Proteína whey vainilla · Leche · Café",
+    ingredients: "• Proteína whey vainilla • Leche • Café",
     protein: "30g",
     calories: "320 kcal",
     price: "Q40",
@@ -148,14 +148,14 @@ const ITEMS: MenuItem[] = [
     category: "latte",
     categoryLabel: "Lattes",
     flavor: "midnight",
-    flavorLabel: "Cacao",
+    flavorLabel: "chocolate",
     name: "Midnight Blendia Latte",
     fn: "Post-workout",
-    ingredients: "Proteína whey cacao · Leche · Café",
+    ingredients: "• Proteína whey chocolate • Leche • Café",
     protein: "30g",
     calories: "320 kcal",
     price: "Q40",
-    tint: "cacao",
+    tint: "chocolate",
     hasNutrition: false,
   },
   {
@@ -166,7 +166,7 @@ const ITEMS: MenuItem[] = [
     flavorLabel: "Chai",
     name: "Masala Blendia Latte",
     fn: "Post-workout",
-    ingredients: "Proteína whey vanilla· Chai · Leche · Café",
+    ingredients: "• Proteína whey vanilla • Chai • Leche • Café",
     protein: "30g",
     calories: "320 kcal",
     price: "Q40",

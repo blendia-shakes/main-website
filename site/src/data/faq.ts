@@ -74,15 +74,15 @@ export const faqItems: FaqItem[] = [
     id: 'ingredientes',
     category: 'sabor',
     question: '¿Qué ingredientes usa Blendia?',
-    short: 'Proteína de suero, saborizantes naturales y los ingredientes de cada variedad: matcha real, especias masala, cacao. Sin colorantes artificiales.',
-    long: 'La formulación prioriza ingredientes reconocibles: proteína de suero de alta calidad, leche, y los perfiles reales de cada variedad — matcha japonés en el Zen, especias auténticas en el Masala, cacao de proceso natural en el Midnight. La lista completa está en la tabla nutricional de cada producto, disponible en el catálogo de este sitio.',
+    short: 'Proteína de suero, saborizantes naturales y los ingredientes de cada variedad: matcha real, especias masala, chocolate. Sin colorantes artificiales.',
+    long: 'La formulación prioriza ingredientes reconocibles: proteína de suero de alta calidad, leche, y los perfiles reales de cada variedad — matcha japonés en el Zen, especias auténticas en el Masala, chocolate de proceso natural en el Midnight. La lista completa está en la tabla nutricional de cada producto, disponible en el catálogo de este sitio.',
   },
   {
     id: 'conservantes',
     category: 'sabor',
     question: '¿Tiene conservantes o colorantes artificiales?',
     short: 'No usa colorantes artificiales. Los conservantes son mínimos — lo necesario para garantizar estabilidad en la máquina.',
-    long: 'Los colores de cada bebida vienen de sus ingredientes naturales: el verde del matcha, el tono del cacao. Como toda bebida formulada para dispensarse en vending, incluye estabilizadores que garantizan consistencia. Si tienes restricciones específicas, la tabla nutricional completa está en el catálogo.',
+    long: 'Los colores de cada bebida vienen de sus ingredientes naturales: el verde del matcha, el tono del chocolate. Como toda bebida formulada para dispensarse en vending, incluye estabilizadores que garantizan consistencia. Si tienes restricciones específicas, la tabla nutricional completa está en el catálogo.',
   },
   {
     id: 'azucar-vs-cafeteria',

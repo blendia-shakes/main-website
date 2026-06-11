@@ -24,7 +24,7 @@ export default function Hero({ scrollTo }: Props) {
 
           <div className="hero-eyebrow-pill">
             <span className="hero-eyebrow-dot" aria-hidden="true" />
-            <span className="hero-eyebrow-text">Fresh-blended · on demand</span>
+            <span className="hero-eyebrow-text">Fresh-blended • on demand</span>
           </div>
 
           <h1 className="hero-headline">
@@ -83,9 +83,9 @@ export default function Hero({ scrollTo }: Props) {
                     <span className="vm-tile-name">Moon</span>
                     <span className="vm-tile-sub">Vanilla</span>
                   </div>
-                  <div className="vm-tile vm-tile-cacao">
+                  <div className="vm-tile vm-tile-chocolate">
                     <span className="vm-tile-name">Midnight</span>
-                    <span className="vm-tile-sub">Cacao</span>
+                    <span className="vm-tile-sub">chocolate</span>
                   </div>
                   <div className="vm-tile vm-tile-matcha">
                     <span className="vm-tile-name">Zen</span>
@@ -109,7 +109,7 @@ export default function Hero({ scrollTo }: Props) {
                 </div>
                 <div className="vm-pay-text">
                   Pago sin contacto<br />
-                  <span style={{ opacity: 0.6 }}>Visa · Mastercard</span>
+                  <span style={{ opacity: 0.6 }}>Visa • Mastercard</span>
                 </div>
               </div>
 
