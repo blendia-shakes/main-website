@@ -11,8 +11,8 @@ const steps = [
   },
   {
     num: "03",
-    title: "Mezclado al momento",
-    desc: "Observa cómo tu bebida es preparada en el momento.",
+    title: "Observa",
+    desc: "Estás a solo unos segundos de sorprenderte.",
   },
   {
     num: "04",

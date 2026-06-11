@@ -222,9 +222,9 @@ export default function Locations() {
         {/* Footer */}
         <div className="loc-footer-cta">
           <p className="loc-footer-text">
-            ¿Tu lugar favorito no tiene Blendia todavía?
+            ¿Quieres Blendia más cerca de ti?
           </p>
-          <a href="mailto:hola@blendia.gt" className="loc-suggest-link">
+          <a href="mailto:ubicaciones@blendiashakes.com" className="loc-suggest-link">
             Sugerir una ubicación
           </a>
         </div>

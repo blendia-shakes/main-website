@@ -2,13 +2,18 @@ import { useState } from "react";
 import { faqItems } from "../data/faq";
 
 const FEATURED_IDS = [
-  'sabe-a-proteina',
-  'bebida-o-suplemento',
+  'diferencia-categorias',
   'azucar-vs-cafeteria',
+  'tipo-leche',
+  'lactosa',
+  'cafeina',
+  'sabe-a-proteina',
+  'diabeticos',
+  'embarazo',
+  'bebida-o-suplemento',
   'sin-gym',
   'como-funciona-maquina',
   'como-pagar',
-  'diferencia-categorias',
   'sin-tienda-online',
 ];
 
@@ -44,11 +49,8 @@ export default function Faq() {
           <div className="faq-card-header">
             <div>
               <span className="faq-eyebrow">Preguntas frecuentes</span>
-              <h2 className="faq-title">¿Tenés dudas?</h2>
+              <h2 className="faq-title">¿Tienes dudas?</h2>
             </div>
-            <p className="faq-subtitle">
-              Sin letra pequeña.<br />Sin lenguaje de suplemento.
-            </p>
           </div>
 
           <div className="faq-list">
@@ -85,8 +87,8 @@ export default function Faq() {
           </div>
 
           <div className="faq-card-footer">
-            <span className="faq-footer-text">¿Tienes una pregunta que no está aquí?</span>
-            <a href="mailto:info@blendiashakes.com" className="faq-footer-link">
+            <span className="faq-footer-text">¿Tienes una pregunta o sugerencia que no está aquí?</span>
+            <a href="mailto:soporte@blendiashakes.com" className="faq-footer-link">
               Escríbenos →
             </a>
           </div>
