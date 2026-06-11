@@ -77,7 +77,7 @@ export default function App() {
 
       <Faq />
 
-      <Footer brandLogo={brandLogo} scrollTo={scrollTo} />
+      <Footer brandLogo={brandLogo} />
     </>
   );
 }

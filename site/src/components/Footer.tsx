@@ -1,20 +1,32 @@
 type Props = {
   brandLogo: string;
-  scrollTo: (id: string) => void;
 };
 
-const FOOTER_NAV = [
-  { label: "Menú",        id: "menu"        },
-  { label: "Beneficios",  id: "benefits"    },
-  { label: "Ubicaciones", id: "ubicaciones" },
-];
+function IconInstagram() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      width="20"
+      height="20"
+    >
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
 
-export default function Footer({ brandLogo, scrollTo }: Props) {
+export default function Footer({ brandLogo }: Props) {
   return (
     <footer className="footer-v2">
       <div className="footer-inner">
 
-        {/* Bottom bar */}
         <div className="footer-bottom">
           <div className="footer-bottom-left">
             <button
@@ -28,18 +40,15 @@ export default function Footer({ brandLogo, scrollTo }: Props) {
             <span className="footer-copy">© 2026 Blendia</span>
           </div>
 
-          <nav className="footer-nav" aria-label="Pie de página">
-            {FOOTER_NAV.map(({ label, id }) => (
-              <button
-                key={id}
-                type="button"
-                className="footer-nav-link"
-                onClick={() => scrollTo(id)}
-              >
-                {label}
-              </button>
-            ))}
-          </nav>
+          <a
+            href="https://www.instagram.com/blendiashakes"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="footer-instagram"
+            aria-label="Blendia en Instagram"
+          >
+            <IconInstagram />
+          </a>
         </div>
 
       </div>
