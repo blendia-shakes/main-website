@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
   theme: "dark" | "light";
@@ -11,18 +11,9 @@ const NAV_LINKS = [
   { label: "Sabores",     id: "menu",        icon: "✦" },
   { label: "Experiencia", id: "how",          icon: "◈" },
   { label: "Ubicaciones", id: "ubicaciones",  icon: "◎" },
+  { label: "FAQ",         id: "faq",          icon: "?" },
 ];
 
-const RADIAL_ANGLES = [-50, 0, 50];
-const RADIAL_RADIUS = 122;
-
-function getOffset(angleDeg: number, radius: number) {
-  const rad = (angleDeg * Math.PI) / 180;
-  return {
-    x: Math.round(radius * Math.sin(rad)),
-    y: Math.round(radius * Math.cos(rad)),
-  };
-}
 
 function MoonIcon() {
   return (
@@ -44,8 +35,6 @@ function SunIcon() {
 export default function Navbar({ theme, onToggle, brandLogo, scrollTo }: Props) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [hamPos, setHamPos]     = useState<{ x: number; y: number } | null>(null);
-  const hamRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handle = () => setScrolled(window.scrollY > 16);
@@ -53,15 +42,6 @@ export default function Navbar({ theme, onToggle, brandLogo, scrollTo }: Props) 
     handle();
     return () => window.removeEventListener("scroll", handle);
   }, []);
-
-  useEffect(() => {
-    if (menuOpen && hamRef.current) {
-      const r = hamRef.current.getBoundingClientRect();
-      setHamPos({ x: r.left + r.width / 2, y: r.top + r.height / 2 });
-    } else {
-      setHamPos(null);
-    }
-  }, [menuOpen]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -99,7 +79,6 @@ export default function Navbar({ theme, onToggle, brandLogo, scrollTo }: Props) 
 
           {/* Hamburger — mobile only */}
           <button
-            ref={hamRef}
             type="button"
             className={`navbar-hamburger${menuOpen ? " is-open" : ""}`}
             onClick={() => setMenuOpen(v => !v)}
@@ -149,8 +128,8 @@ export default function Navbar({ theme, onToggle, brandLogo, scrollTo }: Props) 
         </div>
       </div>
 
-      {/* Radial menu — mobile only */}
-      {menuOpen && hamPos && (
+      {/* Grid menu — mobile only */}
+      {menuOpen && (
         <>
           <div
             className="radial-backdrop"
@@ -161,28 +140,20 @@ export default function Navbar({ theme, onToggle, brandLogo, scrollTo }: Props) 
             className="radial-menu"
             role="menu"
             aria-label="Menú de navegación"
-            style={{ left: hamPos.x, top: hamPos.y } as React.CSSProperties}
           >
-            {NAV_LINKS.map(({ label, id, icon }, i) => {
-              const { x, y } = getOffset(RADIAL_ANGLES[i], RADIAL_RADIUS);
-              return (
-                <button
-                  key={id}
-                  type="button"
-                  role="menuitem"
-                  className="radial-item"
-                  style={{
-                    "--rx": `${x}px`,
-                    "--ry": `${y}px`,
-                    "--delay": `${i * 55}ms`,
-                  } as React.CSSProperties}
-                  onClick={() => handleNav(id)}
-                >
-                  <span className="radial-item-icon" aria-hidden="true">{icon}</span>
-                  <span className="radial-item-label">{label}</span>
-                </button>
-              );
-            })}
+            {NAV_LINKS.map(({ label, id, icon }, i) => (
+              <button
+                key={id}
+                type="button"
+                role="menuitem"
+                className="radial-item"
+                style={{ "--delay": `${i * 55}ms` } as React.CSSProperties}
+                onClick={() => handleNav(id)}
+              >
+                <span className="radial-item-icon" aria-hidden="true">{icon}</span>
+                <span className="radial-item-label">{label}</span>
+              </button>
+            ))}
           </div>
         </>
       )}
