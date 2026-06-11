@@ -44,7 +44,7 @@ const ITEMS: MenuItem[] = [
     flavorLabel: "Vainilla",
     name: "Moon Blendia Essential",
     fn: "Post-workout",
-    ingredients: "Proteína whey · Vainilla",
+    ingredients: "· Proteína whey vainilla",
     protein: "30g",
     calories: "320 kcal",
     price: "Q30",
@@ -59,7 +59,7 @@ const ITEMS: MenuItem[] = [
     flavorLabel: "Cacao",
     name: "Midnight Blendia Essential",
     fn: "Post-workout",
-    ingredients: "Proteína whey · Cacao",
+    ingredients: "· Proteína whey cacao",
     protein: "30g",
     calories: "320 kcal",
     price: "Q30",
@@ -75,7 +75,7 @@ const ITEMS: MenuItem[] = [
     flavorLabel: "Vainilla",
     name: "Moon Blendia Shake",
     fn: "Post-workout",
-    ingredients: "Proteína whey · Vainilla",
+    ingredients: "· Proteína whey vainilla · Leche",
     protein: "30g",
     calories: "320 kcal",
     price: "Q35",
@@ -90,7 +90,7 @@ const ITEMS: MenuItem[] = [
     flavorLabel: "Cacao",
     name: "Midnight Blendia Shake",
     fn: "Post-workout",
-    ingredients: "Proteína whey · Cacao",
+    ingredients: "· Proteína whey cacao · Leche",
     protein: "30g",
     calories: "320 kcal",
     price: "Q35",
@@ -105,7 +105,7 @@ const ITEMS: MenuItem[] = [
     flavorLabel: "Matcha",
     name: "Zen Blendia Shake",
     fn: "Post-workout",
-    ingredients: "Proteína whey · Matcha",
+    ingredients: "· Proteína whey vainilla · Matcha · Leche",
     protein: "30g",
     calories: "320 kcal",
     price: "Q45",
@@ -120,7 +120,7 @@ const ITEMS: MenuItem[] = [
     flavorLabel: "Chai",
     name: "Masala Blendia Shake",
     fn: "Post-workout",
-    ingredients: "Proteína whey · Chai",
+    ingredients: "Proteína whey vainilla · Chai · Leche ",
     protein: "30g",
     calories: "320 kcal",
     price: "Q35",
@@ -136,7 +136,7 @@ const ITEMS: MenuItem[] = [
     flavorLabel: "Vainilla",
     name: "Moon Blendia Latte",
     fn: "Post-workout",
-    ingredients: "Proteína whey · Vainilla",
+    ingredients: "· Proteína whey vainilla · Leche · Café",
     protein: "30g",
     calories: "320 kcal",
     price: "Q40",
@@ -151,7 +151,7 @@ const ITEMS: MenuItem[] = [
     flavorLabel: "Cacao",
     name: "Midnight Blendia Latte",
     fn: "Post-workout",
-    ingredients: "Proteína whey · Cacao",
+    ingredients: "Proteína whey cacao · Leche · Café",
     protein: "30g",
     calories: "320 kcal",
     price: "Q40",
@@ -166,7 +166,7 @@ const ITEMS: MenuItem[] = [
     flavorLabel: "Chai",
     name: "Masala Blendia Latte",
     fn: "Post-workout",
-    ingredients: "Proteína whey · Chai",
+    ingredients: "Proteína whey vanilla· Chai · Leche · Café",
     protein: "30g",
     calories: "320 kcal",
     price: "Q40",
@@ -283,7 +283,7 @@ export default function MenuSection() {
         {/* Header */}
         <div className="menu-header">
           <span className="menu-eyebrow">Menú</span>
-          <h2 className="menu-title">Nueve bebidas, ajustadas a lo que necesitas.</h2>
+          <h2 className="menu-title">Nueve bebidas. Diseñadas para lo que necesitas.</h2>
         </div>
 
         {/* Filter pills */}
