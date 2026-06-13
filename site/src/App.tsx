@@ -28,6 +28,8 @@ export default function App() {
   const toggleTheme = () => {
     const next = theme === "light" ? "dark" : "light";
     document.documentElement.setAttribute("data-theme", next);
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    if (metaTheme) metaTheme.setAttribute("content", next === "dark" ? "#403F45" : "#F5F1E8");
     setTheme(next);
     try { localStorage.setItem("theme", next); } catch (_) {}
   };
