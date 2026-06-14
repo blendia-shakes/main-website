@@ -6,18 +6,22 @@ function IconInstagram() {
   return (
     <svg
       viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
       aria-hidden="true"
-      width="20"
-      height="20"
+      width="24"
+      height="24"
     >
-      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-      <circle cx="12" cy="12" r="4" />
-      <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+      <defs>
+        <radialGradient id="ig-grad" cx="30%" cy="107%" r="150%">
+          <stop offset="0%"  stopColor="#fdf497" />
+          <stop offset="5%"  stopColor="#fdf497" />
+          <stop offset="45%" stopColor="#fd5949" />
+          <stop offset="60%" stopColor="#d6249f" />
+          <stop offset="90%" stopColor="#285AEB" />
+        </radialGradient>
+      </defs>
+      <rect x="0" y="0" width="24" height="24" rx="6" ry="6" fill="url(#ig-grad)" />
+      <circle cx="12" cy="12" r="4.5" fill="none" stroke="white" strokeWidth="1.75" />
+      <circle cx="18" cy="6" r="1.2" fill="white" />
     </svg>
   );
 }
