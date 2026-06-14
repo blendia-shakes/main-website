@@ -2230,7 +2230,7 @@ section[id], div[id] {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--ink-muted);
+  color: var(--clay);
   transition: color 0.15s ease;
 }
 
