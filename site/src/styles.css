@@ -960,7 +960,7 @@ section[id], div[id] {
   }
 
   .why-card:hover .why-icon-wrap {
-    background: rgba(var(--ink-rgb), 0.08);
+    background: oklch(0.6 0.1 52 / 0.15);
   }
 
   .why-card:hover .why-icon-wrap svg { transform: scale(1.08); }
@@ -973,9 +973,9 @@ section[id], div[id] {
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  background: rgba(var(--ink-rgb), 0.06);
-  border: 1px solid var(--hairline);
-  color: var(--ink);
+  background: oklch(0.6 0.1 52 / 0.10);
+  border: 1px solid oklch(0.6 0.1 52 / 0.18);
+  color: var(--clay);
   margin-bottom: 18px;
   flex-shrink: 0;
   transition: background 0.2s ease;
