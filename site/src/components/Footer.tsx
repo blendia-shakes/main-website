@@ -4,24 +4,18 @@ type Props = {
 
 function IconInstagram() {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      width="24"
-      height="24"
-    >
+    <svg viewBox="0 0 24 24" aria-hidden="true" width="22" height="22" fill="none">
       <defs>
-        <radialGradient id="ig-grad" cx="30%" cy="107%" r="150%">
-          <stop offset="0%"  stopColor="#fdf497" />
-          <stop offset="5%"  stopColor="#fdf497" />
-          <stop offset="45%" stopColor="#fd5949" />
-          <stop offset="60%" stopColor="#d6249f" />
-          <stop offset="90%" stopColor="#285AEB" />
-        </radialGradient>
+        <linearGradient id="ig-g" x1="2" y1="22" x2="22" y2="2" gradientUnits="userSpaceOnUse">
+          <stop offset="0%"  stopColor="#fcaf45" />
+          <stop offset="35%" stopColor="#e1306c" />
+          <stop offset="70%" stopColor="#833ab4" />
+          <stop offset="100%" stopColor="#405de6" />
+        </linearGradient>
       </defs>
-      <rect x="0" y="0" width="24" height="24" rx="6" ry="6" fill="url(#ig-grad)" />
-      <circle cx="12" cy="12" r="4.5" fill="none" stroke="white" strokeWidth="1.75" />
-      <circle cx="18" cy="6" r="1.2" fill="white" />
+      <rect x="2" y="2" width="20" height="20" rx="6" ry="6" stroke="url(#ig-g)" strokeWidth="1.75" />
+      <circle cx="12" cy="12" r="4.5" stroke="url(#ig-g)" strokeWidth="1.75" />
+      <circle cx="17.5" cy="6.5" r="1.1" fill="url(#ig-g)" />
     </svg>
   );
 }
