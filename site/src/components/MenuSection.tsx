@@ -4,6 +4,8 @@ type Tint   = "vanilla" | "chocolate" | "matcha" | "masala";
 type Category = "essentials" | "shakes" | "latte";
 type Filter   = "all" | Category;
 
+type MilkType = "deslactosada" | "descremada";
+
 type MenuItem = {
   id: string;
   category: Category;
@@ -18,20 +20,21 @@ type MenuItem = {
   price: string;
   tint: Tint;
   hasNutrition: boolean;
+  milkType?: MilkType;
 };
 
 const TINT_GRADIENTS: Record<Tint, string> = {
-  vanilla: "linear-gradient(145deg, oklch(0.95 0.025 95), oklch(0.90 0.035 88))",
-  chocolate:   "linear-gradient(145deg, oklch(0.91 0.04 55),  oklch(0.85 0.05 45))",
-  matcha:  "linear-gradient(145deg, oklch(0.91 0.04 145), oklch(0.85 0.05 150))",
-  masala:  "linear-gradient(145deg, oklch(0.89 0.04 60),  oklch(0.82 0.05 52))",
+  vanilla:   "linear-gradient(145deg, oklch(0.95 0.025 95), oklch(0.90 0.035 88))",
+  chocolate: "linear-gradient(145deg, oklch(0.91 0.04 55),  oklch(0.85 0.05 45))",
+  matcha:    "linear-gradient(145deg, oklch(0.91 0.04 145), oklch(0.85 0.05 150))",
+  masala:    "linear-gradient(145deg, oklch(0.89 0.04 60),  oklch(0.82 0.05 52))",
 };
 
 const TINT_DOT: Record<Tint, string> = {
-  vanilla: "oklch(0.6 0.09 90)",
-  chocolate:   "oklch(0.55 0.11 50)",
-  matcha:  "oklch(0.52 0.10 150)",
-  masala:  "oklch(0.48 0.07 55)",
+  vanilla:   "oklch(0.6 0.09 90)",
+  chocolate: "oklch(0.55 0.11 50)",
+  matcha:    "oklch(0.52 0.10 150)",
+  masala:    "oklch(0.48 0.07 55)",
 };
 
 const ITEMS: MenuItem[] = [
@@ -66,112 +69,237 @@ const ITEMS: MenuItem[] = [
     tint: "chocolate",
     hasNutrition: true,
   },
-  // Shakes
+
+  // Shakes – Deslactosada
   {
-    id: "shakes-moon",
+    id: "shakes-moon-dl",
     category: "shakes",
     categoryLabel: "Shakes",
     flavor: "moon",
     flavorLabel: "Vainilla",
     name: "Moon Blendia Shake",
     fn: "Post-workout",
-    ingredients: "• Proteína whey vainilla • Leche",
+    ingredients: "• Proteína whey vainilla • Leche deslactosada",
     protein: "30g",
     calories: "320 kcal",
     price: "Q35",
     tint: "vanilla",
     hasNutrition: false,
+    milkType: "deslactosada",
   },
   {
-    id: "shakes-midnight",
+    id: "shakes-midnight-dl",
     category: "shakes",
     categoryLabel: "Shakes",
     flavor: "midnight",
     flavorLabel: "chocolate",
     name: "Midnight Blendia Shake",
     fn: "Post-workout",
-    ingredients: "• Proteína whey chocolate • Leche",
+    ingredients: "• Proteína whey chocolate • Leche deslactosada",
     protein: "30g",
     calories: "320 kcal",
     price: "Q35",
     tint: "chocolate",
     hasNutrition: false,
+    milkType: "deslactosada",
   },
   {
-    id: "shakes-zen",
+    id: "shakes-zen-dl",
     category: "shakes",
     categoryLabel: "Shakes",
     flavor: "zen",
     flavorLabel: "Matcha",
     name: "Zen Blendia Shake",
     fn: "Post-workout",
-    ingredients: "• Proteína whey vainilla • Matcha • Leche",
+    ingredients: "• Proteína whey vainilla • Matcha • Leche deslactosada",
     protein: "30g",
     calories: "320 kcal",
     price: "Q45",
     tint: "matcha",
     hasNutrition: false,
+    milkType: "deslactosada",
   },
   {
-    id: "shakes-masala",
+    id: "shakes-masala-dl",
     category: "shakes",
     categoryLabel: "Shakes",
     flavor: "masala",
     flavorLabel: "Chai",
     name: "Masala Blendia Shake",
     fn: "Post-workout",
-    ingredients: "• Proteína whey vainilla • Chai • Leche ",
+    ingredients: "• Proteína whey vainilla • Chai • Leche deslactosada",
     protein: "30g",
     calories: "320 kcal",
     price: "Q35",
     tint: "masala",
     hasNutrition: false,
+    milkType: "deslactosada",
   },
-  // Lattes
+
+  // Shakes – Descremada
   {
-    id: "latte-moon",
+    id: "shakes-moon-dc",
+    category: "shakes",
+    categoryLabel: "Shakes",
+    flavor: "moon",
+    flavorLabel: "Vainilla",
+    name: "Moon Blendia Shake",
+    fn: "Post-workout",
+    ingredients: "• Proteína whey vainilla • Leche descremada",
+    protein: "30g",
+    calories: "290 kcal",
+    price: "Q35",
+    tint: "vanilla",
+    hasNutrition: false,
+    milkType: "descremada",
+  },
+  {
+    id: "shakes-midnight-dc",
+    category: "shakes",
+    categoryLabel: "Shakes",
+    flavor: "midnight",
+    flavorLabel: "chocolate",
+    name: "Midnight Blendia Shake",
+    fn: "Post-workout",
+    ingredients: "• Proteína whey chocolate • Leche descremada",
+    protein: "30g",
+    calories: "290 kcal",
+    price: "Q35",
+    tint: "chocolate",
+    hasNutrition: false,
+    milkType: "descremada",
+  },
+  {
+    id: "shakes-zen-dc",
+    category: "shakes",
+    categoryLabel: "Shakes",
+    flavor: "zen",
+    flavorLabel: "Matcha",
+    name: "Zen Blendia Shake",
+    fn: "Post-workout",
+    ingredients: "• Proteína whey vainilla • Matcha • Leche descremada",
+    protein: "30g",
+    calories: "290 kcal",
+    price: "Q45",
+    tint: "matcha",
+    hasNutrition: false,
+    milkType: "descremada",
+  },
+  {
+    id: "shakes-masala-dc",
+    category: "shakes",
+    categoryLabel: "Shakes",
+    flavor: "masala",
+    flavorLabel: "Chai",
+    name: "Masala Blendia Shake",
+    fn: "Post-workout",
+    ingredients: "• Proteína whey vainilla • Chai • Leche descremada",
+    protein: "30g",
+    calories: "290 kcal",
+    price: "Q35",
+    tint: "masala",
+    hasNutrition: false,
+    milkType: "descremada",
+  },
+
+  // Lattes – Deslactosada
+  {
+    id: "latte-moon-dl",
     category: "latte",
     categoryLabel: "Lattes",
     flavor: "moon",
     flavorLabel: "Vainilla",
     name: "Moon Blendia Latte",
     fn: "Post-workout",
-    ingredients: "• Proteína whey vainilla • Leche • Café",
+    ingredients: "• Proteína whey vainilla • Leche deslactosada • Café",
     protein: "30g",
     calories: "320 kcal",
     price: "Q40",
     tint: "vanilla",
     hasNutrition: false,
+    milkType: "deslactosada",
   },
   {
-    id: "latte-midnight",
+    id: "latte-midnight-dl",
     category: "latte",
     categoryLabel: "Lattes",
     flavor: "midnight",
     flavorLabel: "chocolate",
     name: "Midnight Blendia Latte",
     fn: "Post-workout",
-    ingredients: "• Proteína whey chocolate • Leche • Café",
+    ingredients: "• Proteína whey chocolate • Leche deslactosada • Café",
     protein: "30g",
     calories: "320 kcal",
     price: "Q40",
     tint: "chocolate",
     hasNutrition: false,
+    milkType: "deslactosada",
   },
   {
-    id: "latte-masala",
+    id: "latte-masala-dl",
     category: "latte",
     categoryLabel: "Lattes",
     flavor: "masala",
     flavorLabel: "Chai",
     name: "Masala Blendia Latte",
     fn: "Post-workout",
-    ingredients: "• Proteína whey vanilla • Chai • Leche • Café",
+    ingredients: "• Proteína whey vainilla • Chai • Leche deslactosada • Café",
     protein: "30g",
     calories: "320 kcal",
     price: "Q40",
     tint: "masala",
     hasNutrition: false,
+    milkType: "deslactosada",
+  },
+
+  // Lattes – Descremada
+  {
+    id: "latte-moon-dc",
+    category: "latte",
+    categoryLabel: "Lattes",
+    flavor: "moon",
+    flavorLabel: "Vainilla",
+    name: "Moon Blendia Latte",
+    fn: "Post-workout",
+    ingredients: "• Proteína whey vainilla • Leche descremada • Café",
+    protein: "30g",
+    calories: "290 kcal",
+    price: "Q40",
+    tint: "vanilla",
+    hasNutrition: false,
+    milkType: "descremada",
+  },
+  {
+    id: "latte-midnight-dc",
+    category: "latte",
+    categoryLabel: "Lattes",
+    flavor: "midnight",
+    flavorLabel: "chocolate",
+    name: "Midnight Blendia Latte",
+    fn: "Post-workout",
+    ingredients: "• Proteína whey chocolate • Leche descremada • Café",
+    protein: "30g",
+    calories: "290 kcal",
+    price: "Q40",
+    tint: "chocolate",
+    hasNutrition: false,
+    milkType: "descremada",
+  },
+  {
+    id: "latte-masala-dc",
+    category: "latte",
+    categoryLabel: "Lattes",
+    flavor: "masala",
+    flavorLabel: "Chai",
+    name: "Masala Blendia Latte",
+    fn: "Post-workout",
+    ingredients: "• Proteína whey vainilla • Chai • Leche descremada • Café",
+    protein: "30g",
+    calories: "290 kcal",
+    price: "Q40",
+    tint: "masala",
+    hasNutrition: false,
+    milkType: "descremada",
   },
 ];
 
@@ -182,11 +310,39 @@ const FILTERS: { key: Filter; label: string }[] = [
   { key: "latte",      label: "Lattes" },
 ];
 
+type RenderItem =
+  | { kind: "divider"; label: string; key: string }
+  | { kind: "card"; item: MenuItem };
+
+function buildRenderItems(items: MenuItem[]): RenderItem[] {
+  const result: RenderItem[] = [];
+  const categoriesSeen = new Set<string>();
+
+  for (const item of items) {
+    const needsSubcategory = item.category === "shakes" || item.category === "latte";
+    if (!needsSubcategory) {
+      result.push({ kind: "card", item });
+      continue;
+    }
+
+    const groupKey = `${item.category}-${item.milkType}`;
+    if (!categoriesSeen.has(groupKey)) {
+      categoriesSeen.add(groupKey);
+      const label = item.milkType === "deslactosada" ? "Deslactosada" : "Descremada";
+      result.push({ kind: "divider", label, key: groupKey });
+    }
+    result.push({ kind: "card", item });
+  }
+
+  return result;
+}
+
 function MenuCard({ item }: { item: MenuItem }) {
   const [flipped, setFlipped] = useState(false);
 
+  const milkAbbr = item.milkType === "descremada" ? "dc" : "dl";
   const frontImage     = `/img-core/bebidas/${item.category}/${item.category}_${item.flavor}.webp`;
-  const nutritionImage = `/img-core/tablas-nutricionales/${item.category}/tabla_nutricional_${item.category}_${item.flavor}.webp`;
+  const nutritionImage = `/img-core/tablas-nutricionales/${item.category}/tabla_nutricional_${item.category}_${item.flavor}_${milkAbbr}.png`;
 
   return (
     <article className="menu-card">
@@ -308,9 +464,15 @@ export default function MenuSection() {
         {/* Grid */}
         <div className="menu-grid-wrap">
           <div className="menu-grid">
-            {visible.map(item => (
-              <MenuCard key={item.id} item={item} />
-            ))}
+            {buildRenderItems(visible).map(entry =>
+              entry.kind === "divider" ? (
+                <div key={entry.key} className="menu-subcategory-divider">
+                  {entry.label}
+                </div>
+              ) : (
+                <MenuCard key={entry.item.id} item={entry.item} />
+              )
+            )}
           </div>
         </div>
 
