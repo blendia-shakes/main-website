@@ -1133,6 +1133,27 @@ section[id], div[id] {
   gap: 16px;
 }
 
+/* ─── Subcategory divider (spans all columns) ─── */
+.menu-subcategory-divider {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-muted, oklch(0.55 0.01 260));
+  padding: 4px 0 2px;
+}
+
+.menu-subcategory-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--hairline);
+}
+
 /* ─── Individual card ─── */
 .menu-card {
   border-radius: var(--radius-card);
