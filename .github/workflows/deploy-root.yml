@@ -34,11 +34,12 @@ jobs:
 
       - name: Build
         working-directory: ./site
-        run: npm run build  # vite build → outputs to ./site/dist/ (includes public/ automatically)
+        run: npm run build  # vite build + copy index.html -> 404.html → outputs to ./site/dist/ (includes public/ automatically)
 
       - name: Verify build output
         run: |
           test -f ./site/dist/index.html
+          test -f ./site/dist/404.html
           test -d ./site/dist/assets
 
       - name: Setup Pages

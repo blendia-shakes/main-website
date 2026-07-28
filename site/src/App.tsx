@@ -25,6 +25,27 @@ export default function App() {
     setTheme(initial);
   }, []);
 
+  // Deep-link support: /faq, /menu, etc. land straight on that section.
+  // GitHub Pages has no server router, so 404.html serves this same app
+  // shell for unknown paths (see site/package.json's "build" script) and
+  // we scroll to the matching section id once it's mounted.
+  useEffect(() => {
+    const sectionId = window.location.pathname.replace(/^\/+|\/+$/g, "");
+    if (!sectionId) return;
+
+    const scrollToSection = () =>
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: "auto" });
+
+    // Wait for window "load" (styles/fonts settled) — scrolling right on
+    // mount can measure pre-stylesheet layout and land short.
+    if (document.readyState === "complete") {
+      scrollToSection();
+    } else {
+      window.addEventListener("load", scrollToSection, { once: true });
+      return () => window.removeEventListener("load", scrollToSection);
+    }
+  }, []);
+
   const toggleTheme = () => {
     const next = theme === "light" ? "dark" : "light";
     document.documentElement.setAttribute("data-theme", next);
