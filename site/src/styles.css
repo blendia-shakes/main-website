@@ -44,6 +44,11 @@
    directly to selectors inside @media blocks instead.
 ========================================================= */
 :root {
+  /* Tells Safari (and other browsers) whether to render native chrome —
+     including the iOS status bar strip, which theme-color alone doesn't
+     reliably cover — as light or dark. Must track [data-theme] exactly. */
+  color-scheme: light;
+
   /* Background */
   --bg:           #F5F1E8;
   --bg-surface:   #FBF8F0;
@@ -122,6 +127,8 @@
    Only colour tokens change; layout tokens unchanged.
 ========================================================= */
 [data-theme="dark"] {
+  color-scheme: dark;
+
   --bg:           #26252B;
   --bg-surface:   #403F45;
   --bg-tile:      #201F25;
