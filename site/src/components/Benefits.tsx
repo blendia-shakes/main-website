@@ -1,50 +1,67 @@
-const stats = [
-  {
-    number: "30g",
-    label: "Proteína por vaso",
-    desc: "Proteína whey.",
-  },
-  {
-    number: "60s",
-    label: "Preparado en el momento",
-    desc: "Todo es preparado en el momento en que haces tap en la pantalla.",
-  },
-  {
-    number: "0g",
-    label: "Azúcares añadidos",
-    desc: "Los endulzantes utilizados son intrínsecos de cada ingrediente.",
-  },
-  {
-    number: "<1.5g",
-    label: "Grasas",
-    desc: "Perfil nutricional limpio, diseñado para el consumo diario.",
-  },
-];
+import { useEffect, useRef } from "react";
 
 export default function Benefits() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const targets =
+      sectionRef.current?.querySelectorAll<HTMLElement>(".why-animate");
+    if (!targets?.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0, rootMargin: "0px 0px 80px 0px" }
+    );
+
+    targets.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="benefits" className="benefits-section">
+    <section id="benefits" ref={sectionRef} className="benefits-section">
       <div className="benefits-inner">
 
-        {/* Sticky intro */}
-        <div className="benefits-intro">
-          <span className="benefits-eyebrow">Lo que contiene</span>
-          <h2 className="benefits-title">Beneficios reales, no solo sabor.</h2>
-          <p className="benefits-sub">
-            Cada bebida tiene como base proteína whey e ingredientes naturales — con 0 azúcares añadidos.
-          </p>
+        <span className="benefits-eyebrow why-animate">Lo que contiene</span>
+
+        <h3 className="benefits-headline why-animate">
+          Real. Rápido. <em>Sin trucos.</em>
+        </h3>
+
+        <div className="benefits-stats">
+          <div className="benefits-stat why-animate" style={{ transitionDelay: "80ms" }}>
+            <span className="benefits-stat-value">
+              30<small>g</small>
+            </span>
+            <span className="benefits-stat-label">Proteína real</span>
+          </div>
+          <div className="benefits-stat why-animate" style={{ transitionDelay: "180ms" }}>
+            <span className="benefits-stat-value">
+              60<small>s</small>
+            </span>
+            <span className="benefits-stat-label">De preparación</span>
+          </div>
+          <div className="benefits-stat why-animate" style={{ transitionDelay: "280ms" }}>
+            <span className="benefits-stat-value">
+              0<small>g</small>
+            </span>
+            <span className="benefits-stat-label">Azúcar añadida</span>
+          </div>
+          <div className="benefits-stat why-animate" style={{ transitionDelay: "380ms" }}>
+            <span className="benefits-stat-value">
+              &lt;1.5<small>g</small>
+            </span>
+            <span className="benefits-stat-label">Grasa</span>
+          </div>
         </div>
 
-        {/* Stat cards */}
-        <div className="benefits-stats">
-          {stats.map(stat => (
-            <div key={stat.label} className="stat-card">
-              <span className="stat-number">{stat.number}</span>
-              <p className="stat-label">{stat.label}</p>
-              <p className="stat-desc">{stat.desc}</p>
-            </div>
-          ))}
-        </div>
+        <p className="benefits-line why-animate">Así de simple.</p>
 
       </div>
     </section>

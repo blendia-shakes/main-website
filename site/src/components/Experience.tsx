@@ -1,3 +1,5 @@
+import { useEffect, useRef } from "react";
+
 const steps = [
   {
     num: "01",
@@ -22,18 +24,44 @@ const steps = [
 ];
 
 export default function Experience() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const targets = sectionRef.current?.querySelectorAll<HTMLElement>(".why-animate");
+    if (!targets?.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0, rootMargin: "0px 0px 80px 0px" }
+    );
+
+    targets.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="how" className="experience-v2">
+    <section id="how" ref={sectionRef} className="experience-v2">
       <div className="experience-v2-inner">
 
-        <div className="exp-header">
+        <div className="exp-header why-animate">
           <span className="exp-eyebrow">Cómo funciona</span>
           <h2 className="exp-title">Tres taps desde el antojo hasta el vaso en tus manos.</h2>
         </div>
 
         <div className="exp-steps">
-          {steps.map(step => (
-            <div key={step.num} className="exp-step">
+          {steps.map((step, index) => (
+            <div
+              key={step.num}
+              className="exp-step why-animate"
+              style={{ transitionDelay: `${80 + index * 100}ms` }}
+            >
               <span className="exp-step-num">{step.num}</span>
               <h3 className="exp-step-title">{step.title}</h3>
               <p className="exp-step-desc">{step.desc}</p>

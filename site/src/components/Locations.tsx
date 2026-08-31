@@ -94,7 +94,7 @@ function IconArrow() {
 
 export default function Locations() {
   const [activeZone, setActiveZone] = useState<ActiveZone>('todas');
-  const headerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
 
   const filtered =
     activeZone === 'todas'
@@ -104,37 +104,42 @@ export default function Locations() {
   const activeLabel = filterZones.find((z) => z.key === activeZone)?.label ?? '';
 
   useEffect(() => {
-    const el = headerRef.current;
-    if (!el) return;
+    const targets = sectionRef.current?.querySelectorAll<HTMLElement>(".why-animate");
+    if (!targets?.length) return;
+
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.classList.add('is-visible');
-          observer.disconnect();
-        }
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
       },
       { threshold: 0, rootMargin: "0px 0px 80px 0px" }
     );
-    observer.observe(el);
+
+    targets.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
   return (
-    <section id="ubicaciones" className="locations-section">
+    <section id="ubicaciones" ref={sectionRef} className="locations-section">
       <div className="container locations-inner">
 
         {/* Header */}
-        <div className="loc-header loc-animate-header" ref={headerRef}>
+        <div className="loc-header why-animate">
           <span className="loc-eyebrow">Encuéntranos</span>
-          <h2 className="loc-title">Encuentra tu máquina Blendia</h2>
+          <h2 className="loc-title">Cerca. Fácil. Sin fila.</h2>
           <p className="loc-subtitle">
-            Disponibles en Guatemala City. Sin fila, sin esperar.
+            Máquinas Blendia en gimnasios, oficinas y más, por Guatemala City.
           </p>
         </div>
 
         {/* Zone filter */}
         <div
-          className="loc-filter-bar"
+          className="loc-filter-bar why-animate"
+          style={{ transitionDelay: "80ms" }}
           role="group"
           aria-label="Filtrar ubicaciones por zona"
         >
@@ -152,7 +157,7 @@ export default function Locations() {
         </div>
 
         {/* Count */}
-        <p className="loc-count" aria-live="polite" aria-atomic="true">
+        <p className="loc-count why-animate" style={{ transitionDelay: "140ms" }} aria-live="polite" aria-atomic="true">
           {filtered.length}{' '}
           {filtered.length === 1 ? 'ubicación' : 'ubicaciones'}
           {activeZone !== 'todas' ? ` en ${activeLabel}` : ' disponibles'}

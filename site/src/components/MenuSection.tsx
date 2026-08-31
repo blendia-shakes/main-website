@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Tint     = "vanilla" | "chocolate" | "matcha" | "masala";
 type Category = "shakes" | "latte";
@@ -181,8 +181,11 @@ function SeasonalPromo({
 }) {
   return (
     <div
-      className="menu-seasonal"
-      style={{ "--row-tint": TINT_ACCENT[item.tint] } as React.CSSProperties}
+      className="menu-seasonal why-animate"
+      style={{
+        "--row-tint": TINT_ACCENT[item.tint],
+        transitionDelay: "120ms",
+      } as React.CSSProperties}
     >
       <div className="menu-seasonal-card">
         <div className="menu-seasonal-image">
@@ -214,9 +217,11 @@ function SeasonalPromo({
 function MenuCard({
   item,
   onOpenNutrition,
+  revealDelay,
 }: {
   item: MenuItem;
   onOpenNutrition: (item: MenuItem, milk: MilkType) => void;
+  revealDelay: number;
 }) {
   const [milk, setMilk] = useState<MilkType>("deslactosada");
 
@@ -225,8 +230,11 @@ function MenuCard({
 
   return (
     <article
-      className="menu-card"
-      style={{ "--row-tint": TINT_ACCENT[item.tint] } as React.CSSProperties}
+      className="menu-card why-animate"
+      style={{
+        "--row-tint": TINT_ACCENT[item.tint],
+        transitionDelay: `${revealDelay}ms`,
+      } as React.CSSProperties}
     >
       <div className="menu-card-image">
         <img
@@ -369,15 +377,38 @@ function NutritionModal({
 
 export default function MenuSection() {
   const [activeNutrition, setActiveNutrition] = useState<NutritionSource | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const targets = sectionRef.current?.querySelectorAll<HTMLElement>(".why-animate");
+    if (!targets?.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0, rootMargin: "0px 0px 80px 0px" }
+    );
+
+    targets.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section id="menu" className="menu-section">
+    <section id="menu" ref={sectionRef} className="menu-section">
       <div className="menu-inner">
 
         {/* Header */}
         <div className="menu-header">
-          <span className="menu-eyebrow">Menú</span>
-          <h2 className="menu-title">Hay un Blendia para ti</h2>
+          <span className="menu-eyebrow why-animate">Menú</span>
+          <h2 className="menu-title why-animate" style={{ transitionDelay: "60ms" }}>
+            Hay un Blendia para ti
+          </h2>
         </div>
 
         {/* Seasonal spotlight — only rendered while a limited release is active */}
@@ -388,14 +419,15 @@ export default function MenuSection() {
           />
         )}
 
-        <h3 className="menu-sabores-heading">Nuestros sabores</h3>
+        <h3 className="menu-sabores-heading why-animate">Nuestros sabores</h3>
 
         {/* Unified grid — no categories, no filters */}
         <div className="menu-list">
-          {ITEMS.map((item) => (
+          {ITEMS.map((item, index) => (
             <MenuCard
               key={item.id}
               item={item}
+              revealDelay={Math.min(index, 5) * 60}
               onOpenNutrition={(item, milk) => setActiveNutrition({ kind: "menu", item, milk })}
             />
           ))}

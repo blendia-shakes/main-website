@@ -78,6 +78,18 @@
   --clay:         oklch(0.6 0.1 52);
   --clay-light:   oklch(0.78 0.07 60);
 
+  /* Per-flavor tint wash ratios (menu cards) — how strongly --row-tint
+     blends into the neutral tokens below it via color-mix(). Same tint
+     colors read more saturated against a dark ground (simulteanous
+     contrast), so dark mode uses lower ratios to keep the same soft,
+     muted wash instead of a punchy/neon one. */
+  --tint-mix-card:         12%;
+  --tint-mix-image:        20%;
+  --tint-mix-border:       35%;
+  --tint-mix-border-hover: 60%;
+  --tint-mix-btn-border:   45%;
+  --tint-mix-btn-hover-bg: 14%;
+
   /* Dark section tokens */
   --dark-bg:      #403F45;
   --dark-text:    #F5F1E8;
@@ -110,12 +122,12 @@
    Only colour tokens change; layout tokens unchanged.
 ========================================================= */
 [data-theme="dark"] {
-  --bg:           #403F45;
-  --bg-surface:   #3e3d44;
-  --bg-tile:      #3c3b41;
-  --bg-mid-1:     #3e3d44;
-  --bg-mid-2:     #3c3b41;
-  --bg-rgb:       64, 63, 69;
+  --bg:           #26252B;
+  --bg-surface:   #403F45;
+  --bg-tile:      #201F25;
+  --bg-mid-1:     #1E1D22;
+  --bg-mid-2:     #1A191E;
+  --bg-rgb:       38, 37, 43;
 
   --ink:          #F5F1E8;
   --ink-2:        rgba(245, 241, 232, 0.78);
@@ -130,13 +142,31 @@
   --muted:        rgba(245, 241, 232, 0.62);
   --surface:      rgba(245, 241, 232, 0.08);
 
-  --hairline:     rgba(245, 241, 232, 0.08);
-  --hairline-2:   rgba(245, 241, 232, 0.06);
-  --hairline-3:   rgba(245, 241, 232, 0.07);
-  --border:       rgba(245, 241, 232, 0.14);
+  --hairline:     rgba(245, 241, 232, 0.10);
+  --hairline-2:   rgba(245, 241, 232, 0.08);
+  --hairline-3:   rgba(245, 241, 232, 0.09);
+  --border:       rgba(245, 241, 232, 0.16);
 
-  --clay:         oklch(0.78 0.07 60);
+  --clay:         oklch(0.72 0.11 54);
   --clay-light:   oklch(0.78 0.07 60);
+
+  --tint-mix-card:         5%;
+  --tint-mix-image:        7%;
+  --tint-mix-border:       18%;
+  --tint-mix-border-hover: 32%;
+  --tint-mix-btn-border:   20%;
+  --tint-mix-btn-hover-bg: 6%;
+}
+
+/* The card image backdrop mixes into --bg-tile in light mode (barely
+   darker than --bg-surface there, so the wash stays just as soft). In
+   dark mode --bg-tile is deliberately much darker (recessed chips), so
+   using it here would deepen the tint into a saturated-looking patch.
+   Mix into --bg-surface instead — same lighter, calmer base the card
+   body already uses. */
+[data-theme="dark"] .menu-card-image,
+[data-theme="dark"] .menu-seasonal-image {
+  background: color-mix(in oklch, var(--row-tint) var(--tint-mix-image), var(--bg-surface));
 }
 
 /* =========================================================
@@ -688,7 +718,7 @@ section[id], div[id] {
    WHY BLENDIA — single editorial statement, not a list
 ========================================================= */
 .why-blendia {
-  padding: 40px var(--page-pad) 56px;
+  padding: 40px var(--page-pad) 32px;
 }
 
 .why-inner { padding: 0; }
@@ -725,7 +755,7 @@ section[id], div[id] {
   line-height: 1.1;
   letter-spacing: -0.01em;
   color: var(--ink);
-  margin: 0 0 36px;
+  margin: 0;
 }
 
 /* ─── Scroll animation ─── */
@@ -744,7 +774,7 @@ section[id], div[id] {
    MENU SECTION
 ========================================================= */
 .menu-section {
-  padding: 56px var(--page-pad) 108px;
+  padding: 32px var(--page-pad) 48px;
 }
 
 .menu-inner {
@@ -788,8 +818,8 @@ section[id], div[id] {
   display: grid;
   grid-template-columns: minmax(0, 380px) 1fr;
   align-items: stretch;
-  background: color-mix(in oklch, var(--row-tint) 12%, var(--bg-surface));
-  border: 1px solid color-mix(in oklch, var(--row-tint) 35%, var(--hairline));
+  background: color-mix(in oklch, var(--row-tint) var(--tint-mix-card), var(--bg-surface));
+  border: 1px solid color-mix(in oklch, var(--row-tint) var(--tint-mix-border), var(--hairline));
   border-radius: var(--radius-card);
   overflow: hidden;
   box-shadow: 0 20px 48px rgba(var(--ink-rgb), 0.12);
@@ -800,7 +830,7 @@ section[id], div[id] {
   align-items: center;
   justify-content: center;
   padding: 32px;
-  background: color-mix(in oklch, var(--row-tint) 20%, var(--bg-tile));
+  background: color-mix(in oklch, var(--row-tint) var(--tint-mix-image), var(--bg-tile));
 }
 
 .menu-seasonal-image img {
@@ -857,7 +887,7 @@ section[id], div[id] {
   margin-top: 6px;
   padding: 10px 20px;
   border-radius: var(--radius-pill);
-  border: 1px solid color-mix(in oklch, var(--row-tint) 45%, var(--hairline));
+  border: 1px solid color-mix(in oklch, var(--row-tint) var(--tint-mix-btn-border), var(--hairline));
   background: transparent;
   font-family: inherit;
   font-size: 13px;
@@ -868,7 +898,7 @@ section[id], div[id] {
 }
 
 .menu-seasonal-info-btn:hover {
-  background: color-mix(in oklch, var(--row-tint) 14%, transparent);
+  background: color-mix(in oklch, var(--row-tint) var(--tint-mix-btn-hover-bg), transparent);
   border-color: var(--row-tint);
 }
 
@@ -903,16 +933,16 @@ section[id], div[id] {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: color-mix(in oklch, var(--row-tint) 12%, var(--bg-surface));
-  border: 1px solid color-mix(in oklch, var(--row-tint) 35%, var(--hairline));
+  background: color-mix(in oklch, var(--row-tint) var(--tint-mix-card), var(--bg-surface));
+  border: 1px solid color-mix(in oklch, var(--row-tint) var(--tint-mix-border), var(--hairline));
   border-radius: var(--radius-card);
   box-shadow: 0 10px 24px rgba(var(--ink-rgb), 0.06);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, opacity 0.5s ease;
 }
 
 .menu-card:hover {
   transform: translateY(-3px);
-  border-color: color-mix(in oklch, var(--row-tint) 60%, var(--hairline));
+  border-color: color-mix(in oklch, var(--row-tint) var(--tint-mix-border-hover), var(--hairline));
   box-shadow: 0 18px 36px rgba(var(--ink-rgb), 0.12);
 }
 
@@ -922,7 +952,7 @@ section[id], div[id] {
   justify-content: center;
   height: 176px;
   padding: 14px;
-  background: color-mix(in oklch, var(--row-tint) 20%, var(--bg-tile));
+  background: color-mix(in oklch, var(--row-tint) var(--tint-mix-image), var(--bg-tile));
 }
 
 .menu-card-image-img {
@@ -1023,7 +1053,7 @@ section[id], div[id] {
   margin-top: 14px;
   padding: 6px 13px;
   border-radius: var(--radius-pill);
-  border: 1px solid color-mix(in oklch, var(--row-tint) 45%, var(--hairline));
+  border: 1px solid color-mix(in oklch, var(--row-tint) var(--tint-mix-btn-border), var(--hairline));
   background: transparent;
   font-family: inherit;
   font-size: 11.5px;
@@ -1034,7 +1064,7 @@ section[id], div[id] {
 }
 
 .menu-card-info-btn:hover {
-  background: color-mix(in oklch, var(--row-tint) 14%, transparent);
+  background: color-mix(in oklch, var(--row-tint) var(--tint-mix-btn-hover-bg), transparent);
   border-color: var(--row-tint);
 }
 
@@ -1190,9 +1220,12 @@ section[id], div[id] {
    EXPERIENCE / HOW IT WORKS — dark section
 ========================================================= */
 .experience-v2 {
-  padding: 108px var(--page-pad);
+  padding: 48px var(--page-pad);
   background: var(--dark-bg);
   position: relative;
+  box-shadow:
+    0 28px 48px -28px rgba(0, 0, 0, 0.22),
+    0 -28px 48px -28px rgba(0, 0, 0, 0.22);
 }
 
 .experience-v2-inner {
@@ -1279,25 +1312,18 @@ section[id], div[id] {
 .exp-timeline { display: none; }
 
 /* =========================================================
-   BENEFITS — sticky-left intro + stat cards
+   BENEFITS — a short headline plus a single fact strip.
+   Kept typographic and hairline-bounded rather than a card
+   grid, so the emphasis reads as editorial, not a dashboard.
 ========================================================= */
 .benefits-section {
-  padding: 108px var(--page-pad);
+  padding: 40px var(--page-pad);
   background: var(--bg-surface);
 }
 
 .benefits-inner {
   max-width: var(--container);
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 5fr 7fr;
-  gap: 72px;
-  align-items: start;
-}
-
-.benefits-intro {
-  position: sticky;
-  top: 96px;
 }
 
 .benefits-eyebrow {
@@ -1308,73 +1334,109 @@ section[id], div[id] {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--clay);
-  margin-bottom: 14px;
+  margin-bottom: 22px;
 }
 
-.benefits-title {
-  font-size: clamp(28px, 3.2vw, 44px);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1.06;
-  color: var(--ink);
-  margin: 0 0 18px;
-}
-
-.benefits-sub {
-  font-size: 0.95rem;
-  line-height: 1.70;
+.benefits-headline {
+  font-family: var(--font-serif);
+  font-variation-settings: var(--serif-settings);
+  font-size: clamp(28px, 3.6vw, 42px);
+  font-weight: 420;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
   color: var(--ink-2);
-  margin: 0;
+  max-width: 560px;
+  margin: 0 0 52px;
 }
 
-/* ─── Nutrition ledger — spec-sheet list, no cards ─── */
-.benefits-ledger {
+.benefits-headline em {
+  font-style: italic;
+  font-weight: 560;
+  color: var(--ink);
+}
+
+/* ─── Fact strip — a single hairline-bounded row, not stat cards.
+     Numbers stay typographic (serif, no boxes/icons) to match the
+     section's editorial tone rather than a dashboard aesthetic. ─── */
+.benefits-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 28px;
+  padding: 30px 0;
+  margin: 0 0 44px;
+  border-top: 1px solid var(--hairline-2);
+  border-bottom: 1px solid var(--hairline-2);
+}
+
+.benefits-stat {
   display: flex;
   flex-direction: column;
-  border-top: var(--rule);
+  gap: 8px;
 }
 
-.ledger-row {
-  display: flex;
-  align-items: baseline;
-  gap: 28px;
-  padding: 22px 0;
-  border-bottom: var(--rule);
-}
-
-.ledger-number {
-  flex-shrink: 0;
-  width: 116px;
-  font-family: var(--font-mono);
-  font-size: clamp(30px, 3vw, 38px);
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  color: var(--ink);
-}
-
-.ledger-copy { flex: 1; min-width: 0; }
-
-.ledger-label {
-  font-size: 0.925rem;
-  font-weight: 600;
+.benefits-stat-value {
+  font-family: var(--font-serif);
+  font-variation-settings: var(--serif-settings);
+  font-style: italic;
+  font-weight: 540;
+  font-size: clamp(28px, 3vw, 38px);
   letter-spacing: -0.01em;
   color: var(--ink);
-  margin: 0 0 4px;
 }
 
-.ledger-desc {
-  font-size: 0.815rem;
-  line-height: 1.6;
+.benefits-stat-value small {
+  font-size: 0.5em;
+  font-style: normal;
+  font-weight: 500;
+  color: var(--clay);
+  margin-left: 1px;
+}
+
+.benefits-stat-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--ink-muted);
+}
+
+.benefits-line {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-serif);
+  font-variation-settings: var(--serif-settings);
+  font-style: italic;
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 560;
+  letter-spacing: -0.01em;
+  color: var(--ink);
   margin: 0;
+}
+
+.benefits-line::after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  bottom: -6px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--clay);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.6s;
+}
+
+.benefits-line.is-visible::after {
+  transform: scaleX(1);
 }
 
 /* =========================================================
    LOCATIONS
 ========================================================= */
 .locations-section {
-  padding: 108px var(--page-pad) 56px;
+  padding: 48px var(--page-pad) 40px;
 }
 
 .locations-inner { padding: 0; }
@@ -1412,13 +1474,6 @@ section[id], div[id] {
   max-width: 400px;
   margin: 0;
 }
-
-.loc-animate-header {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-.loc-animate-header.is-visible { opacity: 1; transform: translateY(0); }
 
 /* ─── Filter bar ─── */
 .loc-filter-bar {
@@ -1667,7 +1722,7 @@ section[id], div[id] {
    FAQ
 ========================================================= */
 .faq-section {
-  padding: 80px var(--page-pad) 108px;
+  padding: 40px var(--page-pad) 56px;
   background: var(--bg-surface);
 }
 
@@ -1723,7 +1778,7 @@ section[id], div[id] {
 
 .faq-item {
   border-bottom: 1px solid var(--hairline);
-  transition: background 0.15s ease;
+  transition: background 0.15s ease, opacity 0.5s ease, transform 0.5s ease;
 }
 
 .faq-item:last-child { border-bottom: none; }
@@ -2085,21 +2140,21 @@ section[id], div[id] {
 
   .hero-visual { max-width: 260px; }
 
-  .why-blendia   { padding: 80px var(--page-pad); }
+  .why-blendia   { padding: 80px var(--page-pad) 40px; }
   .why-title     { margin-bottom: 32px; }
 
-  .menu-section  { padding: 80px var(--page-pad); }
+  .menu-section  { padding: 40px var(--page-pad); }
   .menu-seasonal-card { grid-template-columns: minmax(0, 280px) 1fr; }
   .menu-list     { grid-template-columns: repeat(2, 1fr); gap: 36px 20px; }
 
-  .experience-v2 { padding: 80px var(--page-pad); }
+  .experience-v2 { padding: 40px var(--page-pad); }
   .exp-steps     { grid-template-columns: repeat(2, 1fr); gap: 24px; }
 
-  .benefits-section { padding: 80px var(--page-pad); }
-  .benefits-inner   { grid-template-columns: 1fr; gap: 40px; }
-  .benefits-intro   { position: static; }
+  .benefits-section { padding: 40px var(--page-pad); }
+  .benefits-headline { margin-bottom: 44px; }
+  .benefits-stats { grid-template-columns: repeat(2, 1fr); row-gap: 32px; }
 
-  .locations-section { padding: 80px var(--page-pad) 88px; }
+  .locations-section { padding: 40px var(--page-pad) 48px; }
   .loc-header        { margin-bottom: 32px; }
   .loc-filter-bar    {
     margin-left: calc(-1 * var(--page-pad));
@@ -2113,7 +2168,7 @@ section[id], div[id] {
   }
   .loc-filter-bar::-webkit-scrollbar { display: none; }
 
-  .faq-section   { padding: 64px var(--page-pad) 80px; }
+  .faq-section   { padding: 40px var(--page-pad) 56px; }
   .faq-card-header { padding: 28px 28px 20px; }
   .faq-question  { padding: 16px 28px; }
   .faq-answer    { padding: 0 28px 16px; }
@@ -2136,19 +2191,27 @@ section[id], div[id] {
 
   .navbar-inner { height: 56px; }
 
-  .hero { padding: 28px var(--page-pad) 24px; }
+  /* ─── Trimmed so "¿Por qué Blendia?" peeks in at the bottom of the
+       first viewport — a visual cue that there's more to scroll to. ─── */
+  .hero { padding: 24px var(--page-pad) 20px; }
 
-  .hero-headline { font-size: 38px; }
+  .hero-inner { gap: 28px; }
 
-  .hero-ctas     { flex-direction: column; gap: 10px; }
+  .hero-eyebrow-pill { margin-bottom: 20px; }
+
+  .hero-headline { font-size: 38px; margin-bottom: 16px; }
+
+  .hero-sub { margin-bottom: 26px; }
+
+  .hero-ctas     { flex-direction: column; gap: 10px; margin-bottom: 24px; }
   .hero-cta-primary,
   .hero-cta-secondary { width: 100%; justify-content: center; padding: 16px 24px; }
 
-  .hero-visual { max-width: 210px; }
+  .hero-visual { max-width: 185px; }
 
-  .why-blendia { padding: 28px var(--page-pad); }
+  .why-blendia { padding: 28px var(--page-pad) 20px; }
 
-  .menu-section { padding: 28px var(--page-pad); }
+  .menu-section { padding: 20px var(--page-pad) 28px; }
 
   .menu-seasonal { margin-bottom: 40px; }
   .menu-seasonal-card { grid-template-columns: 1fr; }
@@ -2160,17 +2223,17 @@ section[id], div[id] {
   .menu-card-image { height: 150px; }
   .menu-card-image-img { height: 116px; }
 
-  .experience-v2 { padding: 60px var(--page-pad); }
+  .experience-v2 { padding: 36px var(--page-pad); }
   .exp-steps     { grid-template-columns: repeat(2, 1fr); gap: 20px; }
 
-  .benefits-section { padding: 60px var(--page-pad); }
-  .ledger-row       { gap: 16px; padding: 18px 0; }
-  .ledger-number    { width: 76px; font-size: 26px; }
+  .benefits-section { padding: 32px var(--page-pad); }
+  .benefits-headline { margin-bottom: 36px; }
+  .benefits-stats { grid-template-columns: repeat(2, 1fr); gap: 24px; padding: 24px 0; margin-bottom: 36px; }
 
-  .locations-section { padding: 60px var(--page-pad) 72px; }
+  .locations-section { padding: 32px var(--page-pad) 40px; }
   .loc-grid { grid-template-columns: 1fr; gap: 10px; }
 
-  .faq-section { padding: 44px var(--page-pad) 60px; }
+  .faq-section { padding: 32px var(--page-pad) 40px; }
   .faq-card    { border-radius: 20px; }
   .faq-card-header { flex-direction: column; gap: 12px; padding: 22px 20px 16px; }
   .faq-subtitle { text-align: left; }

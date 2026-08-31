@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { faqItems } from "../data/faq";
 
 const FEATURED_IDS = [
@@ -38,15 +38,36 @@ function ChevronIcon() {
 
 export default function Faq() {
   const [openId, setOpenId] = useState<string | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
 
   const toggle = (id: string) =>
     setOpenId((prev) => (prev === id ? null : id));
 
+  useEffect(() => {
+    const targets = sectionRef.current?.querySelectorAll<HTMLElement>(".why-animate");
+    if (!targets?.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0, rootMargin: "0px 0px 80px 0px" }
+    );
+
+    targets.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="faq" className="faq-section">
+    <section id="faq" ref={sectionRef} className="faq-section">
         <div className="faq-card">
 
-          <div className="faq-card-header">
+          <div className="faq-card-header why-animate">
             <div>
               <span className="faq-eyebrow">Preguntas frecuentes</span>
               <h2 className="faq-title">¿Tienes dudas?</h2>
@@ -54,12 +75,13 @@ export default function Faq() {
           </div>
 
           <div className="faq-list">
-            {featured.map((item) => {
+            {featured.map((item, index) => {
               const isOpen = openId === item.id;
               return (
                 <div
                   key={item.id}
-                  className={`faq-item${isOpen ? " is-open" : ""}`}
+                  className={`faq-item why-animate${isOpen ? " is-open" : ""}`}
+                  style={{ transitionDelay: `${Math.min(index, 6) * 35}ms` }}
                 >
                   <button
                     type="button"
