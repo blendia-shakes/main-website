@@ -59,6 +59,17 @@ export default function App() {
     }
     setTheme(next);
     try { localStorage.setItem("theme", next); } catch (_) {}
+
+    // iOS Safari only recomputes its chrome-extends-into-the-status-bar
+    // color as part of a scroll-driven layout pass — a bare attribute/meta
+    // change while at rest doesn't trigger it, so the top strip keeps
+    // showing whatever it painted on load. Nudging scrollY forces that
+    // pass to re-run against the new color. Only matters at/near the top;
+    // scrolled further down the status bar isn't blended with the page
+    // anyway, and this restores the exact original position either way.
+    const y = window.scrollY;
+    window.scrollTo(0, y + 1);
+    requestAnimationFrame(() => window.scrollTo(0, y));
   };
 
   const brandLogo =
