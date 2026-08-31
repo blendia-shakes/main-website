@@ -44,11 +44,6 @@
    directly to selectors inside @media blocks instead.
 ========================================================= */
 :root {
-  /* Tells Safari (and other browsers) whether to render native chrome —
-     including the iOS status bar strip, which theme-color alone doesn't
-     reliably cover — as light or dark. Must track [data-theme] exactly. */
-  color-scheme: light;
-
   /* Background */
   --bg:           #F5F1E8;
   --bg-surface:   #FBF8F0;
@@ -127,8 +122,6 @@
    Only colour tokens change; layout tokens unchanged.
 ========================================================= */
 [data-theme="dark"] {
-  color-scheme: dark;
-
   --bg:           #26252B;
   --bg-surface:   #403F45;
   --bg-tile:      #201F25;
@@ -218,7 +211,7 @@ body {
   line-height: 1.5;
   position: relative;
   background-color: var(--bg);
-  padding-top: 72px; /* fixed navbar height */
+  padding-top: 84px; /* fixed navbar height: 12px outer + 60px pill + 12px outer */
   padding-bottom: env(safe-area-inset-bottom);
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
@@ -248,7 +241,17 @@ section[id], div[id] {
 }
 
 /* =========================================================
-   NAVBAR — full-width bar, hairline on scroll (no floating pill)
+   NAVBAR — fixed, translucent cream
+   Ported verbatim from the aug-bk branch: opaque floating pill,
+   no backdrop-filter anywhere. The prior full-width translucent
+   bar (backdrop-filter: blur on .navbar.is-scrolled) is the GPU
+   compositing trigger the whole dark-mode repaint investigation
+   chased — this design has no such layer at all, which is why
+   aug-bk never exhibited the bug in the first place. Pill radii
+   below are literal 999px (matching aug-bk's own source) rather
+   than var(--radius-pill), since that token is 10px in the
+   current design system and shared by unrelated components
+   sitewide — changing it would restyle far more than the header.
 ========================================================= */
 .navbar {
   position: fixed;
@@ -256,38 +259,28 @@ section[id], div[id] {
   left: 0;
   right: 0;
   z-index: 150;
-  padding: 0 var(--page-pad);
-  background: transparent;
-  border-bottom: 1px solid transparent;
-  transition: background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease;
-}
-
-.navbar.is-scrolled {
-  /* Literal colors, not rgba(var(--bg-rgb)) — this is a backdrop-filter
-     layer, which Safari promotes to its own composited layer. Safari
-     defers custom-property recomputation on composited layers until a
-     compositor flush (same bug as the bg-grain incident), so a var()-driven
-     background here keeps the previous theme's tint after an in-page
-     toggle. A literal value swapped via the [data-theme] attribute
-     selector below is resolved by normal selector matching instead,
-     which Safari invalidates immediately. */
-  background: rgba(245, 241, 232, 0.90);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom-color: var(--hairline);
-}
-
-[data-theme="dark"] .navbar.is-scrolled {
-  background: rgba(38, 37, 43, 0.90);
+  padding: 12px var(--page-pad);
+  background: var(--bg);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .navbar-inner {
   display: flex;
   align-items: center;
-  height: 72px;
+  height: 60px;
+  padding: 0 20px;
+  background: var(--bg-surface);
+  border: 1px solid var(--hairline);
+  border-radius: 24px;
   max-width: var(--container);
   margin: 0 auto;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   position: relative;
+}
+
+.navbar.is-scrolled .navbar-inner {
+  background: var(--bg-surface);
+  box-shadow: 0 4px 24px -4px rgba(var(--ink-rgb), 0.10);
 }
 
 .navbar-content {
@@ -330,7 +323,7 @@ section[id], div[id] {
 
 .navbar-link {
   padding: 6px 14px;
-  border-radius: var(--radius-pill);
+  border-radius: 999px;
   background: none;
   border: none;
   font-family: inherit;
@@ -343,13 +336,8 @@ section[id], div[id] {
 }
 
 .navbar-link:hover {
-  /* Literal, not var(--ink-rgb) — descendant of the always-fixed .navbar. */
-  background: rgba(64, 63, 69, 0.06);
+  background: rgba(var(--ink-rgb), 0.06);
   color: var(--ink);
-}
-
-[data-theme="dark"] .navbar-link:hover {
-  background: rgba(245, 241, 232, 0.06);
 }
 
 .navbar-link:focus-visible {
@@ -374,14 +362,7 @@ section[id], div[id] {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  /* Literal colors, not rgba(var(--ink-rgb)) — this button is a descendant
-     of .navbar, which becomes a Safari-composited layer once scrolled
-     (backdrop-filter). Even after fixing .navbar's own background (see
-     above), a descendant's var()-driven paint inside that same composited
-     bitmap isn't guaranteed to repaint on the same pass — this is the
-     control the user actually clicks, so it's the most visible instance
-     of the bug. Same [data-theme] literal-swap fix as .navbar.is-scrolled. */
-  background: rgba(64, 63, 69, 0.06);
+  background: rgba(var(--ink-rgb), 0.06);
   border: 1px solid var(--hairline);
   color: var(--ink-2);
   font-size: 15px;
@@ -391,18 +372,10 @@ section[id], div[id] {
   padding: 0;
 }
 
-[data-theme="dark"] .navbar-toggle {
-  background: rgba(245, 241, 232, 0.06);
-}
-
 .navbar-toggle:hover {
-  background: rgba(64, 63, 69, 0.10);
+  background: rgba(var(--ink-rgb), 0.10);
   color: var(--ink);
   border-color: var(--hairline-2);
-}
-
-[data-theme="dark"] .navbar-toggle:hover {
-  background: rgba(245, 241, 232, 0.10);
 }
 
 .navbar-toggle-icon { font-size: 14px; line-height: 1; }
@@ -413,7 +386,7 @@ section[id], div[id] {
   display: inline-flex;
   align-items: center;
   padding: 8px 18px;
-  border-radius: var(--radius-pill);
+  border-radius: 999px;
   background: var(--ink);
   color: var(--bg);
   font-size: 13px;
@@ -556,33 +529,19 @@ section[id], div[id] {
 @media (max-width: 980px) {
   .navbar-links { display: none; }
   .navbar-cta   { display: none; }
-  /* Literal colors, not rgba(var(--ink-rgb)) — same always-fixed .navbar
-     composited-layer ancestor as .navbar-toggle above; this is its mobile
-     equivalent (visible on every viewport <= 980px). */
   .navbar-hamburger {
     display: flex;
     border-radius: 50%;
-    background: rgba(64, 63, 69, 0.06);
+    background: rgba(var(--ink-rgb), 0.06);
     border: 1px solid var(--hairline);
     transition: background 0.18s ease, box-shadow 0.25s ease;
   }
   .navbar-hamburger.is-open {
-    background: rgba(64, 63, 69, 0.10);
+    background: rgba(var(--ink-rgb), 0.10);
     box-shadow:
-      0 0 0 6px rgba(64, 63, 69, 0.05),
-      0 0 0 13px rgba(64, 63, 69, 0.025);
+      0 0 0 6px rgba(var(--ink-rgb), 0.05),
+      0 0 0 13px rgba(var(--ink-rgb), 0.025);
   }
-}
-
-[data-theme="dark"] .navbar-hamburger {
-  background: rgba(245, 241, 232, 0.06);
-}
-
-[data-theme="dark"] .navbar-hamburger.is-open {
-  background: rgba(245, 241, 232, 0.10);
-  box-shadow:
-    0 0 0 6px rgba(245, 241, 232, 0.05),
-    0 0 0 13px rgba(245, 241, 232, 0.025);
 }
 
 @media (min-width: 981px) {
@@ -2207,9 +2166,9 @@ section[id], div[id] {
 ========================================================= */
 @media (max-width: 980px) {
 
-  body { padding-top: 68px; }
+  body { padding-top: 80px; }
 
-  .navbar-inner { height: 60px; }
+  .navbar-inner { height: 56px; }
 
   .hero {
     padding: 32px var(--page-pad) 64px;
@@ -2288,9 +2247,9 @@ section[id], div[id] {
 
   :root { --page-pad: 20px; }
 
-  body { padding-top: 64px; }
+  body { padding-top: 76px; }
 
-  .navbar-inner { height: 56px; }
+  .navbar-inner { height: 52px; }
 
   /* ─── Trimmed so "¿Por qué Blendia?" peeks in at the bottom of the
        first viewport — a visual cue that there's more to scroll to. ─── */
