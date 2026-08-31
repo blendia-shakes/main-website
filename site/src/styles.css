@@ -698,18 +698,7 @@ section[id], div[id] {
   width: 100%;
   max-width: 420px;
   height: auto;
-  /* Literal colors, not var(--ink-rgb) — filter is unconditionally
-     GPU-composited (unlike transform/box-shadow, it applies whenever
-     non-none, not just mid-animation), so it's subject to the same
-     stale-custom-property-on-composited-layer bug as .navbar.is-scrolled
-     above, except always-on rather than scroll-gated. Above-the-fold and
-     visible immediately, no scroll needed to expose it. */
-  filter: drop-shadow(0 20px 36px rgba(64, 63, 69, 0.16));
   transition: transform 0.3s ease;
-}
-
-[data-theme="dark"] .hero-visual {
-  filter: drop-shadow(0 20px 36px rgba(245, 241, 232, 0.16));
 }
 
 @media (hover: hover) and (pointer: fine) {
