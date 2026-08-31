@@ -49,7 +49,14 @@ export default function App() {
     const next = theme === "light" ? "dark" : "light";
     document.documentElement.setAttribute("data-theme", next);
     const metaTheme = document.querySelector('meta[name="theme-color"]');
-    if (metaTheme) metaTheme.setAttribute("content", next === "dark" ? "#403F45" : "#F5F1E8");
+    if (metaTheme) {
+      // iOS Safari doesn't reliably repaint its chrome (status bar / bottom
+      // toolbar) from an attribute mutation on an already-parsed meta tag —
+      // swapping the node itself makes it pick up the new color.
+      const next2 = metaTheme.cloneNode() as HTMLMetaElement;
+      next2.setAttribute("content", next === "dark" ? "#26252B" : "#F5F1E8");
+      metaTheme.replaceWith(next2);
+    }
     setTheme(next);
     try { localStorage.setItem("theme", next); } catch (_) {}
   };
