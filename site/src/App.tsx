@@ -8,7 +8,6 @@ import Experience from "./components/Experience";
 import Benefits from "./components/Benefits";
 import Locations from "./components/Locations";
 import Faq from "./components/Faq";
-import CtaBand from "./components/CtaBand";
 import Footer from "./components/Footer";
 
 export default function App() {
@@ -71,11 +70,12 @@ export default function App() {
           position: "fixed",
           inset: 0,
           backgroundColor: "var(--bg)",
-          zIndex: -1,
+          zIndex: -2,
           pointerEvents: "none",
           transition: "background-color 0.3s ease",
         }}
       />
+      <div aria-hidden="true" className="bg-grain" />
 
       <FloatingCta />
 

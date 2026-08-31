@@ -1,436 +1,374 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-type Tint   = "vanilla" | "chocolate" | "matcha" | "masala";
-type Category = "essentials" | "shakes" | "latte";
-type Filter   = "all" | Category;
-
+type Tint     = "vanilla" | "chocolate" | "matcha" | "masala";
+type Category = "shakes" | "latte";
 type MilkType = "deslactosada" | "descremada";
+
+type MilkFacts = { ingredients: string; calories: string };
 
 type MenuItem = {
   id: string;
   category: Category;
-  categoryLabel: string;
   flavor: "moon" | "midnight" | "zen" | "masala";
   flavorLabel: string;
   name: string;
-  fn: string;
-  ingredients: string;
   protein: string;
-  calories: string;
   price: string;
   tint: Tint;
-  hasNutrition: boolean;
-  milkType?: MilkType;
+  milk: Record<MilkType, MilkFacts>;
 };
 
-const TINT_GRADIENTS: Record<Tint, string> = {
-  vanilla:   "linear-gradient(145deg, oklch(0.95 0.025 95), oklch(0.90 0.035 88))",
-  chocolate: "linear-gradient(145deg, oklch(0.91 0.04 55),  oklch(0.85 0.05 45))",
-  matcha:    "linear-gradient(145deg, oklch(0.91 0.04 145), oklch(0.85 0.05 150))",
-  masala:    "linear-gradient(145deg, oklch(0.89 0.04 60),  oklch(0.82 0.05 52))",
+type SeasonalItem = {
+  name: string;
+  description: string;
+  image: string;
+  tint: Tint;
+  flavorLabel: string;
+  protein: string;
+  ingredients: string;
+  calories: string;
 };
 
-const TINT_DOT: Record<Tint, string> = {
+// A modal can be opened from a permanent MenuCard (which carries a milk-type
+// toggle) or from the seasonal spotlight (a single fixed profile, no toggle).
+type NutritionSource =
+  | { kind: "menu"; item: MenuItem; milk: MilkType }
+  | { kind: "seasonal"; item: SeasonalItem };
+
+const TINT_ACCENT: Record<Tint, string> = {
   vanilla:   "oklch(0.6 0.09 90)",
   chocolate: "oklch(0.55 0.11 50)",
   matcha:    "oklch(0.52 0.10 150)",
   masala:    "oklch(0.48 0.07 55)",
 };
 
+// Base profile shared by every drink (see Benefits section) — used to fill
+// out a text nutrition breakdown alongside the per-drink facts below.
+const BASE_FACTS = { fat: "<1.5g", addedSugar: "0g" };
+
+// The permanent lineup — one product, milk type is a prep choice, not a
+// different drink (toggled locally in MenuCard / NutritionModal).
+// Display order: café (Latte) first, then Shakes — within each, Matcha →
+// Chai → Chocolate → Vainilla last.
 const ITEMS: MenuItem[] = [
-  // Essentials
   {
-    id: "essentials-moon",
-    category: "essentials",
-    categoryLabel: "Essentials",
-    flavor: "moon",
-    flavorLabel: "Vainilla",
-    name: "Moon Blendia Essential",
-    fn: "Post-workout",
-    ingredients: "• Proteína whey vainilla",
-    protein: "30g",
-    calories: "320 kcal",
-    price: "Q30",
-    tint: "vanilla",
-    hasNutrition: true,
-  },
-  {
-    id: "essentials-midnight",
-    category: "essentials",
-    categoryLabel: "Essentials",
-    flavor: "midnight",
-    flavorLabel: "chocolate",
-    name: "Midnight Blendia Essential",
-    fn: "Post-workout",
-    ingredients: "• Proteína whey chocolate",
-    protein: "30g",
-    calories: "320 kcal",
-    price: "Q30",
-    tint: "chocolate",
-    hasNutrition: true,
-  },
-
-  // Shakes – Deslactosada
-  {
-    id: "shakes-moon-dl",
-    category: "shakes",
-    categoryLabel: "Shakes",
-    flavor: "moon",
-    flavorLabel: "Vainilla",
-    name: "Moon Blendia Shake",
-    fn: "Post-workout",
-    ingredients: "• Proteína whey vainilla • Leche deslactosada",
-    protein: "30g",
-    calories: "320 kcal",
-    price: "Q35",
-    tint: "vanilla",
-    hasNutrition: false,
-    milkType: "deslactosada",
-  },
-  {
-    id: "shakes-midnight-dl",
-    category: "shakes",
-    categoryLabel: "Shakes",
-    flavor: "midnight",
-    flavorLabel: "chocolate",
-    name: "Midnight Blendia Shake",
-    fn: "Post-workout",
-    ingredients: "• Proteína whey chocolate • Leche deslactosada",
-    protein: "30g",
-    calories: "320 kcal",
-    price: "Q35",
-    tint: "chocolate",
-    hasNutrition: false,
-    milkType: "deslactosada",
-  },
-  {
-    id: "shakes-zen-dl",
-    category: "shakes",
-    categoryLabel: "Shakes",
-    flavor: "zen",
-    flavorLabel: "Matcha",
-    name: "Zen Blendia Shake",
-    fn: "Post-workout",
-    ingredients: "• Proteína whey vainilla • Matcha • Leche deslactosada",
-    protein: "30g",
-    calories: "320 kcal",
-    price: "Q45",
-    tint: "matcha",
-    hasNutrition: false,
-    milkType: "deslactosada",
-  },
-  {
-    id: "shakes-masala-dl",
-    category: "shakes",
-    categoryLabel: "Shakes",
-    flavor: "masala",
-    flavorLabel: "Chai",
-    name: "Masala Blendia Shake",
-    fn: "Post-workout",
-    ingredients: "• Proteína whey vainilla • Chai • Leche deslactosada",
-    protein: "30g",
-    calories: "320 kcal",
-    price: "Q35",
-    tint: "masala",
-    hasNutrition: false,
-    milkType: "deslactosada",
-  },
-
-  // Shakes – Descremada
-  {
-    id: "shakes-moon-dc",
-    category: "shakes",
-    categoryLabel: "Shakes",
-    flavor: "moon",
-    flavorLabel: "Vainilla",
-    name: "Moon Blendia Shake",
-    fn: "Post-workout",
-    ingredients: "• Proteína whey vainilla • Leche descremada",
-    protein: "30g",
-    calories: "290 kcal",
-    price: "Q35",
-    tint: "vanilla",
-    hasNutrition: false,
-    milkType: "descremada",
-  },
-  {
-    id: "shakes-midnight-dc",
-    category: "shakes",
-    categoryLabel: "Shakes",
-    flavor: "midnight",
-    flavorLabel: "chocolate",
-    name: "Midnight Blendia Shake",
-    fn: "Post-workout",
-    ingredients: "• Proteína whey chocolate • Leche descremada",
-    protein: "30g",
-    calories: "290 kcal",
-    price: "Q35",
-    tint: "chocolate",
-    hasNutrition: false,
-    milkType: "descremada",
-  },
-  {
-    id: "shakes-zen-dc",
-    category: "shakes",
-    categoryLabel: "Shakes",
-    flavor: "zen",
-    flavorLabel: "Matcha",
-    name: "Zen Blendia Shake",
-    fn: "Post-workout",
-    ingredients: "• Proteína whey vainilla • Matcha • Leche descremada",
-    protein: "30g",
-    calories: "290 kcal",
-    price: "Q45",
-    tint: "matcha",
-    hasNutrition: false,
-    milkType: "descremada",
-  },
-  {
-    id: "shakes-masala-dc",
-    category: "shakes",
-    categoryLabel: "Shakes",
-    flavor: "masala",
-    flavorLabel: "Chai",
-    name: "Masala Blendia Shake",
-    fn: "Post-workout",
-    ingredients: "• Proteína whey vainilla • Chai • Leche descremada",
-    protein: "30g",
-    calories: "290 kcal",
-    price: "Q35",
-    tint: "masala",
-    hasNutrition: false,
-    milkType: "descremada",
-  },
-
-  // Lattes – Deslactosada
-  {
-    id: "latte-moon-dl",
+    id: "latte-masala",
     category: "latte",
-    categoryLabel: "Lattes",
-    flavor: "moon",
-    flavorLabel: "Vainilla",
-    name: "Moon Blendia Latte",
-    fn: "Post-workout",
-    ingredients: "• Proteína whey vainilla • Leche deslactosada • Café",
-    protein: "30g",
-    calories: "320 kcal",
-    price: "Q40",
-    tint: "vanilla",
-    hasNutrition: false,
-    milkType: "deslactosada",
-  },
-  {
-    id: "latte-midnight-dl",
-    category: "latte",
-    categoryLabel: "Lattes",
-    flavor: "midnight",
-    flavorLabel: "chocolate",
-    name: "Midnight Blendia Latte",
-    fn: "Post-workout",
-    ingredients: "• Proteína whey chocolate • Leche deslactosada • Café",
-    protein: "30g",
-    calories: "320 kcal",
-    price: "Q40",
-    tint: "chocolate",
-    hasNutrition: false,
-    milkType: "deslactosada",
-  },
-  {
-    id: "latte-masala-dl",
-    category: "latte",
-    categoryLabel: "Lattes",
     flavor: "masala",
     flavorLabel: "Chai",
     name: "Masala Blendia Latte",
-    fn: "Post-workout",
-    ingredients: "• Proteína whey vainilla • Chai • Leche deslactosada • Café",
     protein: "30g",
-    calories: "320 kcal",
     price: "Q40",
     tint: "masala",
-    hasNutrition: false,
-    milkType: "deslactosada",
+    milk: {
+      deslactosada: { ingredients: "• Proteína whey vainilla • Chai • Leche deslactosada • Café", calories: "320 kcal" },
+      descremada:   { ingredients: "• Proteína whey vainilla • Chai • Leche descremada • Café",   calories: "290 kcal" },
+    },
   },
-
-  // Lattes – Descremada
   {
-    id: "latte-moon-dc",
+    id: "latte-midnight",
     category: "latte",
-    categoryLabel: "Lattes",
+    flavor: "midnight",
+    flavorLabel: "Chocolate",
+    name: "Midnight Blendia Latte",
+    protein: "30g",
+    price: "Q40",
+    tint: "chocolate",
+    milk: {
+      deslactosada: { ingredients: "• Proteína whey chocolate • Leche deslactosada • Café", calories: "320 kcal" },
+      descremada:   { ingredients: "• Proteína whey chocolate • Leche descremada • Café",   calories: "290 kcal" },
+    },
+  },
+  {
+    id: "latte-moon",
+    category: "latte",
     flavor: "moon",
     flavorLabel: "Vainilla",
     name: "Moon Blendia Latte",
-    fn: "Post-workout",
-    ingredients: "• Proteína whey vainilla • Leche descremada • Café",
     protein: "30g",
-    calories: "290 kcal",
     price: "Q40",
     tint: "vanilla",
-    hasNutrition: false,
-    milkType: "descremada",
+    milk: {
+      deslactosada: { ingredients: "• Proteína whey vainilla • Leche deslactosada • Café", calories: "320 kcal" },
+      descremada:   { ingredients: "• Proteína whey vainilla • Leche descremada • Café",   calories: "290 kcal" },
+    },
   },
   {
-    id: "latte-midnight-dc",
-    category: "latte",
-    categoryLabel: "Lattes",
-    flavor: "midnight",
-    flavorLabel: "chocolate",
-    name: "Midnight Blendia Latte",
-    fn: "Post-workout",
-    ingredients: "• Proteína whey chocolate • Leche descremada • Café",
+    id: "shakes-zen",
+    category: "shakes",
+    flavor: "zen",
+    flavorLabel: "Matcha",
+    name: "Zen Blendia Shake",
     protein: "30g",
-    calories: "290 kcal",
-    price: "Q40",
-    tint: "chocolate",
-    hasNutrition: false,
-    milkType: "descremada",
+    price: "Q45",
+    tint: "matcha",
+    milk: {
+      deslactosada: { ingredients: "• Proteína whey vainilla • Matcha • Leche deslactosada", calories: "320 kcal" },
+      descremada:   { ingredients: "• Proteína whey vainilla • Matcha • Leche descremada",   calories: "290 kcal" },
+    },
   },
   {
-    id: "latte-masala-dc",
-    category: "latte",
-    categoryLabel: "Lattes",
+    id: "shakes-masala",
+    category: "shakes",
     flavor: "masala",
     flavorLabel: "Chai",
-    name: "Masala Blendia Latte",
-    fn: "Post-workout",
-    ingredients: "• Proteína whey vainilla • Chai • Leche descremada • Café",
+    name: "Masala Blendia Shake",
     protein: "30g",
-    calories: "290 kcal",
-    price: "Q40",
+    price: "Q35",
     tint: "masala",
-    hasNutrition: false,
-    milkType: "descremada",
+    milk: {
+      deslactosada: { ingredients: "• Proteína whey vainilla • Chai • Leche deslactosada", calories: "320 kcal" },
+      descremada:   { ingredients: "• Proteína whey vainilla • Chai • Leche descremada",   calories: "290 kcal" },
+    },
+  },
+  {
+    id: "shakes-midnight",
+    category: "shakes",
+    flavor: "midnight",
+    flavorLabel: "Chocolate",
+    name: "Midnight Blendia Shake",
+    protein: "30g",
+    price: "Q35",
+    tint: "chocolate",
+    milk: {
+      deslactosada: { ingredients: "• Proteína whey chocolate • Leche deslactosada", calories: "320 kcal" },
+      descremada:   { ingredients: "• Proteína whey chocolate • Leche descremada",   calories: "290 kcal" },
+    },
+  },
+  {
+    id: "shakes-moon",
+    category: "shakes",
+    flavor: "moon",
+    flavorLabel: "Vainilla",
+    name: "Moon Blendia Shake",
+    protein: "30g",
+    price: "Q35",
+    tint: "vanilla",
+    milk: {
+      deslactosada: { ingredients: "• Proteína whey vainilla • Leche deslactosada", calories: "320 kcal" },
+      descremada:   { ingredients: "• Proteína whey vainilla • Leche descremada",   calories: "290 kcal" },
+    },
   },
 ];
 
-const FILTERS: { key: Filter; label: string }[] = [
-  { key: "all",        label: "Todos" },
-  { key: "essentials", label: "Essentials" },
-  { key: "shakes",     label: "Shakes" },
-  { key: "latte",      label: "Lattes" },
-];
+// No active seasonal drink right now — the "essentials" line is retired
+// from the permanent grid, so its assets/copy stand in as a placeholder
+// example of what a future limited release looks like. Set this to a real
+// SeasonalItem when one launches, or to `null` to hide the section again
+// (it renders nothing, no reserved space, when there's nothing to show).
+const SEASONAL_DRINK: SeasonalItem | null = {
+  name: "Zen Blendia",
+  description: "Nuestra receta con matcha real vuelve por tiempo limitado — solo mientras dure.",
+  image: "/img-core/bebidas/essentials/essentials_zen.webp",
+  tint: "matcha",
+  flavorLabel: "Matcha",
+  protein: "30g",
+  ingredients: "• Proteína whey vainilla • Matcha",
+  calories: "320 kcal",
+};
 
-type RenderItem =
-  | { kind: "divider"; label: string; key: string }
-  | { kind: "card"; item: MenuItem };
+const MILK_LABELS: Record<MilkType, string> = {
+  deslactosada: "Deslactosada",
+  descremada:   "Descremada",
+};
 
-function buildRenderItems(items: MenuItem[]): RenderItem[] {
-  const result: RenderItem[] = [];
-  const categoriesSeen = new Set<string>();
-
-  for (const item of items) {
-    const needsSubcategory = item.category === "shakes" || item.category === "latte";
-    if (!needsSubcategory) {
-      result.push({ kind: "card", item });
-      continue;
-    }
-
-    const groupKey = `${item.category}-${item.milkType}`;
-    if (!categoriesSeen.has(groupKey)) {
-      categoriesSeen.add(groupKey);
-      const label = item.milkType === "deslactosada" ? "Deslactosada" : "Descremada";
-      result.push({ kind: "divider", label, key: groupKey });
-    }
-    result.push({ kind: "card", item });
-  }
-
-  return result;
+function SeasonalPromo({
+  item,
+  onOpenNutrition,
+}: {
+  item: SeasonalItem;
+  onOpenNutrition: (item: SeasonalItem) => void;
+}) {
+  return (
+    <div
+      className="menu-seasonal"
+      style={{ "--row-tint": TINT_ACCENT[item.tint] } as React.CSSProperties}
+    >
+      <div className="menu-seasonal-card">
+        <div className="menu-seasonal-image">
+          <img
+            src={item.image}
+            alt={item.name}
+            loading="lazy"
+            decoding="async"
+            draggable={false}
+          />
+        </div>
+        <div className="menu-seasonal-body">
+          <span className="menu-seasonal-badge">Edición limitada</span>
+          <h3 className="menu-seasonal-name">{item.name}</h3>
+          <p className="menu-seasonal-desc">{item.description}</p>
+          <button
+            type="button"
+            className="menu-seasonal-info-btn"
+            onClick={() => onOpenNutrition(item)}
+          >
+            Información nutricional
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-function MenuCard({ item }: { item: MenuItem }) {
-  const [flipped, setFlipped] = useState(false);
+function MenuCard({
+  item,
+  onOpenNutrition,
+}: {
+  item: MenuItem;
+  onOpenNutrition: (item: MenuItem, milk: MilkType) => void;
+}) {
+  const [milk, setMilk] = useState<MilkType>("deslactosada");
 
-  const milkAbbr = item.milkType === "descremada" ? "dc" : "dl";
-  const frontImage     = `/img-core/bebidas/${item.category}/${item.category}_${item.flavor}.webp`;
-  const nutritionImage = `/img-core/tablas-nutricionales/${item.category}/tabla_nutricional_${item.category}_${item.flavor}_${milkAbbr}.png`;
+  const facts = item.milk[milk];
+  const frontImage = `/img-core/bebidas/${item.category}/${item.category}_${item.flavor}.webp`;
 
   return (
-    <article className="menu-card">
-      <div className={`menu-card-flip-inner${flipped ? " is-flipped" : ""}`}>
+    <article
+      className="menu-card"
+      style={{ "--row-tint": TINT_ACCENT[item.tint] } as React.CSSProperties}
+    >
+      <div className="menu-card-image">
+        <img
+          className="menu-card-image-img"
+          src={frontImage}
+          alt={item.name}
+          loading="lazy"
+          decoding="async"
+          draggable={false}
+        />
+      </div>
 
-        {/* ── FRONT ── */}
-        <div className="menu-card-front">
-          {/* Image well */}
-          <div
-            className="menu-card-image-well"
-            style={{ background: TINT_GRADIENTS[item.tint] }}
+      <div className="menu-card-body">
+        <span className="menu-card-price-badge">{item.price}</span>
+        <h3 className="menu-card-name">{item.name}</h3>
+
+        <div className="menu-row-milk-toggle" role="group" aria-label={`Tipo de leche — ${item.name}`}>
+          <button
+            type="button"
+            className={`menu-row-milk-btn${milk === "deslactosada" ? " is-active" : ""}`}
+            aria-pressed={milk === "deslactosada"}
+            onClick={() => setMilk("deslactosada")}
           >
-            <span className="menu-card-category">{item.categoryLabel}</span>
-            <img
-              className="menu-card-img"
-              src={frontImage}
-              alt={item.name}
-              loading="lazy"
-              decoding="async"
-              draggable={false}
-            />
-            <span className="menu-card-price">{item.price}</span>
-          </div>
-
-          {/* Body */}
-          <div className="menu-card-body">
-            <div className="menu-card-fn">
-              <span className="menu-fn-dot" style={{ background: TINT_DOT[item.tint] }} />
-              <span className="menu-fn-label">{item.fn}</span>
-            </div>
-
-            <h3 className="menu-card-name">{item.name}</h3>
-            <p className="menu-card-ingredients">{item.ingredients}</p>
-
-            <div className="menu-card-macros">
-              <div className="menu-card-macros-pills">
-                <span className="menu-macro">{item.protein} proteína</span>
-                <span className="menu-macro">{item.calories}</span>
-              </div>
-
-              {item.hasNutrition && (
-                <button
-                  type="button"
-                  className="menu-card-expand-btn"
-                  onClick={() => setFlipped(true)}
-                >
-                  Ver más
-                </button>
-              )}
-            </div>
-          </div>
+            {MILK_LABELS.deslactosada}
+          </button>
+          <span className="menu-row-milk-sep" aria-hidden="true">/</span>
+          <button
+            type="button"
+            className={`menu-row-milk-btn${milk === "descremada" ? " is-active" : ""}`}
+            aria-pressed={milk === "descremada"}
+            onClick={() => setMilk("descremada")}
+          >
+            {MILK_LABELS.descremada}
+          </button>
         </div>
 
-        {/* ── BACK ── */}
-        {item.hasNutrition && (
-          <div className="menu-card-back">
-            <img
-              className="menu-nutrition-img-flip"
-              src={nutritionImage}
-              alt={`Tabla nutricional ${item.name}`}
-              loading="lazy"
-              decoding="async"
-            />
-            <div className="menu-card-back-footer">
-              <span className="menu-card-back-name">{item.name}</span>
-              <button
-                type="button"
-                className="menu-card-expand-btn"
-                onClick={() => setFlipped(false)}
-              >
-                Regresar
-              </button>
-            </div>
-          </div>
-        )}
-
+        <span className="menu-card-macros">
+          {item.protein} proteína · {facts.calories}
+        </span>
+        <button
+          type="button"
+          className="menu-card-info-btn"
+          onClick={() => onOpenNutrition(item, milk)}
+        >
+          Información nutricional
+        </button>
       </div>
     </article>
   );
 }
 
-export default function MenuSection() {
-  const [activeFilter, setActiveFilter] = useState<Filter>("all");
+function NutritionModal({
+  source,
+  onClose,
+}: {
+  source: NutritionSource;
+  onClose: () => void;
+}) {
+  const [milk, setMilk] = useState<MilkType>(source.kind === "menu" ? source.milk : "deslactosada");
 
-  const visible =
-    activeFilter === "all"
-      ? ITEMS
-      : ITEMS.filter(i => i.category === activeFilter);
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [onClose]);
+
+  const { item } = source;
+  const facts = source.kind === "menu" ? source.item.milk[milk] : { ingredients: source.item.ingredients, calories: source.item.calories };
+
+  return (
+    <div className="menu-modal-overlay" onClick={onClose}>
+      <div
+        className="menu-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Información nutricional — ${item.name}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="menu-modal-face">
+          <button type="button" className="menu-modal-close" onClick={onClose} aria-label="Cerrar">
+            ×
+          </button>
+
+          <span className="menu-modal-flavor" style={{ color: TINT_ACCENT[item.tint] }}>
+            {item.flavorLabel}
+          </span>
+          <h3 className="menu-modal-name">{item.name}</h3>
+          <p className="menu-modal-ingredients">{facts.ingredients}</p>
+
+          {source.kind === "menu" && (
+            <div className="menu-modal-milk-toggle" role="group" aria-label={`Tipo de leche — ${item.name}`}>
+              <button
+                type="button"
+                className={`menu-row-milk-btn${milk === "deslactosada" ? " is-active" : ""}`}
+                aria-pressed={milk === "deslactosada"}
+                onClick={() => setMilk("deslactosada")}
+              >
+                {MILK_LABELS.deslactosada}
+              </button>
+              <span className="menu-row-milk-sep" aria-hidden="true">/</span>
+              <button
+                type="button"
+                className={`menu-row-milk-btn${milk === "descremada" ? " is-active" : ""}`}
+                aria-pressed={milk === "descremada"}
+                onClick={() => setMilk("descremada")}
+              >
+                {MILK_LABELS.descremada}
+              </button>
+            </div>
+          )}
+
+          <dl className="menu-modal-facts">
+            <div className="menu-modal-fact">
+              <dt>Proteína</dt>
+              <dd>{item.protein}</dd>
+            </div>
+            <div className="menu-modal-fact">
+              <dt>Calorías</dt>
+              <dd>{facts.calories}</dd>
+            </div>
+            <div className="menu-modal-fact">
+              <dt>Grasas</dt>
+              <dd>{BASE_FACTS.fat}</dd>
+            </div>
+            <div className="menu-modal-fact">
+              <dt>Azúcares añadidos</dt>
+              <dd>{BASE_FACTS.addedSugar}</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function MenuSection() {
+  const [activeNutrition, setActiveNutrition] = useState<NutritionSource | null>(null);
 
   return (
     <section id="menu" className="menu-section">
@@ -439,44 +377,38 @@ export default function MenuSection() {
         {/* Header */}
         <div className="menu-header">
           <span className="menu-eyebrow">Menú</span>
-          <h2 className="menu-title">Nueve bebidas. Diseñadas para lo que necesitas.</h2>
+          <h2 className="menu-title">Hay un Blendia para ti</h2>
         </div>
 
-        {/* Filter pills */}
-        <div
-          className="menu-filters"
-          role="group"
-          aria-label="Filtrar bebidas por categoría"
-        >
-          {FILTERS.map(({ key, label }) => (
-            <button
-              key={key}
-              type="button"
-              className={`menu-filter-pill${activeFilter === key ? " is-active" : ""}`}
-              onClick={() => setActiveFilter(key)}
-              aria-pressed={activeFilter === key}
-            >
-              {label}
-            </button>
+        {/* Seasonal spotlight — only rendered while a limited release is active */}
+        {SEASONAL_DRINK && (
+          <SeasonalPromo
+            item={SEASONAL_DRINK}
+            onOpenNutrition={(item) => setActiveNutrition({ kind: "seasonal", item })}
+          />
+        )}
+
+        <h3 className="menu-sabores-heading">Nuestros sabores</h3>
+
+        {/* Unified grid — no categories, no filters */}
+        <div className="menu-list">
+          {ITEMS.map((item) => (
+            <MenuCard
+              key={item.id}
+              item={item}
+              onOpenNutrition={(item, milk) => setActiveNutrition({ kind: "menu", item, milk })}
+            />
           ))}
         </div>
 
-        {/* Grid */}
-        <div className="menu-grid-wrap">
-          <div className="menu-grid">
-            {buildRenderItems(visible).map(entry =>
-              entry.kind === "divider" ? (
-                <div key={entry.key} className="menu-subcategory-divider">
-                  {entry.label}
-                </div>
-              ) : (
-                <MenuCard key={entry.item.id} item={entry.item} />
-              )
-            )}
-          </div>
-        </div>
-
       </div>
+
+      {activeNutrition && (
+        <NutritionModal
+          source={activeNutrition}
+          onClose={() => setActiveNutrition(null)}
+        />
+      )}
     </section>
   );
 }
