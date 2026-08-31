@@ -179,11 +179,15 @@
 /* =========================================================
    GRAIN — subtle paper texture over the flat background,
    breaks the "flat vector" look without adding weight.
+
+   Positioned relative to its fixed parent (App.tsx), not its own
+   position:fixed — a second independently-composited viewport-fixed
+   layer here caused the toggle's background-color transition to miss
+   its repaint on Safari (see App.tsx comment above this div).
 ========================================================= */
 .bg-grain {
-  position: fixed;
+  position: absolute;
   inset: 0;
-  z-index: -1;
   pointer-events: none;
   opacity: 0.045;
   mix-blend-mode: overlay;
