@@ -263,10 +263,22 @@ section[id], div[id] {
 }
 
 .navbar.is-scrolled {
-  background: rgba(var(--bg-rgb), 0.90);
+  /* Literal colors, not rgba(var(--bg-rgb)) — this is a backdrop-filter
+     layer, which Safari promotes to its own composited layer. Safari
+     defers custom-property recomputation on composited layers until a
+     compositor flush (same bug as the bg-grain incident), so a var()-driven
+     background here keeps the previous theme's tint after an in-page
+     toggle. A literal value swapped via the [data-theme] attribute
+     selector below is resolved by normal selector matching instead,
+     which Safari invalidates immediately. */
+  background: rgba(245, 241, 232, 0.90);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-bottom-color: var(--hairline);
+}
+
+[data-theme="dark"] .navbar.is-scrolled {
+  background: rgba(38, 37, 43, 0.90);
 }
 
 .navbar-inner {
@@ -331,8 +343,13 @@ section[id], div[id] {
 }
 
 .navbar-link:hover {
-  background: rgba(var(--ink-rgb), 0.06);
+  /* Literal, not var(--ink-rgb) — descendant of the always-fixed .navbar. */
+  background: rgba(64, 63, 69, 0.06);
   color: var(--ink);
+}
+
+[data-theme="dark"] .navbar-link:hover {
+  background: rgba(245, 241, 232, 0.06);
 }
 
 .navbar-link:focus-visible {
@@ -357,7 +374,14 @@ section[id], div[id] {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: rgba(var(--ink-rgb), 0.06);
+  /* Literal colors, not rgba(var(--ink-rgb)) — this button is a descendant
+     of .navbar, which becomes a Safari-composited layer once scrolled
+     (backdrop-filter). Even after fixing .navbar's own background (see
+     above), a descendant's var()-driven paint inside that same composited
+     bitmap isn't guaranteed to repaint on the same pass — this is the
+     control the user actually clicks, so it's the most visible instance
+     of the bug. Same [data-theme] literal-swap fix as .navbar.is-scrolled. */
+  background: rgba(64, 63, 69, 0.06);
   border: 1px solid var(--hairline);
   color: var(--ink-2);
   font-size: 15px;
@@ -367,10 +391,18 @@ section[id], div[id] {
   padding: 0;
 }
 
+[data-theme="dark"] .navbar-toggle {
+  background: rgba(245, 241, 232, 0.06);
+}
+
 .navbar-toggle:hover {
-  background: rgba(var(--ink-rgb), 0.10);
+  background: rgba(64, 63, 69, 0.10);
   color: var(--ink);
   border-color: var(--hairline-2);
+}
+
+[data-theme="dark"] .navbar-toggle:hover {
+  background: rgba(245, 241, 232, 0.10);
 }
 
 .navbar-toggle-icon { font-size: 14px; line-height: 1; }
@@ -438,11 +470,16 @@ section[id], div[id] {
 .radial-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(var(--bg-rgb), 0.72);
+  /* Literal colors, not var(--bg-rgb) — see .navbar.is-scrolled above. */
+  background: rgba(245, 241, 232, 0.72);
   backdrop-filter: blur(14px) saturate(1.4);
   -webkit-backdrop-filter: blur(14px) saturate(1.4);
   z-index: 200;
   animation: radialBackdropIn 0.22s ease;
+}
+
+[data-theme="dark"] .radial-backdrop {
+  background: rgba(38, 37, 43, 0.72);
 }
 
 @keyframes radialBackdropIn {
@@ -474,13 +511,23 @@ section[id], div[id] {
   border-radius: 50%;
   background: var(--bg-surface);
   border: 1px solid var(--hairline);
+  /* Literal colors, not rgba(var(--ink-rgb)) — this element runs a real
+     CSS animation (transform+opacity, "both" fill-mode) every time the
+     mobile menu opens, which is a stronger Safari layer-promotion trigger
+     than a bare transition. See .navbar.is-scrolled above for the pattern. */
   box-shadow:
-    0 12px 40px rgba(var(--ink-rgb), 0.15),
-    0 3px 10px rgba(var(--ink-rgb), 0.08);
+    0 12px 40px rgba(64, 63, 69, 0.15),
+    0 3px 10px rgba(64, 63, 69, 0.08);
   color: var(--ink);
   font-family: inherit;
   cursor: pointer;
   animation: radialItemIn 0.38s cubic-bezier(0.34, 1.52, 0.64, 1) var(--delay, 0ms) both;
+}
+
+[data-theme="dark"] .radial-item {
+  box-shadow:
+    0 12px 40px rgba(245, 241, 232, 0.15),
+    0 3px 10px rgba(245, 241, 232, 0.08);
 }
 
 @keyframes radialItemIn {
@@ -509,19 +556,33 @@ section[id], div[id] {
 @media (max-width: 980px) {
   .navbar-links { display: none; }
   .navbar-cta   { display: none; }
+  /* Literal colors, not rgba(var(--ink-rgb)) — same always-fixed .navbar
+     composited-layer ancestor as .navbar-toggle above; this is its mobile
+     equivalent (visible on every viewport <= 980px). */
   .navbar-hamburger {
     display: flex;
     border-radius: 50%;
-    background: rgba(var(--ink-rgb), 0.06);
+    background: rgba(64, 63, 69, 0.06);
     border: 1px solid var(--hairline);
     transition: background 0.18s ease, box-shadow 0.25s ease;
   }
   .navbar-hamburger.is-open {
-    background: rgba(var(--ink-rgb), 0.10);
+    background: rgba(64, 63, 69, 0.10);
     box-shadow:
-      0 0 0 6px rgba(var(--ink-rgb), 0.05),
-      0 0 0 13px rgba(var(--ink-rgb), 0.025);
+      0 0 0 6px rgba(64, 63, 69, 0.05),
+      0 0 0 13px rgba(64, 63, 69, 0.025);
   }
+}
+
+[data-theme="dark"] .navbar-hamburger {
+  background: rgba(245, 241, 232, 0.06);
+}
+
+[data-theme="dark"] .navbar-hamburger.is-open {
+  background: rgba(245, 241, 232, 0.10);
+  box-shadow:
+    0 0 0 6px rgba(245, 241, 232, 0.05),
+    0 0 0 13px rgba(245, 241, 232, 0.025);
 }
 
 @media (min-width: 981px) {
@@ -555,42 +616,6 @@ section[id], div[id] {
   display: flex;
   flex-direction: column;
   gap: 0;
-}
-
-/* ─── Eyebrow pill ─── */
-.hero-eyebrow-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 14px 6px 10px;
-  border-radius: var(--radius-pill);
-  background: rgba(var(--ink-rgb), 0.05);
-  border: 1px solid var(--hairline);
-  width: fit-content;
-  margin-bottom: 28px;
-}
-
-.hero-eyebrow-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: oklch(0.65 0.18 145);
-  flex-shrink: 0;
-  animation: pulse-green 2.4s ease-in-out infinite;
-}
-
-@keyframes pulse-green {
-  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(100, 195, 100, 0.4); }
-  50% { opacity: 0.7; box-shadow: 0 0 0 5px rgba(100, 195, 100, 0); }
-}
-
-.hero-eyebrow-text {
-  font-family: 'Geist Mono', monospace;
-  font-size: 11.5px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  color: var(--ink-muted);
-  text-transform: uppercase;
 }
 
 /* ─── Headline ─── */
@@ -701,7 +726,6 @@ section[id], div[id] {
 /* Legacy aliases used in Hero.tsx */
 .hero-trust      { display: flex; gap: 8px; flex-wrap: wrap; }
 .hero-trust-chip { display: inline-flex; align-items: center; padding: 5px 12px; border-radius: var(--radius-sm); background: var(--bg-tile); border: 1px solid var(--hairline); color: var(--ink-muted); font-size: 11px; font-weight: 500; letter-spacing: 0.03em; }
-.hero-eyebrow    { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 28px; }
 
 /* ─── Right column (product shot) ─── */
 .hero-right {
@@ -715,8 +739,18 @@ section[id], div[id] {
   width: 100%;
   max-width: 420px;
   height: auto;
-  filter: drop-shadow(0 20px 36px rgba(var(--ink-rgb), 0.16));
+  /* Literal colors, not var(--ink-rgb) — filter is unconditionally
+     GPU-composited (unlike transform/box-shadow, it applies whenever
+     non-none, not just mid-animation), so it's subject to the same
+     stale-custom-property-on-composited-layer bug as .navbar.is-scrolled
+     above, except always-on rather than scroll-gated. Above-the-fold and
+     visible immediately, no scroll needed to expose it. */
+  filter: drop-shadow(0 20px 36px rgba(64, 63, 69, 0.16));
   transition: transform 0.3s ease;
+}
+
+[data-theme="dark"] .hero-visual {
+  filter: drop-shadow(0 20px 36px rgba(245, 241, 232, 0.16));
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -833,7 +867,11 @@ section[id], div[id] {
   border: 1px solid color-mix(in oklch, var(--row-tint) var(--tint-mix-border), var(--hairline));
   border-radius: var(--radius-card);
   overflow: hidden;
-  box-shadow: 0 20px 48px rgba(var(--ink-rgb), 0.12);
+  box-shadow: 0 20px 48px rgba(64, 63, 69, 0.12);
+}
+
+[data-theme="dark"] .menu-seasonal-card {
+  box-shadow: 0 20px 48px rgba(245, 241, 232, 0.12);
 }
 
 .menu-seasonal-image {
@@ -848,7 +886,12 @@ section[id], div[id] {
   height: 220px;
   width: auto;
   object-fit: contain;
-  filter: drop-shadow(0 16px 22px rgba(var(--ink-rgb), 0.20));
+  /* Literal colors, not var(--ink-rgb) — see .hero-visual above. */
+  filter: drop-shadow(0 16px 22px rgba(64, 63, 69, 0.20));
+}
+
+[data-theme="dark"] .menu-seasonal-image img {
+  filter: drop-shadow(0 16px 22px rgba(245, 241, 232, 0.20));
 }
 
 .menu-seasonal-body {
@@ -947,14 +990,22 @@ section[id], div[id] {
   background: color-mix(in oklch, var(--row-tint) var(--tint-mix-card), var(--bg-surface));
   border: 1px solid color-mix(in oklch, var(--row-tint) var(--tint-mix-border), var(--hairline));
   border-radius: var(--radius-card);
-  box-shadow: 0 10px 24px rgba(var(--ink-rgb), 0.06);
+  box-shadow: 0 10px 24px rgba(64, 63, 69, 0.06);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, opacity 0.5s ease;
+}
+
+[data-theme="dark"] .menu-card {
+  box-shadow: 0 10px 24px rgba(245, 241, 232, 0.06);
 }
 
 .menu-card:hover {
   transform: translateY(-3px);
   border-color: color-mix(in oklch, var(--row-tint) var(--tint-mix-border-hover), var(--hairline));
-  box-shadow: 0 18px 36px rgba(var(--ink-rgb), 0.12);
+  box-shadow: 0 18px 36px rgba(64, 63, 69, 0.12);
+}
+
+[data-theme="dark"] .menu-card:hover {
+  box-shadow: 0 18px 36px rgba(245, 241, 232, 0.12);
 }
 
 .menu-card-image {
@@ -971,8 +1022,13 @@ section[id], div[id] {
   width: auto;
   object-fit: contain;
   object-position: bottom center;
-  filter: drop-shadow(0 10px 16px rgba(var(--ink-rgb), 0.16));
+  /* Literal colors, not var(--ink-rgb) — see .hero-visual above. */
+  filter: drop-shadow(0 10px 16px rgba(64, 63, 69, 0.16));
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="dark"] .menu-card-image-img {
+  filter: drop-shadow(0 10px 16px rgba(245, 241, 232, 0.16));
 }
 
 .menu-card:hover .menu-card-image-img {
@@ -1093,10 +1149,15 @@ section[id], div[id] {
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: rgba(var(--ink-rgb), 0.42);
+  /* Literal colors, not var(--ink-rgb) — see .navbar.is-scrolled above. */
+  background: rgba(64, 63, 69, 0.42);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   animation: menu-modal-overlay-in 0.2s ease both;
+}
+
+[data-theme="dark"] .menu-modal-overlay {
+  background: rgba(245, 241, 232, 0.42);
 }
 
 @keyframes menu-modal-overlay-in {
@@ -1119,8 +1180,15 @@ section[id], div[id] {
   position: relative;
   background: var(--bg-surface);
   border-radius: var(--radius-card);
-  box-shadow: 0 24px 64px rgba(var(--ink-rgb), 0.24);
+  /* Literal colors, not rgba(var(--ink-rgb)) — parent .menu-modal runs a
+     mount animation (transform+opacity, "both" fill) every open, same
+     compositing risk as .radial-item above. */
+  box-shadow: 0 24px 64px rgba(64, 63, 69, 0.24);
   padding: 32px 28px 28px;
+}
+
+[data-theme="dark"] .menu-modal-face {
+  box-shadow: 0 24px 64px rgba(245, 241, 232, 0.24);
 }
 
 .menu-modal-close {
@@ -1143,8 +1211,15 @@ section[id], div[id] {
 }
 
 .menu-modal-close:hover {
-  background: rgba(var(--ink-rgb), 0.06);
+  /* Literal, not var(--ink-rgb) — .menu-modal runs a mount animation
+     (transform+opacity, "both" fill), same compositing risk as
+     .menu-modal-face above. */
+  background: rgba(64, 63, 69, 0.06);
   color: var(--ink);
+}
+
+[data-theme="dark"] .menu-modal-close:hover {
+  background: rgba(245, 241, 232, 0.06);
 }
 
 .menu-modal-flavor {
@@ -1598,11 +1673,16 @@ section[id], div[id] {
   width: 38px;
   height: 38px;
   border-radius: 10px;
-  background: rgba(var(--ink-rgb), 0.06);
+  /* Literal, not var(--ink-rgb) — .loc-card carries the same one-shot
+     locCardIn mount animation as .loc-empty above. */
+  background: rgba(64, 63, 69, 0.06);
   border: 1px solid var(--hairline);
   color: var(--ink);
   flex-shrink: 0;
 }
+
+[data-theme="dark"] .loc-type-icon { background: rgba(245, 241, 232, 0.06); }
+
 .loc-type-icon svg { width: 17px; height: 17px; }
 
 .loc-zone-tag {
@@ -1702,7 +1782,10 @@ section[id], div[id] {
   align-items: center;
   padding: 10px 20px;
   border-radius: var(--radius-pill);
-  background: rgba(var(--ink-rgb), 0.06);
+  /* Literal, not var(--ink-rgb) — inside .loc-empty, which carries the
+     same one-shot locCardIn mount animation already established as risky
+     (see .radial-item above). */
+  background: rgba(64, 63, 69, 0.06);
   border: 1px solid var(--hairline);
   color: var(--ink);
   font-size: 13px;
@@ -1712,7 +1795,10 @@ section[id], div[id] {
   line-height: 1;
   transition: background 0.15s ease;
 }
-.loc-reset-btn:hover { background: rgba(var(--ink-rgb), 0.10); }
+.loc-reset-btn:hover { background: rgba(64, 63, 69, 0.10); }
+
+[data-theme="dark"] .loc-reset-btn { background: rgba(245, 241, 232, 0.06); }
+[data-theme="dark"] .loc-reset-btn:hover { background: rgba(245, 241, 232, 0.10); }
 
 /* Footer CTA */
 .loc-footer-cta { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 16px; border-top: 1px solid var(--hairline); }
@@ -2080,9 +2166,13 @@ section[id], div[id] {
   cursor: pointer;
   font-family: inherit;
   line-height: 1;
-  box-shadow: 0 4px 20px rgba(var(--ink-rgb), 0.25);
+  box-shadow: 0 4px 20px rgba(64, 63, 69, 0.25);
   white-space: nowrap;
   transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+[data-theme="dark"] .float-cta-btn {
+  box-shadow: 0 4px 20px rgba(245, 241, 232, 0.25);
 }
 
 .float-cta-btn:active { transform: scale(0.97); }
@@ -2207,8 +2297,6 @@ section[id], div[id] {
   .hero { padding: 24px var(--page-pad) 20px; }
 
   .hero-inner { gap: 28px; }
-
-  .hero-eyebrow-pill { margin-bottom: 20px; }
 
   .hero-headline { font-size: 38px; margin-bottom: 16px; }
 

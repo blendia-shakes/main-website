@@ -11,11 +11,6 @@ export default function Hero({ scrollTo }: Props) {
         {/* ── Left column: copy ── */}
         <div className="hero-left">
 
-          <div className="hero-eyebrow-pill">
-            <span className="hero-eyebrow-dot" aria-hidden="true" />
-            <span className="hero-eyebrow-text">Recién licuado • al momento</span>
-          </div>
-
           <h1 className="hero-headline">
             Saben a antojo.<br />
             Tienen proteína.
@@ -56,8 +51,8 @@ export default function Hero({ scrollTo }: Props) {
             className="hero-visual"
             src="/img-core/illustrations/hero-vending-machine.webp"
             alt="Ilustración de una máquina dispensadora Blendia sirviendo una bebida"
-            width={597}
-            height={670}
+            width={620}
+            height={920}
             loading="eager"
             decoding="async"
           />
