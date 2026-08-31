@@ -38,20 +38,28 @@ function ChevronIcon() {
 
 export default function Faq() {
   const [openId, setOpenId] = useState<string | null>(null);
+  const [visibleKeys, setVisibleKeys] = useState<Set<string>>(new Set());
   const sectionRef = useRef<HTMLElement>(null);
 
   const toggle = (id: string) =>
     setOpenId((prev) => (prev === id ? null : id));
 
   useEffect(() => {
-    const targets = sectionRef.current?.querySelectorAll<HTMLElement>(".why-animate");
+    // Scroll-reveal state has to live in React, not classList.add() on the
+    // DOM node directly — this section's className is already re-rendered
+    // by React on every openId change (clicking a question), which would
+    // silently wipe any class added outside React's own tracked string,
+    // snapping already-revealed items back to their hidden (opacity: 0)
+    // state the instant any question is tapped.
+    const targets = sectionRef.current?.querySelectorAll<HTMLElement>("[data-reveal-key]");
     if (!targets?.length) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
+            const key = (entry.target as HTMLElement).dataset.revealKey!;
+            setVisibleKeys((prev) => (prev.has(key) ? prev : new Set(prev).add(key)));
             observer.unobserve(entry.target);
           }
         });
@@ -67,7 +75,10 @@ export default function Faq() {
     <section id="faq" ref={sectionRef} className="faq-section">
         <div className="faq-card">
 
-          <div className="faq-card-header why-animate">
+          <div
+            className={`faq-card-header why-animate${visibleKeys.has("header") ? " is-visible" : ""}`}
+            data-reveal-key="header"
+          >
             <div>
               <span className="faq-eyebrow">Preguntas frecuentes</span>
               <h2 className="faq-title">¿Tienes dudas?</h2>
@@ -77,10 +88,12 @@ export default function Faq() {
           <div className="faq-list">
             {featured.map((item, index) => {
               const isOpen = openId === item.id;
+              const isVisible = visibleKeys.has(item.id);
               return (
                 <div
                   key={item.id}
-                  className={`faq-item why-animate${isOpen ? " is-open" : ""}`}
+                  data-reveal-key={item.id}
+                  className={`faq-item why-animate${isVisible ? " is-visible" : ""}${isOpen ? " is-open" : ""}`}
                   style={{ transitionDelay: `${Math.min(index, 6) * 35}ms` }}
                 >
                   <button
