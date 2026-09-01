@@ -20,6 +20,7 @@ export default function MenuCard({
     <article
       className="menu-card why-animate"
       data-tint={item.tint}
+      data-id={item.id}
       style={{
         "--row-tint": TINT_ACCENT[item.tint],
         "--row-tint-badge-ink": TINT_BADGE_INK[item.tint],

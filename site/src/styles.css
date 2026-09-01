@@ -144,21 +144,105 @@
   --clay:         oklch(0.72 0.11 54);
   --clay-light:   oklch(0.78 0.07 60);
 
-  --tint-mix-card:         28%;
-  --tint-mix-image:        36%;
-  --tint-mix-border:       40%;
-  --tint-mix-border-hover: 62%;
-  --tint-mix-btn-border:   46%;
-  --tint-mix-btn-hover-bg: 20%;
+  --tint-mix-card:         20%;
+  --tint-mix-image:        26%;
+  --tint-mix-border:       26%;
+  --tint-mix-border-hover: 40%;
+  --tint-mix-btn-border:   30%;
+  --tint-mix-btn-hover-bg: 12%;
 }
 
-/* Per-flavor boldness tweaks, light mode only (dark mode keeps the
-   shared --tint-mix-card/-image ratio above for every flavor). Scaled
-   relative to the shared 20%/30% base: chocolate reads 20% more bold
-   (24%/36%); every other flavor stays on the shared default. */
-:root:not([data-theme="dark"]) .menu-card[data-tint="chocolate"] {
-  --tint-mix-card:  24%;
-  --tint-mix-image: 36%;
+/* Per-drink literal palette, light mode only — explicit design spec,
+   not derived from --row-tint/--tint-mix-* like dark mode still is.
+   Chocolate Latte and Chocolate Shake share a --row-tint (same
+   "chocolate" flavor) but get distinct values here, so this keys off
+   each item's unique data-id rather than data-tint. Dark mode is
+   untouched: it keeps the shared color-mix formula above. The active
+   "Deslactosada"/"Descremada" toggle label reuses the same accent hex
+   as the price badge, in place of the shared --clay used everywhere
+   else (modal included). */
+:root:not([data-theme="dark"]) .menu-card[data-id="latte-vanilla"] {
+  background: #FAEEE2;
+  border-color: #DFBD94;
+}
+:root:not([data-theme="dark"]) .menu-card[data-id="latte-vanilla"] .menu-card-image {
+  background: #E8C8A6;
+}
+:root:not([data-theme="dark"]) .menu-card[data-id="latte-vanilla"] .menu-card-price-badge {
+  background: #C8873D;
+}
+:root:not([data-theme="dark"]) .menu-card[data-id="latte-vanilla"] .menu-row-milk-btn.is-active {
+  color: #C8873D;
+}
+
+:root:not([data-theme="dark"]) .menu-card[data-id="latte-chocolate"] {
+  background: #F0E5DF;
+  border-color: #BCA596;
+}
+:root:not([data-theme="dark"]) .menu-card[data-id="latte-chocolate"] .menu-card-image {
+  background: #C8B5A8;
+}
+:root:not([data-theme="dark"]) .menu-card[data-id="latte-chocolate"] .menu-card-price-badge {
+  background: #795B49;
+}
+:root:not([data-theme="dark"]) .menu-card[data-id="latte-chocolate"] .menu-row-milk-btn.is-active {
+  color: #795B49;
+}
+
+:root:not([data-theme="dark"]) .menu-card[data-id="shakes-matcha"] {
+  background: #F2F5E8;
+  border-color: #C5D39F;
+}
+:root:not([data-theme="dark"]) .menu-card[data-id="shakes-matcha"] .menu-card-image {
+  background: #D5DEBD;
+}
+:root:not([data-theme="dark"]) .menu-card[data-id="shakes-matcha"] .menu-card-price-badge {
+  background: #829D4C;
+}
+:root:not([data-theme="dark"]) .menu-card[data-id="shakes-matcha"] .menu-row-milk-btn.is-active {
+  color: #829D4C;
+}
+
+:root:not([data-theme="dark"]) .menu-card[data-id="shakes-chai"] {
+  background: #F6EAD8;
+  border-color: #D8B77D;
+}
+:root:not([data-theme="dark"]) .menu-card[data-id="shakes-chai"] .menu-card-image {
+  background: #DCC49B;
+}
+:root:not([data-theme="dark"]) .menu-card[data-id="shakes-chai"] .menu-card-price-badge {
+  background: #B77B2E;
+}
+:root:not([data-theme="dark"]) .menu-card[data-id="shakes-chai"] .menu-row-milk-btn.is-active {
+  color: #B77B2E;
+}
+
+:root:not([data-theme="dark"]) .menu-card[data-id="shakes-chocolate"] {
+  background: #F2E6E1;
+  border-color: #C1A59A;
+}
+:root:not([data-theme="dark"]) .menu-card[data-id="shakes-chocolate"] .menu-card-image {
+  background: #CDB8AE;
+}
+:root:not([data-theme="dark"]) .menu-card[data-id="shakes-chocolate"] .menu-card-price-badge {
+  background: #845D4D;
+}
+:root:not([data-theme="dark"]) .menu-card[data-id="shakes-chocolate"] .menu-row-milk-btn.is-active {
+  color: #845D4D;
+}
+
+:root:not([data-theme="dark"]) .menu-card[data-id="shakes-vanilla"] {
+  background: #FBF5E9;
+  border-color: #DDC99E;
+}
+:root:not([data-theme="dark"]) .menu-card[data-id="shakes-vanilla"] .menu-card-image {
+  background: #EADFC5;
+}
+:root:not([data-theme="dark"]) .menu-card[data-id="shakes-vanilla"] .menu-card-price-badge {
+  background: #C49A50;
+}
+:root:not([data-theme="dark"]) .menu-card[data-id="shakes-vanilla"] .menu-row-milk-btn.is-active {
+  color: #C49A50;
 }
 
 /* The card image backdrop mixes into --bg-tile in light mode (barely
@@ -183,7 +267,17 @@
    mode's own border ratios (35–60%) already lean on that. */
 [data-theme="dark"] .menu-card-image,
 [data-theme="dark"] .menu-seasonal-image {
-  background: color-mix(in oklch, color-mix(in oklch, var(--row-tint) 58%, var(--ink)) var(--tint-mix-image), var(--bg-surface));
+  background: color-mix(in oklch, color-mix(in oklch, var(--row-tint) 48%, var(--ink)) var(--tint-mix-image), var(--bg-surface));
+}
+
+/* Price badges use the raw, fully-saturated --row-tint as a solid fill
+   in both themes — fine in light mode, where the tint hexes themselves
+   are muted. Against a near-black dark-mode page the same solid reads
+   far more vivid (simultaneous contrast), so soften it the same way
+   as the fills above before painting it solid. */
+[data-theme="dark"] .menu-card-price-badge,
+[data-theme="dark"] .menu-seasonal-badge {
+  background: color-mix(in oklch, var(--row-tint) 55%, var(--ink));
 }
 
 /* Full-bleed section bands (.experience-v2, .benefits-section,
@@ -798,7 +892,7 @@ section[id], div[id] {
 }
 
 [data-theme="dark"] .menu-seasonal-card {
-  background: color-mix(in oklch, color-mix(in oklch, var(--row-tint) 58%, var(--ink)) var(--tint-mix-card), var(--bg-surface));
+  background: color-mix(in oklch, color-mix(in oklch, var(--row-tint) 48%, var(--ink)) var(--tint-mix-card), var(--bg-surface));
   box-shadow: 0 20px 48px rgba(245, 241, 232, 0.12);
 }
 
@@ -933,7 +1027,7 @@ section[id], div[id] {
 }
 
 [data-theme="dark"] .menu-card {
-  background: color-mix(in oklch, color-mix(in oklch, var(--row-tint) 58%, var(--ink)) var(--tint-mix-card), var(--bg-surface));
+  background: color-mix(in oklch, color-mix(in oklch, var(--row-tint) 48%, var(--ink)) var(--tint-mix-card), var(--bg-surface));
   box-shadow: 0 10px 24px rgba(245, 241, 232, 0.06);
 }
 
