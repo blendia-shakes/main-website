@@ -21,7 +21,7 @@ export default function MilkToggle({
       >
         {MILK_LABELS.deslactosada}
       </button>
-      <span className="menu-row-milk-sep" aria-hidden="true">/</span>
+      <span className="menu-row-milk-sep" aria-hidden="true">|</span>
       <button
         type="button"
         className={`menu-row-milk-btn${milk === "descremada" ? " is-active" : ""}`}

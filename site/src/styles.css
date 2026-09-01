@@ -1051,6 +1051,10 @@ section[id], div[id] {
   margin-bottom: 56px;
 }
 
+/* Hover uses the same hard, zero-blur offset shadow as .menu-card —
+   colored with this item's own --row-tint instead of a neutral ink
+   shadow — dropping the resting ambient shadow to match the same
+   flat-until-hover "sticker" language. */
 .menu-seasonal-card {
   display: grid;
   grid-template-columns: minmax(0, 380px) 1fr;
@@ -1059,12 +1063,13 @@ section[id], div[id] {
   border: 1px solid color-mix(in oklch, var(--row-tint) var(--tint-mix-border), var(--hairline));
   border-radius: var(--radius-card);
   overflow: hidden;
-  box-shadow: 0 20px 48px rgba(64, 63, 69, 0.12);
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.18s ease, border-color 0.3s ease;
 }
 
-[data-theme="dark"] .menu-seasonal-card {
-  background: color-mix(in oklch, color-mix(in oklch, var(--row-tint) 48%, var(--ink)) var(--tint-mix-card), var(--bg-surface));
-  box-shadow: 0 20px 48px rgba(245, 241, 232, 0.12);
+.menu-seasonal-card:hover {
+  transform: translate(-4px, -4px);
+  border-color: color-mix(in oklch, var(--row-tint) var(--tint-mix-border-hover), var(--hairline));
+  box-shadow: 5px 5px 0 var(--row-tint);
 }
 
 .menu-seasonal-image {
@@ -1276,8 +1281,9 @@ section[id], div[id] {
 }
 
 .menu-row-milk-sep {
-  color: var(--hairline-2);
+  color: var(--ink-faint);
   font-size: 10.5px;
+  font-weight: 700;
 }
 
 .menu-row-milk-btn {
@@ -1303,9 +1309,7 @@ section[id], div[id] {
      .menu-modal-face always set --row-tint, so the active label reuses
      the same product accent instead of one generic sitewide color.
      The literal per-data-id palette above overrides this further to
-     the exact card hex for the six real items. Weight stays 400
-     (matching the base state) — color alone marks the active choice,
-     so the size/weight match to .exp-step-desc holds in both states. */
+     the exact card hex for the six real items. */
   color: var(--row-tint);
 }
 
