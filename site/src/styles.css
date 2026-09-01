@@ -71,12 +71,14 @@
   --clay-light:   oklch(0.78 0.07 60);
 
   /* Per-flavor tint wash ratios (menu cards) — how strongly --row-tint
-     blends into the neutral tokens below it via color-mix(). Same tint
-     colors read more saturated against a dark ground (simulteanous
-     contrast), so dark mode uses lower ratios to keep the same soft,
-     muted wash instead of a punchy/neon one. */
-  --tint-mix-card:         12%;
-  --tint-mix-image:        20%;
+     blends into the neutral tokens below it via color-mix(). Dark mode
+     mixes a much higher ratio (see [data-theme="dark"] below): its base
+     (--bg-surface, a mid-lightness warm gray) has enough chroma of its
+     own to swallow a light-mode-style low ratio, muddying every flavor
+     into the same brown — a low ratio only reads as "soft" against a
+     near-neutral near-white base like light mode's. */
+  --tint-mix-card:         20%;
+  --tint-mix-image:        30%;
   --tint-mix-border:       35%;
   --tint-mix-border-hover: 60%;
   --tint-mix-btn-border:   45%;
@@ -142,12 +144,21 @@
   --clay:         oklch(0.72 0.11 54);
   --clay-light:   oklch(0.78 0.07 60);
 
-  --tint-mix-card:         5%;
-  --tint-mix-image:        7%;
-  --tint-mix-border:       18%;
-  --tint-mix-border-hover: 32%;
-  --tint-mix-btn-border:   20%;
-  --tint-mix-btn-hover-bg: 6%;
+  --tint-mix-card:         28%;
+  --tint-mix-image:        36%;
+  --tint-mix-border:       40%;
+  --tint-mix-border-hover: 62%;
+  --tint-mix-btn-border:   46%;
+  --tint-mix-btn-hover-bg: 20%;
+}
+
+/* Per-flavor boldness tweaks, light mode only (dark mode keeps the
+   shared --tint-mix-card/-image ratio above for every flavor). Scaled
+   relative to the shared 20%/30% base: chocolate reads 20% more bold
+   (24%/36%); every other flavor stays on the shared default. */
+:root:not([data-theme="dark"]) .menu-card[data-tint="chocolate"] {
+  --tint-mix-card:  24%;
+  --tint-mix-image: 36%;
 }
 
 /* The card image backdrop mixes into --bg-tile in light mode (barely
@@ -155,10 +166,41 @@
    dark mode --bg-tile is deliberately much darker (recessed chips), so
    using it here would deepen the tint into a saturated-looking patch.
    Mix into --bg-surface instead — same lighter, calmer base the card
-   body already uses. */
+   body already uses.
+
+   Both this and the card-body fill below pre-soften --row-tint by
+   blending it halfway to --ink (cream) before mixing it into the
+   base. Light mode's fills read as soft and creamy "for free" because
+   their base is near-white, so even a fully-saturated tint gets
+   diluted into a pastel. Dark mode's base is mid-lightness, so mixing
+   the raw, fully-saturated tint at a ratio high enough to actually
+   read (see --tint-mix-card/-image) came out closer to a neon wash
+   than a pastel one. Cutting the tint's own saturation first — the
+   same halfway-to-cream trick light mode gets from its base — is what
+   keeps these creamy rather than punchy at that ratio. Borders below
+   stay on the raw tint on purpose: a thin line can carry more
+   saturation than a whole fill without reading as loud, and light
+   mode's own border ratios (35–60%) already lean on that. */
 [data-theme="dark"] .menu-card-image,
 [data-theme="dark"] .menu-seasonal-image {
-  background: color-mix(in oklch, var(--row-tint) var(--tint-mix-image), var(--bg-surface));
+  background: color-mix(in oklch, color-mix(in oklch, var(--row-tint) 58%, var(--ink)) var(--tint-mix-image), var(--bg-surface));
+}
+
+/* Full-bleed section bands (.experience-v2, .benefits-section,
+   .faq-section) lean on --bg-surface/--dark-bg for a barely-there lift
+   in light mode — there --bg-surface (#FBF8F0) sits only a couple of
+   points above --bg (#F5F1E8), so the band reads as a whisper, not a
+   seam. --bg-surface is deliberately much lighter than --bg in dark
+   mode (it also has to carry the navbar pill and raised cards), so
+   reusing it here blows the same whisper up into a bright patch —
+   and .experience-v2's fixed --dark-bg (#403F45) lands even lighter
+   than that. Route all three to --bg-mid-1/--bg-mid-2 instead: tokens
+   already defined for exactly this "barely darker than --bg" step,
+   just never wired up. */
+[data-theme="dark"] .experience-v2 { background: var(--bg-mid-2); }
+[data-theme="dark"] .benefits-section,
+[data-theme="dark"] .faq-section {
+  background: var(--bg-mid-1);
 }
 
 /* =========================================================
@@ -756,6 +798,7 @@ section[id], div[id] {
 }
 
 [data-theme="dark"] .menu-seasonal-card {
+  background: color-mix(in oklch, color-mix(in oklch, var(--row-tint) 58%, var(--ink)) var(--tint-mix-card), var(--bg-surface));
   box-shadow: 0 20px 48px rgba(245, 241, 232, 0.12);
 }
 
@@ -890,6 +933,7 @@ section[id], div[id] {
 }
 
 [data-theme="dark"] .menu-card {
+  background: color-mix(in oklch, color-mix(in oklch, var(--row-tint) 58%, var(--ink)) var(--tint-mix-card), var(--bg-surface));
   box-shadow: 0 10px 24px rgba(245, 241, 232, 0.06);
 }
 
