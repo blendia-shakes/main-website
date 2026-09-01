@@ -245,6 +245,95 @@
   color: #C49A50;
 }
 
+/* Per-drink literal palette, dark mode — same idea as the light-mode
+   block above (explicit design spec, keyed off data-id so the two
+   Chocolate items can differ), overriding the shared color-mix
+   formula below for these six permanent items. The active milk-toggle
+   label also reuses each drink's accent, same as light mode. */
+[data-theme="dark"] .menu-card[data-id="latte-vanilla"] {
+  background: #54483C;
+  border-color: #7B6452;
+}
+[data-theme="dark"] .menu-card[data-id="latte-vanilla"] .menu-card-image {
+  background: #5B4E40;
+}
+[data-theme="dark"] .menu-card[data-id="latte-vanilla"] .menu-card-price-badge {
+  background: #CEAA82;
+}
+[data-theme="dark"] .menu-card[data-id="latte-vanilla"] .menu-row-milk-btn.is-active {
+  color: #CEAA82;
+}
+
+[data-theme="dark"] .menu-card[data-id="latte-chocolate"] {
+  background: #4B433D;
+  border-color: #59504A;
+}
+[data-theme="dark"] .menu-card[data-id="latte-chocolate"] .menu-card-image {
+  background: #534841;
+}
+[data-theme="dark"] .menu-card[data-id="latte-chocolate"] .menu-card-price-badge {
+  background: #AA978A;
+}
+[data-theme="dark"] .menu-card[data-id="latte-chocolate"] .menu-row-milk-btn.is-active {
+  color: #AA978A;
+}
+
+[data-theme="dark"] .menu-card[data-id="shakes-matcha"] {
+  background: #4D4D41;
+  border-color: #777B63;
+}
+[data-theme="dark"] .menu-card[data-id="shakes-matcha"] .menu-card-image {
+  background: #545545;
+}
+[data-theme="dark"] .menu-card[data-id="shakes-matcha"] .menu-card-price-badge {
+  background: #C1C7A0;
+}
+[data-theme="dark"] .menu-card[data-id="shakes-matcha"] .menu-row-milk-btn.is-active {
+  color: #C1C7A0;
+}
+
+[data-theme="dark"] .menu-card[data-id="shakes-chai"] {
+  background: #55493B;
+  border-color: #715D4B;
+}
+[data-theme="dark"] .menu-card[data-id="shakes-chai"] .menu-card-image {
+  background: #584B3C;
+}
+[data-theme="dark"] .menu-card[data-id="shakes-chai"] .menu-card-price-badge {
+  background: #C5A277;
+}
+[data-theme="dark"] .menu-card[data-id="shakes-chai"] .menu-row-milk-btn.is-active {
+  color: #C5A277;
+}
+
+[data-theme="dark"] .menu-card[data-id="shakes-chocolate"] {
+  background: #534842;
+  border-color: #5C514A;
+}
+[data-theme="dark"] .menu-card[data-id="shakes-chocolate"] .menu-card-image {
+  background: #574B43;
+}
+[data-theme="dark"] .menu-card[data-id="shakes-chocolate"] .menu-card-price-badge {
+  background: #AC988B;
+}
+[data-theme="dark"] .menu-card[data-id="shakes-chocolate"] .menu-row-milk-btn.is-active {
+  color: #AC988B;
+}
+
+[data-theme="dark"] .menu-card[data-id="shakes-vanilla"] {
+  background: #5B5245;
+  border-color: #8C7865;
+}
+[data-theme="dark"] .menu-card[data-id="shakes-vanilla"] .menu-card-image {
+  background: #615649;
+}
+[data-theme="dark"] .menu-card[data-id="shakes-vanilla"] .menu-card-price-badge {
+  background: #DEC2A2;
+}
+[data-theme="dark"] .menu-card[data-id="shakes-vanilla"] .menu-row-milk-btn.is-active {
+  color: #DEC2A2;
+}
+
 /* The card image backdrop mixes into --bg-tile in light mode (barely
    darker than --bg-surface there, so the wash stays just as soft). In
    dark mode --bg-tile is deliberately much darker (recessed chips), so
