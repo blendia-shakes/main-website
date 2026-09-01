@@ -1,6 +1,6 @@
 ---
 name: add-seasonal-drink
-description: Add a new limited-edition/seasonal drink to the Blendia menu's seasonal spotlight (site/src/components/MenuSection.tsx). Use when the user asks to add a new seasonal, limited-edition, or "temporada" drink/beverage to the site. Only ask for the drink's name, its accent hex color, and its price — everything else (source image lookup, webp generation, code wiring) is automated by this skill.
+description: Add a new limited-edition/seasonal drink to the Blendia menu's seasonal spotlight (site/src/data/menu.ts). Use when the user asks to add a new seasonal, limited-edition, or "temporada" drink/beverage to the site. Only ask for the drink's name, its accent hex color, and its price — everything else (source image lookup, webp generation, code wiring) is automated by this skill.
 ---
 
 # Adding a seasonal drink
@@ -72,7 +72,7 @@ moving on, and confirm the sampled hex with the user rather than assuming.
 
 ## Step 3 — decide the badge-ink override
 
-`MenuSection.tsx` has a `TINT_BADGE_INK` map that forces dark badge text
+`site/src/data/menu.ts` has a `TINT_BADGE_INK` map that forces dark badge text
 (`#403F45`) for tints too pale for the default light badge text
 (`var(--bg-surface)`) to read against. Compute perceived luminance of the
 given hex:
@@ -113,7 +113,7 @@ the placeholder `protein`/`calories` values, and build `ingredients` as:
 entries — the borrowed flavor's own base ingredient, e.g. "Chai", is
 replaced with the new drink's own flavor word).
 
-## Step 5 — edit `site/src/components/MenuSection.tsx`
+## Step 5 — edit `site/src/data/menu.ts`
 
 Four edits, all in this file:
 
@@ -164,9 +164,10 @@ Four edits, all in this file:
    in the component below) — flip it to `false` instead of deleting the
    entry when a run ends.
 
-Do **not** touch `NutritionModal`, `SeasonalPromo`, or the render loop
-itself — those are already generic over any number of `SEASONAL_DRINKS`
-entries and need no changes per new drink.
+Do **not** touch `NutritionModal.tsx`, `SeasonalPromo.tsx`, or `MenuSection.tsx`'s
+render loop — those (in `site/src/components/menu/` and
+`site/src/components/MenuSection.tsx`) are already generic over any number
+of `SEASONAL_DRINKS` entries and need no changes per new drink.
 
 ## Step 6 — verify
 
