@@ -129,10 +129,9 @@ export default function Locations() {
 
         {/* Header */}
         <div className="loc-header why-animate">
-          <span className="loc-eyebrow">Encuéntranos</span>
           <h2 className="loc-title">Cerca. Fácil. Sin fila.</h2>
           <p className="loc-subtitle">
-            Blendia en centros comerciales, oficinas y más, en Guatemala.
+            Encuentra Blendia en centros comerciales, oficinas y próximamente más cerca de ti.
           </p>
         </div>
 

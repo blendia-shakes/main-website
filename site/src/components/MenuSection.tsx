@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 
-type Tint     = "vanilla" | "chocolate" | "matcha" | "chai";
+type Tint     = "vanilla-latte" | "vanilla-shake" | "chocolate" | "matcha" | "chai" | "sakura" | "pumpkin-spice";
 type Category = "shakes" | "latte";
 type MilkType = "deslactosada" | "descremada";
 
-type MilkFacts = { ingredients: string; calories: string };
+type MilkFacts = { ingredients: string; calories: string; protein: string };
 
 type MenuItem = {
   id: string;
@@ -12,7 +12,6 @@ type MenuItem = {
   flavor: "vanilla" | "chocolate" | "matcha" | "chai";
   flavorLabel: string;
   name: string;
-  protein: string;
   price: string;
   tint: Tint;
   milk: Record<MilkType, MilkFacts>;
@@ -26,9 +25,11 @@ type SeasonalItem = {
   flavor: string;
   tint: Tint;
   flavorLabel: string;
+  price: string;
   protein: string;
   ingredients: string;
   calories: string;
+  available: boolean;
 };
 
 // A modal can be opened from a permanent MenuCard (which carries a milk-type
@@ -38,10 +39,23 @@ type NutritionSource =
   | { kind: "seasonal"; item: SeasonalItem };
 
 const TINT_ACCENT: Record<Tint, string> = {
-  vanilla:   "oklch(0.6 0.09 90)",
-  chocolate: "oklch(0.55 0.11 50)",
-  matcha:    "oklch(0.52 0.10 150)",
-  chai:    "oklch(0.48 0.07 55)",
+  "vanilla-shake": "#F5E7C9",
+  "vanilla-latte": "#CF9149",
+  chocolate: "#886E5A",
+  matcha:    "#C5D098",
+  chai:      "#B1832F",
+  sakura:    "#FCA5B4",
+  "pumpkin-spice": "#EAA271",
+};
+
+// Badge text (menu-card-price-badge / menu-seasonal-badge) defaults to a
+// light color because it sits on solid --row-tint. vanilla-shake's,
+// sakura's, and pumpkin-spice's tints are too pale for that to read —
+// force dark badge text for those.
+const TINT_BADGE_INK: Partial<Record<Tint, string>> = {
+  "vanilla-shake": "#403F45",
+  sakura: "#403F45",
+  "pumpkin-spice": "#403F45",
 };
 
 // The permanent lineup — one product, milk type is a prep choice, not a
@@ -55,12 +69,11 @@ const ITEMS: MenuItem[] = [
     flavor: "vanilla",
     flavorLabel: "Vainilla",
     name: "Vanilla Blendia Latte",
-    protein: "30g",
-    price: "Q40",
-    tint: "vanilla",
+    price: "Q42",
+    tint: "vanilla-latte",
     milk: {
-      deslactosada: { ingredients: "• Proteína whey vainilla • Leche deslactosada • Café", calories: "320 kcal" },
-      descremada:   { ingredients: "• Proteína whey vainilla • Leche descremada • Café",   calories: "290 kcal" },
+      deslactosada: { ingredients: "• Proteína whey vainilla • Leche deslactosada • Café", calories: "283 kcal", protein: "33g" },
+      descremada:   { ingredients: "• Proteína whey vainilla • Leche descremada • Café",   calories: "249 kcal", protein: "35g" },
     },
   },
   {
@@ -69,12 +82,11 @@ const ITEMS: MenuItem[] = [
     flavor: "chocolate",
     flavorLabel: "Chocolate",
     name: "Chocolate Blendia Latte",
-    protein: "30g",
-    price: "Q40",
+    price: "Q42",
     tint: "chocolate",
     milk: {
-      deslactosada: { ingredients: "• Proteína whey chocolate • Leche deslactosada • Café", calories: "320 kcal" },
-      descremada:   { ingredients: "• Proteína whey chocolate • Leche descremada • Café",   calories: "290 kcal" },
+      deslactosada: { ingredients: "• Proteína whey chocolate • Leche deslactosada • Café", calories: "283 kcal", protein: "33g" },
+      descremada:   { ingredients: "• Proteína whey chocolate • Leche descremada • Café",   calories: "249 kcal", protein: "35g" },
     },
   },
   {
@@ -83,12 +95,11 @@ const ITEMS: MenuItem[] = [
     flavor: "matcha",
     flavorLabel: "Matcha",
     name: "Matcha Blendia Shake",
-    protein: "30g",
-    price: "Q45",
+    price: "Q48",
     tint: "matcha",
     milk: {
-      deslactosada: { ingredients: "• Proteína whey vainilla • Matcha • Leche deslactosada", calories: "320 kcal" },
-      descremada:   { ingredients: "• Proteína whey vainilla • Matcha • Leche descremada",   calories: "290 kcal" },
+      deslactosada: { ingredients: "• Proteína whey vainilla • Matcha • Leche deslactosada", calories: "283 kcal", protein: "30g" },
+      descremada:   { ingredients: "• Proteína whey vainilla • Matcha • Leche descremada",   calories: "249 kcal", protein: "33g" },
     },
   },
   {
@@ -97,12 +108,11 @@ const ITEMS: MenuItem[] = [
     flavor: "chai",
     flavorLabel: "Chai",
     name: "Chai Blendia Shake",
-    protein: "30g",
-    price: "Q35",
+    price: "Q42",
     tint: "chai",
     milk: {
-      deslactosada: { ingredients: "• Proteína whey vainilla • Chai • Leche deslactosada", calories: "320 kcal" },
-      descremada:   { ingredients: "• Proteína whey vainilla • Chai • Leche descremada",   calories: "290 kcal" },
+      deslactosada: { ingredients: "• Proteína whey vainilla • Chai • Leche deslactosada", calories: "348 kcal", protein: "30g" },
+      descremada:   { ingredients: "• Proteína whey vainilla • Chai • Leche descremada",   calories: "314 kcal", protein: "33g" },
     },
   },
   {
@@ -111,12 +121,11 @@ const ITEMS: MenuItem[] = [
     flavor: "chocolate",
     flavorLabel: "Chocolate",
     name: "Chocolate Blendia Shake",
-    protein: "30g",
-    price: "Q35",
+    price: "Q38",
     tint: "chocolate",
     milk: {
-      deslactosada: { ingredients: "• Proteína whey chocolate • Leche deslactosada", calories: "320 kcal" },
-      descremada:   { ingredients: "• Proteína whey chocolate • Leche descremada",   calories: "290 kcal" },
+      deslactosada: { ingredients: "• Proteína whey chocolate • Leche deslactosada", calories: "283 kcal", protein: "33g" },
+      descremada:   { ingredients: "• Proteína whey chocolate • Leche descremada",   calories: "249 kcal", protein: "35g" },
     },
   },
   {
@@ -125,33 +134,50 @@ const ITEMS: MenuItem[] = [
     flavor: "vanilla",
     flavorLabel: "Vainilla",
     name: "Vanilla Blendia Shake",
-    protein: "30g",
-    price: "Q35",
-    tint: "vanilla",
+    price: "Q38",
+    tint: "vanilla-shake",
     milk: {
-      deslactosada: { ingredients: "• Proteína whey vainilla • Leche deslactosada", calories: "320 kcal" },
-      descremada:   { ingredients: "• Proteína whey vainilla • Leche descremada",   calories: "290 kcal" },
+      deslactosada: { ingredients: "• Proteína whey vainilla • Leche deslactosada", calories: "283 kcal", protein: "33g" },
+      descremada:   { ingredients: "• Proteína whey vainilla • Leche descremada",   calories: "249 kcal", protein: "35g" },
     },
   },
 ];
 
-// No active seasonal drink right now — the "essentials" line is retired
-// from the permanent grid, so its assets/copy stand in as a placeholder
-// example of what a future limited release looks like. Set this to a real
-// SeasonalItem when one launches, or to `null` to hide the section again
-// (it renders nothing, no reserved space, when there's nothing to show).
-const SEASONAL_DRINK: SeasonalItem | null = {
-  name: "Matcha Blendia",
-  description: "Nuestra receta con matcha real vuelve por tiempo limitado — solo mientras dure.",
-  image: "/img-core/drinks/matcha.webp",
-  category: "seasonal",
-  flavor: "matcha",
-  tint: "matcha",
-  flavorLabel: "Matcha",
-  protein: "30g",
-  ingredients: "• Proteína whey vainilla • Matcha",
-  calories: "320 kcal",
-};
+// The current limited releases. Each item's `available` toggles just that
+// spotlight card on/off (it renders nothing, no reserved space, when
+// false) — flip it instead of deleting/commenting out the entry when a
+// run ends. `flavor` here drives the nutrition-table image path (borrows
+// an existing shake's table — see NutritionModal), not the display name.
+const SEASONAL_DRINKS: SeasonalItem[] = [
+  {
+    name: "Sakura Blendia",
+    description: "Un toque floral y afrutado inspirado en la temporada sakura — edición limitada, solo mientras dure.",
+    image: "/img-core/drinks/sakura.webp",
+    category: "seasonal",
+    flavor: "vanilla",
+    tint: "sakura",
+    flavorLabel: "Sakura",
+    price: "Q48",
+    protein: "33g",
+    ingredients: "• Proteína whey vainilla • Sakura • Leche deslactosada",
+    calories: "283 kcal",
+    available: false,
+  },
+  {
+    name: "Pumpkin Spice Blendia",
+    description: "Especias cálidas de temporada en un batido cremoso — edición limitada, solo mientras dure.",
+    image: "/img-core/drinks/pumpkin-spice.webp",
+    category: "seasonal",
+    flavor: "chai",
+    tint: "pumpkin-spice",
+    flavorLabel: "Pumpkin Spice",
+    price: "Q48",
+    protein: "30g",
+    ingredients: "• Proteína whey vainilla • Pumpkin spice • Leche deslactosada",
+    calories: "348 kcal",
+    available: true,
+  },
+];
 
 const MILK_LABELS: Record<MilkType, string> = {
   deslactosada: "Deslactosada",
@@ -170,6 +196,7 @@ function SeasonalPromo({
       className="menu-seasonal why-animate"
       style={{
         "--row-tint": TINT_ACCENT[item.tint],
+        "--row-tint-badge-ink": TINT_BADGE_INK[item.tint],
         transitionDelay: "120ms",
       } as React.CSSProperties}
     >
@@ -184,7 +211,10 @@ function SeasonalPromo({
           />
         </div>
         <div className="menu-seasonal-body">
-          <span className="menu-seasonal-badge">Edición limitada</span>
+          <div className="menu-seasonal-badges">
+            <span className="menu-seasonal-badge">Edición limitada</span>
+            <span className="menu-card-price-badge">{item.price}</span>
+          </div>
           <h3 className="menu-seasonal-name">{item.name}</h3>
           <p className="menu-seasonal-desc">{item.description}</p>
           <button
@@ -219,6 +249,7 @@ function MenuCard({
       className="menu-card why-animate"
       style={{
         "--row-tint": TINT_ACCENT[item.tint],
+        "--row-tint-badge-ink": TINT_BADGE_INK[item.tint],
         transitionDelay: `${revealDelay}ms`,
       } as React.CSSProperties}
     >
@@ -258,7 +289,7 @@ function MenuCard({
         </div>
 
         <span className="menu-card-macros">
-          {item.protein} proteína · {facts.calories}
+          {facts.protein} proteína · {facts.calories}
         </span>
         <button
           type="button"
@@ -380,19 +411,19 @@ export default function MenuSection() {
 
         {/* Header */}
         <div className="menu-header">
-          <span className="menu-eyebrow why-animate">Menú</span>
           <h2 className="menu-title why-animate" style={{ transitionDelay: "60ms" }}>
             Hay un Blendia para ti
           </h2>
         </div>
 
-        {/* Seasonal spotlight — only rendered while a limited release is active */}
-        {SEASONAL_DRINK && (
+        {/* Seasonal spotlight(s) — each only rendered while that limited release is active */}
+        {SEASONAL_DRINKS.filter((item) => item.available).map((item) => (
           <SeasonalPromo
-            item={SEASONAL_DRINK}
+            key={item.name}
+            item={item}
             onOpenNutrition={(item) => setActiveNutrition({ kind: "seasonal", item })}
           />
-        )}
+        ))}
 
         <h3 className="menu-sabores-heading why-animate">Nuestros sabores</h3>
 

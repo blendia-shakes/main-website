@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import FloatingCta from "./components/FloatingCta";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import WhyBlendia from "./components/WhyBlendia";
 import MenuSection from "./components/MenuSection";
 import Experience from "./components/Experience";
 import Benefits from "./components/Benefits";
@@ -99,8 +98,6 @@ export default function App() {
       />
 
       <Hero scrollTo={scrollTo} brandLogo={brandLogo} />
-
-      <WhyBlendia />
 
       <MenuSection />
 

@@ -80,7 +80,6 @@ export default function Faq() {
             data-reveal-key="header"
           >
             <div>
-              <span className="faq-eyebrow">Preguntas frecuentes</span>
               <h2 className="faq-title">¿Tienes dudas?</h2>
             </div>
           </div>

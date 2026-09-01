@@ -12,12 +12,13 @@ export default function Hero({ scrollTo }: Props) {
         <div className="hero-left">
 
           <h1 className="hero-headline">
-            Saben a antojo.<br />
-            Tienen proteína.
+            En Blendia, <br></br> tu bienestar sabe bien.
           </h1>
 
           <p className="hero-sub">
-            Shakes & lattes — listo en segundos desde una máquina Blendia cerca de ti.
+            Nace para demostrar que elegir lo práctico también puede ser sano.<br></br>
+            Transformamos las bebidas que ya conoces y disfrutas en opciones funcionales, pensadas para acompañar tu bienestar.<br></br>
+            Cuidarte no debería obligarte a elegir entre lo que te gusta y lo que te hace bien.
           </p>
 
           <div className="hero-ctas">

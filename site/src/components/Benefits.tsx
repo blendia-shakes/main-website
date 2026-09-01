@@ -28,8 +28,6 @@ export default function Benefits() {
     <section id="benefits" ref={sectionRef} className="benefits-section">
       <div className="benefits-inner">
 
-        <span className="benefits-eyebrow why-animate">Lo que contiene</span>
-
         <h3 className="benefits-headline why-animate">
           Real. Rápido. <em>Natural.</em>
         </h3>
