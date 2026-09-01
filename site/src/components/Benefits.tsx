@@ -31,21 +31,21 @@ export default function Benefits() {
         <span className="benefits-eyebrow why-animate">Lo que contiene</span>
 
         <h3 className="benefits-headline why-animate">
-          Real. Rápido. <em>Sin trucos.</em>
+          Real. Rápido. <em>Natural.</em>
         </h3>
 
         <div className="benefits-stats">
           <div className="benefits-stat why-animate" style={{ transitionDelay: "80ms" }}>
             <span className="benefits-stat-value">
-              30<small>g</small>
+              +30<small>g</small>
             </span>
             <span className="benefits-stat-label">Proteína real</span>
           </div>
           <div className="benefits-stat why-animate" style={{ transitionDelay: "180ms" }}>
             <span className="benefits-stat-value">
-              60<small>s</small>
+              &lt;33<small>g</small>
             </span>
-            <span className="benefits-stat-label">De preparación</span>
+            <span className="benefits-stat-label">carbs totales</span>
           </div>
           <div className="benefits-stat why-animate" style={{ transitionDelay: "280ms" }}>
             <span className="benefits-stat-value">

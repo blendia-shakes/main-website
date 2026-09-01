@@ -17,7 +17,7 @@ export default function Hero({ scrollTo }: Props) {
           </h1>
 
           <p className="hero-sub">
-            Essentials, shakes & lattes — listo en segundos desde una máquina Blendia cerca de ti.
+            Shakes & lattes — listo en segundos desde una máquina Blendia cerca de ti.
           </p>
 
           <div className="hero-ctas">
@@ -38,9 +38,9 @@ export default function Hero({ scrollTo }: Props) {
           </div>
 
           <div className="hero-chips" aria-hidden="true">
-            <span className="hero-chip">9 sabores</span>
-            <span className="hero-chip">30g proteína real</span>
-            <span className="hero-chip">blend en 60s</span>
+            <span className="hero-chip">6 sabores</span>
+            <span className="hero-chip">+30g proteína real</span>
+            <span className="hero-chip">listo en 2 mins</span>
           </div>
 
         </div>

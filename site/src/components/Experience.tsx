@@ -4,7 +4,7 @@ const steps = [
   {
     num: "01",
     title: "Selecciona",
-    desc: "Elige categoría y sabor desde la pantalla.",
+    desc: "Elige categoría y tipo de leche desde la pantalla.",
   },
   {
     num: "02",
@@ -14,12 +14,12 @@ const steps = [
   {
     num: "03",
     title: "Observa",
-    desc: "Estás a solo unos segundos de sorprenderte.",
+    desc: "Tu Blendia preparado en el momento.",
   },
   {
     num: "04",
     title: "Recibe",
-    desc: "Entrega inmediata en menos de un minuto.",
+    desc: "Entrega inmediata en menos de dos minutos.",
   },
 ];
 
@@ -52,7 +52,7 @@ export default function Experience() {
 
         <div className="exp-header why-animate">
           <span className="exp-eyebrow">Cómo funciona</span>
-          <h2 className="exp-title">Tres taps desde el antojo hasta el vaso en tus manos.</h2>
+          <h2 className="exp-title">Cuatro pasos desde el antojo hasta el vaso en tus manos.</h2>
         </div>
 
         <div className="exp-steps">

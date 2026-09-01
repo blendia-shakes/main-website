@@ -74,8 +74,8 @@ export const faqItems: FaqItem[] = [
     id: 'ingredientes',
     category: 'sabor',
     question: '¿Qué ingredientes usa Blendia?',
-    short: 'Proteína de suero, saborizantes naturales y los ingredientes de cada variedad: matcha real, especias masala, chocolate. Sin colorantes artificiales.',
-    long: 'La formulación prioriza ingredientes reconocibles: proteína de suero de alta calidad, leche, y los perfiles reales de cada variedad — matcha japonés en el Zen, especias auténticas en el Masala, chocolate de proceso natural en el Midnight. La lista completa está en la tabla nutricional de cada producto, disponible en el catálogo de este sitio.',
+    short: 'Proteína de suero, saborizantes naturales y los ingredientes de cada variedad: matcha real, especias chai, chocolate. Sin colorantes artificiales.',
+    long: 'La formulación prioriza ingredientes reconocibles: proteína de suero de alta calidad, leche, y los perfiles reales de cada variedad — matcha japonés en el Matcha, especias auténticas en el Chai, chocolate de proceso natural en el Chocolate. La lista completa está en la tabla nutricional de cada producto, disponible en el catálogo de este sitio.',
   },
   {
     id: 'conservantes',
@@ -110,7 +110,7 @@ export const faqItems: FaqItem[] = [
     category: 'sabor',
     question: '¿Puedo tomarlo si no hago ejercicio?',
     short: 'Sí. Blendia no es una bebida de gym. Es una bebida que sabe rico y además es más saludable.',
-    long: 'La proteína no es solo para personas que hacen ejercicio — es un macronutriente que el cuerpo necesita todo el día. Pero más allá de eso: Blendia no se diseñó para el mercado fitness. Se diseñó para cualquier persona que quiera algo delicioso que también valga la pena. Si nunca pisas un gimnasio y amas el matcha, el Zen Latte es para ti exactamente igual.',
+    long: 'La proteína no es solo para personas que hacen ejercicio — es un macronutriente que el cuerpo necesita todo el día. Pero más allá de eso: Blendia no se diseñó para el mercado fitness. Se diseñó para cualquier persona que quiera algo delicioso que también valga la pena. Si nunca pisas un gimnasio y amas el matcha, el Matcha Latte es para ti exactamente igual.',
   },
 
   /* ── TIER 3 — Restricciones personales ──────────────────────────────── */
@@ -119,8 +119,8 @@ export const faqItems: FaqItem[] = [
     id: 'cafeina',
     category: 'nutricion',
     question: '¿Tiene cafeína?',
-    short: 'Los lattes sí contienen cafeína. Zen (matcha) tiene teína, de liberación más lenta. Masala tiene niveles mínimos y Moon es libre de cafeína.',
-    long: 'Midnight tiene cafeína comparable a un americano pequeño. Zen tiene teína — la cafeína del té verde, que genera alerta sin el pico y caída del café. Si eres sensible a la cafeína o quieres tomar Blendia por la noche, Moon o Masala son los más seguros. Los valores exactos están en la tabla nutricional de cada variedad.',
+    short: 'Los lattes sí contienen cafeína. Matcha (matcha) tiene teína, de liberación más lenta. Chai tiene niveles mínimos y Vanilla es libre de cafeína.',
+    long: 'Chocolate tiene cafeína comparable a un americano pequeño. Matcha tiene teína — la cafeína del té verde, que genera alerta sin el pico y caída del café. Si eres sensible a la cafeína o quieres tomar Blendia por la noche, Vanilla o Chai son los más seguros. Los valores exactos están en la tabla nutricional de cada variedad.',
   },
   {
     id: 'lactosa',

@@ -132,7 +132,7 @@ export default function Locations() {
           <span className="loc-eyebrow">Encuéntranos</span>
           <h2 className="loc-title">Cerca. Fácil. Sin fila.</h2>
           <p className="loc-subtitle">
-            Máquinas Blendia en gimnasios, oficinas y más, por Guatemala City.
+            Blendia en centros comerciales, oficinas y más, en Guatemala.
           </p>
         </div>
 

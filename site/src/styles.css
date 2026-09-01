@@ -354,7 +354,7 @@ section[id], div[id] {
   flex-shrink: 0;
 }
 
-/* ─── Moon/Sun toggle ─── */
+/* ─── Vanilla/Sun toggle ─── */
 .navbar-toggle {
   display: inline-flex;
   align-items: center;
@@ -1115,7 +1115,7 @@ section[id], div[id] {
 
 .menu-modal {
   width: 100%;
-  max-width: 320px;
+  max-width: 600px;
   animation: menu-modal-in 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
@@ -1132,7 +1132,7 @@ section[id], div[id] {
      mount animation (transform+opacity, "both" fill) every open, same
      compositing risk as .radial-item above. */
   box-shadow: 0 16px 40px rgba(64, 63, 69, 0.18);
-  padding: 18px 18px 16px;
+  padding: 34px 34px 30px;
   max-height: calc(100vh - 48px);
   overflow-y: auto;
 }
@@ -1143,17 +1143,17 @@ section[id], div[id] {
 
 .menu-modal-close {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 26px;
-  height: 26px;
+  top: 19px;
+  right: 19px;
+  width: 49px;
+  height: 49px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
   background: transparent;
   border-radius: 50%;
-  font-size: 18px;
+  font-size: 34px;
   line-height: 1;
   color: var(--ink-faint);
   cursor: pointer;
@@ -1173,20 +1173,20 @@ section[id], div[id] {
 }
 
 .menu-modal-name {
-  font-size: 1rem;
+  font-size: 1.875rem;
   font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.2;
   color: var(--ink);
-  margin: 0 0 12px;
-  padding-right: 24px;
+  margin: 0 0 22px;
+  padding-right: 45px;
 }
 
 .menu-modal-milk-toggle {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  margin: 0 0 12px;
+  gap: 11px;
+  margin: 0 0 22px;
 }
 
 .menu-modal-table-img {

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-type Tint     = "vanilla" | "chocolate" | "matcha" | "masala";
+type Tint     = "vanilla" | "chocolate" | "matcha" | "chai";
 type Category = "shakes" | "latte";
 type MilkType = "deslactosada" | "descremada";
 
@@ -9,7 +9,7 @@ type MilkFacts = { ingredients: string; calories: string };
 type MenuItem = {
   id: string;
   category: Category;
-  flavor: "moon" | "midnight" | "zen" | "masala";
+  flavor: "vanilla" | "chocolate" | "matcha" | "chai";
   flavorLabel: string;
   name: string;
   protein: string;
@@ -22,7 +22,7 @@ type SeasonalItem = {
   name: string;
   description: string;
   image: string;
-  category: "essentials";
+  category: "seasonal";
   flavor: string;
   tint: Tint;
   flavorLabel: string;
@@ -41,48 +41,20 @@ const TINT_ACCENT: Record<Tint, string> = {
   vanilla:   "oklch(0.6 0.09 90)",
   chocolate: "oklch(0.55 0.11 50)",
   matcha:    "oklch(0.52 0.10 150)",
-  masala:    "oklch(0.48 0.07 55)",
+  chai:    "oklch(0.48 0.07 55)",
 };
 
 // The permanent lineup — one product, milk type is a prep choice, not a
 // different drink (toggled locally in MenuCard / NutritionModal).
-// Display order: café (Latte) first, then Shakes — within each, Matcha →
-// Chai → Chocolate → Vainilla last.
+// Display order: Vainilla Latte → Chocolate Latte → Matcha Shake →
+// Chai Shake → Chocolate Shake → Vainilla Shake.
 const ITEMS: MenuItem[] = [
   {
-    id: "latte-masala",
+    id: "latte-vanilla",
     category: "latte",
-    flavor: "masala",
-    flavorLabel: "Chai",
-    name: "Masala Blendia Latte",
-    protein: "30g",
-    price: "Q40",
-    tint: "masala",
-    milk: {
-      deslactosada: { ingredients: "• Proteína whey vainilla • Chai • Leche deslactosada • Café", calories: "320 kcal" },
-      descremada:   { ingredients: "• Proteína whey vainilla • Chai • Leche descremada • Café",   calories: "290 kcal" },
-    },
-  },
-  {
-    id: "latte-midnight",
-    category: "latte",
-    flavor: "midnight",
-    flavorLabel: "Chocolate",
-    name: "Midnight Blendia Latte",
-    protein: "30g",
-    price: "Q40",
-    tint: "chocolate",
-    milk: {
-      deslactosada: { ingredients: "• Proteína whey chocolate • Leche deslactosada • Café", calories: "320 kcal" },
-      descremada:   { ingredients: "• Proteína whey chocolate • Leche descremada • Café",   calories: "290 kcal" },
-    },
-  },
-  {
-    id: "latte-moon",
-    category: "latte",
-    flavor: "moon",
+    flavor: "vanilla",
     flavorLabel: "Vainilla",
-    name: "Moon Blendia Latte",
+    name: "Vanilla Blendia Latte",
     protein: "30g",
     price: "Q40",
     tint: "vanilla",
@@ -92,11 +64,25 @@ const ITEMS: MenuItem[] = [
     },
   },
   {
-    id: "shakes-zen",
+    id: "latte-chocolate",
+    category: "latte",
+    flavor: "chocolate",
+    flavorLabel: "Chocolate",
+    name: "Chocolate Blendia Latte",
+    protein: "30g",
+    price: "Q40",
+    tint: "chocolate",
+    milk: {
+      deslactosada: { ingredients: "• Proteína whey chocolate • Leche deslactosada • Café", calories: "320 kcal" },
+      descremada:   { ingredients: "• Proteína whey chocolate • Leche descremada • Café",   calories: "290 kcal" },
+    },
+  },
+  {
+    id: "shakes-matcha",
     category: "shakes",
-    flavor: "zen",
+    flavor: "matcha",
     flavorLabel: "Matcha",
-    name: "Zen Blendia Shake",
+    name: "Matcha Blendia Shake",
     protein: "30g",
     price: "Q45",
     tint: "matcha",
@@ -106,25 +92,25 @@ const ITEMS: MenuItem[] = [
     },
   },
   {
-    id: "shakes-masala",
+    id: "shakes-chai",
     category: "shakes",
-    flavor: "masala",
+    flavor: "chai",
     flavorLabel: "Chai",
-    name: "Masala Blendia Shake",
+    name: "Chai Blendia Shake",
     protein: "30g",
     price: "Q35",
-    tint: "masala",
+    tint: "chai",
     milk: {
       deslactosada: { ingredients: "• Proteína whey vainilla • Chai • Leche deslactosada", calories: "320 kcal" },
       descremada:   { ingredients: "• Proteína whey vainilla • Chai • Leche descremada",   calories: "290 kcal" },
     },
   },
   {
-    id: "shakes-midnight",
+    id: "shakes-chocolate",
     category: "shakes",
-    flavor: "midnight",
+    flavor: "chocolate",
     flavorLabel: "Chocolate",
-    name: "Midnight Blendia Shake",
+    name: "Chocolate Blendia Shake",
     protein: "30g",
     price: "Q35",
     tint: "chocolate",
@@ -134,11 +120,11 @@ const ITEMS: MenuItem[] = [
     },
   },
   {
-    id: "shakes-moon",
+    id: "shakes-vanilla",
     category: "shakes",
-    flavor: "moon",
+    flavor: "vanilla",
     flavorLabel: "Vainilla",
-    name: "Moon Blendia Shake",
+    name: "Vanilla Blendia Shake",
     protein: "30g",
     price: "Q35",
     tint: "vanilla",
@@ -155,11 +141,11 @@ const ITEMS: MenuItem[] = [
 // SeasonalItem when one launches, or to `null` to hide the section again
 // (it renders nothing, no reserved space, when there's nothing to show).
 const SEASONAL_DRINK: SeasonalItem | null = {
-  name: "Zen Blendia",
+  name: "Matcha Blendia",
   description: "Nuestra receta con matcha real vuelve por tiempo limitado — solo mientras dure.",
-  image: "/img-core/bebidas/essentials/essentials_zen.webp",
-  category: "essentials",
-  flavor: "zen",
+  image: "/img-core/drinks/matcha.webp",
+  category: "seasonal",
+  flavor: "matcha",
   tint: "matcha",
   flavorLabel: "Matcha",
   protein: "30g",
@@ -226,7 +212,7 @@ function MenuCard({
   const [milk, setMilk] = useState<MilkType>("deslactosada");
 
   const facts = item.milk[milk];
-  const frontImage = `/img-core/bebidas/${item.category}/${item.category}_${item.flavor}.webp`;
+  const frontImage = `/img-core/drinks/${item.flavor}.webp`;
 
   return (
     <article
@@ -308,10 +294,10 @@ function NutritionModal({
 
   const { item } = source;
   const milkSuffix = milk === "deslactosada" ? "dl" : "dc";
-  const tableImage =
-    source.kind === "menu"
-      ? `/img-core/tablas-nutricionales/${source.item.category}/tabla_nutricional_${source.item.category}_${source.item.flavor}_${milkSuffix}.png`
-      : `/img-core/tablas-nutricionales/${source.item.category}/tabla_nutricional_${source.item.category}_${source.item.flavor}.png`;
+  // Seasonal items have no dedicated table yet — they're a limited-edition
+  // spin on an existing shake flavor, so they borrow that shake's table.
+  const productWord = source.kind === "menu" && source.item.category === "latte" ? "latte" : "shake";
+  const tableImage = `/img-core/nutrition-tables/table_${item.flavor}_blendia_${productWord}_${milkSuffix}.webp`;
 
   return (
     <div className="menu-modal-overlay" onClick={onClose}>

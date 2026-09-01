@@ -30,7 +30,7 @@ export default function WhyBlendia() {
         <h2 className="why-title why-animate">¿Por qué Blendia?</h2>
 
         <p className="why-statement-body why-animate">
-          Blendia nace para demostrar que elegir algo práctico y delicioso
+          Nace para demostrar que elegir algo práctico y delicioso
           no debería costarte tu bienestar. Convertimos bebidas tradicionales
           en opciones funcionales, porque hay productos cuyo precio es tu
           salud.
