@@ -12,13 +12,12 @@ export default function Hero({ scrollTo }: Props) {
         <div className="hero-left">
 
           <h1 className="hero-headline">
-            En Blendia, <br></br> tu bienestar sabe bien.
+            Elegir lo práctico <br></br>también puede ser sano.
           </h1>
 
           <p className="hero-sub">
-            Nace para demostrar que elegir lo práctico también puede ser sano.<br></br>
-            Transformamos las bebidas que ya conoces y disfrutas en opciones funcionales, pensadas para acompañar tu bienestar.<br></br>
-            Cuidarte no debería obligarte a elegir entre lo que te gusta y lo que te hace bien.
+            Cuidarte no debería obligarte a decidir entre lo que disfrutas y lo que te hace bien. <br></br>
+            Transformamos las bebidas que ya conoces y disfrutas en opciones funcionales, pensadas para acompañar tu bienestar.
           </p>
 
           <div className="hero-ctas">
