@@ -811,7 +811,7 @@ section[id], div[id] {
 }
 
 .menu-seasonal-image img {
-  height: 220px;
+  height: 176px;
   width: auto;
   object-fit: contain;
   /* Literal colors, not var(--ink-rgb) — see .hero-visual above. */
@@ -951,13 +951,13 @@ section[id], div[id] {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  height: 176px;
+  height: 214px;
   padding: 14px;
   background: color-mix(in oklch, var(--row-tint) var(--tint-mix-image), var(--bg-tile));
 }
 
 .menu-card-image-img {
-  height: 138px;
+  height: 176px;
   width: auto;
   object-fit: contain;
   object-position: bottom center;
@@ -2177,13 +2177,13 @@ section[id], div[id] {
 
   .menu-seasonal { margin-bottom: 40px; }
   .menu-seasonal-card { grid-template-columns: 1fr; }
-  .menu-seasonal-image img { height: 170px; }
+  .menu-seasonal-image img { height: 136px; }
   .menu-seasonal-body { padding: 24px 20px 28px; }
 
   .menu-sabores-heading { margin-bottom: 18px; }
   .menu-list     { grid-template-columns: 1fr; gap: 34px; }
-  .menu-card-image { height: 150px; }
-  .menu-card-image-img { height: 116px; }
+  .menu-card-image { height: 170px; }
+  .menu-card-image-img { height: 136px; }
 
   .experience-v2 { padding: 36px var(--page-pad); }
 
