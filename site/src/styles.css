@@ -1088,7 +1088,7 @@ section[id], div[id] {
   outline-offset: 2px;
 }
 
-/* ─── Nutrition modal — dedicated card, front (facts) / back (official table) ─── */
+/* ─── Nutrition modal — compact lightbox around the official table image ─── */
 .menu-modal-overlay {
   position: fixed;
   inset: 0;
@@ -1098,14 +1098,14 @@ section[id], div[id] {
   justify-content: center;
   padding: 24px;
   /* Literal colors, not var(--ink-rgb) — see .navbar.is-scrolled above. */
-  background: rgba(64, 63, 69, 0.42);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: rgba(64, 63, 69, 0.28);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
   animation: menu-modal-overlay-in 0.2s ease both;
 }
 
 [data-theme="dark"] .menu-modal-overlay {
-  background: rgba(245, 241, 232, 0.42);
+  background: rgba(245, 241, 232, 0.28);
 }
 
 @keyframes menu-modal-overlay-in {
@@ -1115,7 +1115,7 @@ section[id], div[id] {
 
 .menu-modal {
   width: 100%;
-  max-width: 400px;
+  max-width: 320px;
   animation: menu-modal-in 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
@@ -1131,27 +1131,29 @@ section[id], div[id] {
   /* Literal colors, not rgba(var(--ink-rgb)) — parent .menu-modal runs a
      mount animation (transform+opacity, "both" fill) every open, same
      compositing risk as .radial-item above. */
-  box-shadow: 0 24px 64px rgba(64, 63, 69, 0.24);
-  padding: 32px 28px 28px;
+  box-shadow: 0 16px 40px rgba(64, 63, 69, 0.18);
+  padding: 18px 18px 16px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
 }
 
 [data-theme="dark"] .menu-modal-face {
-  box-shadow: 0 24px 64px rgba(245, 241, 232, 0.24);
+  box-shadow: 0 16px 40px rgba(245, 241, 232, 0.18);
 }
 
 .menu-modal-close {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 28px;
-  height: 28px;
+  top: 10px;
+  right: 10px;
+  width: 26px;
+  height: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
   background: transparent;
   border-radius: 50%;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1;
   color: var(--ink-faint);
   cursor: pointer;
@@ -1170,84 +1172,28 @@ section[id], div[id] {
   background: rgba(245, 241, 232, 0.06);
 }
 
-.menu-modal-flavor {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--font-serif);
-  font-variation-settings: var(--serif-settings);
-  font-style: italic;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: -0.005em;
-  margin-bottom: 6px;
-  padding-right: 28px;
-}
-
-.menu-modal-flavor::before {
-  content: "";
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: currentColor;
-  flex-shrink: 0;
-}
-
 .menu-modal-name {
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.2;
   color: var(--ink);
-  margin: 0 0 8px;
-  padding-right: 28px;
-}
-
-.menu-modal-ingredients {
-  font-size: 0.875rem;
-  color: var(--ink-muted);
-  line-height: 1.55;
-  margin: 0 0 16px;
+  margin: 0 0 12px;
+  padding-right: 24px;
 }
 
 .menu-modal-milk-toggle {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  margin: 0 0 20px;
+  margin: 0 0 12px;
 }
 
-.menu-modal-facts {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  border-top: var(--rule);
-}
-
-.menu-modal-fact {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 12px 0;
-  border-bottom: var(--rule);
-}
-
-.menu-modal-fact dt {
-  font-size: 0.875rem;
-  color: var(--ink-2);
-}
-
-.menu-modal-fact dd {
-  margin: 0;
-  font-family: var(--font-mono);
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--ink);
-}
-
-@media (max-width: 500px) {
-  .menu-modal-face { padding: 26px 20px 20px; }
+.menu-modal-table-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: calc(var(--radius-card) - 8px);
 }
 
 /* =========================================================
@@ -2128,27 +2074,6 @@ section[id], div[id] {
 @media (min-width: 981px) {
   .float-cta { display: none; }
 }
-
-/* =========================================================
-   SECTION CTA STRIP (legacy — kept in case needed)
-========================================================= */
-.section-cta-strip { display: none; }
-
-/* =========================================================
-   OLD PRODUCT CARD (kept for reference but not rendered)
-========================================================= */
-.catalog-shell,
-.catalog-hero,
-.hero-pills,
-.hero-pill,
-.hero-pill-toggle,
-.product-card,
-.product-card-inner,
-.product-card-face,
-.product-card-front,
-.product-card-back,
-.category-block,
-.category-chip { /* unused — keep declarations to avoid TS errors */ }
 
 /* =========================================================
    RESPONSIVE — TABLET <= 980px

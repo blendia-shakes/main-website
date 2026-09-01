@@ -22,6 +22,8 @@ type SeasonalItem = {
   name: string;
   description: string;
   image: string;
+  category: "essentials";
+  flavor: string;
   tint: Tint;
   flavorLabel: string;
   protein: string;
@@ -41,10 +43,6 @@ const TINT_ACCENT: Record<Tint, string> = {
   matcha:    "oklch(0.52 0.10 150)",
   masala:    "oklch(0.48 0.07 55)",
 };
-
-// Base profile shared by every drink (see Benefits section) — used to fill
-// out a text nutrition breakdown alongside the per-drink facts below.
-const BASE_FACTS = { fat: "<1.5g", addedSugar: "0g" };
 
 // The permanent lineup — one product, milk type is a prep choice, not a
 // different drink (toggled locally in MenuCard / NutritionModal).
@@ -160,6 +158,8 @@ const SEASONAL_DRINK: SeasonalItem | null = {
   name: "Zen Blendia",
   description: "Nuestra receta con matcha real vuelve por tiempo limitado — solo mientras dure.",
   image: "/img-core/bebidas/essentials/essentials_zen.webp",
+  category: "essentials",
+  flavor: "zen",
   tint: "matcha",
   flavorLabel: "Matcha",
   protein: "30g",
@@ -307,7 +307,11 @@ function NutritionModal({
   }, [onClose]);
 
   const { item } = source;
-  const facts = source.kind === "menu" ? source.item.milk[milk] : { ingredients: source.item.ingredients, calories: source.item.calories };
+  const milkSuffix = milk === "deslactosada" ? "dl" : "dc";
+  const tableImage =
+    source.kind === "menu"
+      ? `/img-core/tablas-nutricionales/${source.item.category}/tabla_nutricional_${source.item.category}_${source.item.flavor}_${milkSuffix}.png`
+      : `/img-core/tablas-nutricionales/${source.item.category}/tabla_nutricional_${source.item.category}_${source.item.flavor}.png`;
 
   return (
     <div className="menu-modal-overlay" onClick={onClose}>
@@ -323,11 +327,7 @@ function NutritionModal({
             ×
           </button>
 
-          <span className="menu-modal-flavor" style={{ color: TINT_ACCENT[item.tint] }}>
-            {item.flavorLabel}
-          </span>
           <h3 className="menu-modal-name">{item.name}</h3>
-          <p className="menu-modal-ingredients">{facts.ingredients}</p>
 
           {source.kind === "menu" && (
             <div className="menu-modal-milk-toggle" role="group" aria-label={`Tipo de leche — ${item.name}`}>
@@ -351,24 +351,13 @@ function NutritionModal({
             </div>
           )}
 
-          <dl className="menu-modal-facts">
-            <div className="menu-modal-fact">
-              <dt>Proteína</dt>
-              <dd>{item.protein}</dd>
-            </div>
-            <div className="menu-modal-fact">
-              <dt>Calorías</dt>
-              <dd>{facts.calories}</dd>
-            </div>
-            <div className="menu-modal-fact">
-              <dt>Grasas</dt>
-              <dd>{BASE_FACTS.fat}</dd>
-            </div>
-            <div className="menu-modal-fact">
-              <dt>Azúcares añadidos</dt>
-              <dd>{BASE_FACTS.addedSugar}</dd>
-            </div>
-          </dl>
+          <img
+            className="menu-modal-table-img"
+            src={tableImage}
+            alt={`Tabla nutricional — ${item.name}`}
+            loading="eager"
+            decoding="async"
+          />
         </div>
       </div>
     </div>
