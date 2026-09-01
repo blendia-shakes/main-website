@@ -18,6 +18,14 @@ export const ZONE_LABELS: Record<LocationZone, string> = {
   'zona-10': 'Zona 10',
 };
 
+export const TYPE_LABELS: Record<LocationType, string> = {
+  gym:        'Gimnasio',
+  office:     'Oficina',
+  university: 'Universidad',
+  mall:       'Centro comercial',
+  clinic:     'Clínica',
+};
+
 export const locations: Location[] = [
   {
     id: 'golds-z7',

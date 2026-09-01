@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   locations,
   ZONE_LABELS,
+  TYPE_LABELS,
   type LocationType,
   type LocationZone,
 } from "../data/locations";
@@ -20,7 +21,7 @@ const filterZones: { key: ActiveZone; label: string }[] = [
 
 function IconGym() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
       <path d="M6 9H4v6h2M6 9v6M6 9h2M6 15h2M8 9v6M18 9h2v6h-2M18 9v6M18 9h-2M18 15h-2M16 9v6M8 12h8" />
     </svg>
   );
@@ -28,7 +29,7 @@ function IconGym() {
 
 function IconOffice() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16M3 21h18" />
       <path d="M9 8h2M9 12h2M13 8h2M13 12h2M10 21v-5h4v5" />
     </svg>
@@ -37,7 +38,7 @@ function IconOffice() {
 
 function IconUniversity() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M12 3L2 9l10 6 10-6-10-6z" />
       <path d="M6 13v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5" />
       <path d="M22 9v5" />
@@ -47,7 +48,7 @@ function IconUniversity() {
 
 function IconMall() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
       <path d="M3 6h18M16 10a4 4 0 0 1-8 0" />
     </svg>
@@ -56,7 +57,7 @@ function IconMall() {
 
 function IconClinic() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <rect x="3" y="3" width="18" height="18" rx="3" />
       <path d="M12 8v8M8 12h8" />
     </svg>
@@ -171,19 +172,26 @@ export default function Locations() {
                 className="loc-card"
                 style={{ animationDelay: `${i * 0.07}s` }}
               >
-                {/* Top row: icon + zone */}
+                {/* Top row: solid icon roundel (echoes the hero machine's
+                    "bl" badge) + type/zone meta */}
                 <div className="loc-card-top">
-                  <div className="loc-type-icon">
+                  <span className="loc-type-icon">
                     <TypeIcon type={loc.type} />
-                  </div>
-                  <span className="loc-zone-tag">{ZONE_LABELS[loc.zone]}</span>
+                  </span>
+                  <span className="loc-meta">
+                    {TYPE_LABELS[loc.type]}
+                    <span className="loc-meta-sep">·</span>
+                    {ZONE_LABELS[loc.zone]}
+                  </span>
                 </div>
 
                 <h3 className="loc-name">{loc.name}</h3>
                 <p className="loc-address">{loc.address}</p>
                 <p className="loc-hours">{loc.hours}</p>
 
-                {/* Bottom row: CTA + status */}
+                {/* Bottom row: CTA + status, status reusing the site's own
+                    solid/outline button vocabulary (hero-cta-primary /
+                    -secondary) instead of an invented badge color */}
                 <div className="loc-card-bottom">
                   {loc.status === 'live' ? (
                     <a

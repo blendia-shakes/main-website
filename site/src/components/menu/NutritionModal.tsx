@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { MilkType, NutritionSource } from "../../data/menu";
+import { TINT_ACCENT, TINT_BADGE_INK, type MilkType, type NutritionSource } from "../../data/menu";
 import MilkToggle from "./MilkToggle";
 
 export default function NutritionModal({
@@ -38,7 +38,15 @@ export default function NutritionModal({
         aria-label={`Información nutricional — ${item.name}`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="menu-modal-face">
+        <div
+          className="menu-modal-face"
+          data-tint={item.tint}
+          data-id={source.kind === "menu" ? source.item.id : undefined}
+          style={{
+            "--row-tint": TINT_ACCENT[item.tint],
+            "--row-tint-badge-ink": TINT_BADGE_INK[item.tint],
+          } as React.CSSProperties}
+        >
           <button type="button" className="menu-modal-close" onClick={onClose} aria-label="Cerrar">
             ×
           </button>
@@ -54,13 +62,15 @@ export default function NutritionModal({
             />
           )}
 
-          <img
-            className="menu-modal-table-img"
-            src={tableImage}
-            alt={`Tabla nutricional — ${item.name}`}
-            loading="eager"
-            decoding="async"
-          />
+          <div className="menu-modal-table-frame">
+            <img
+              className="menu-modal-table-img"
+              src={tableImage}
+              alt={`Tabla nutricional — ${item.name}`}
+              loading="eager"
+              decoding="async"
+            />
+          </div>
         </div>
       </div>
     </div>
