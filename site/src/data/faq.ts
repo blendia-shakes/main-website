@@ -50,7 +50,7 @@ export const faqItems: FaqItem[] = [
     id: 'cuanto-cuesta',
     category: 'acceso',
     question: '¿Cuánto cuesta?',
-    short: 'Lattes y Shakes entre Q 30–45. Essentials desde Q30. El precio exacto aparece en la pantalla de la máquina.',
+    short: 'Lattes y Shakes entre Q 38–48. Essentials desde Q30. El precio exacto aparece en la pantalla de la máquina.',
     long: 'El precio de Blendia es comparable al de una bebida de cafetería premium — pero todo cambia cuando incluye proteína real y menos azúcar. No pagas solo la bebida; pagas no tener que elegir entre lo que quieres y lo que te hace bien.',
   },
   {
@@ -88,14 +88,14 @@ export const faqItems: FaqItem[] = [
     id: 'azucar-vs-cafeteria',
     category: 'nutricion',
     question: '¿Cuánta azúcar tiene comparado con una bebida de cafetería?',
-    short: 'Todas nuestras bebidas son preparadas sin azúcares extras. El dulzor proviene de los ingredientes utilizados. Está ahí, pero controlado.',
+    short: 'Todas nuestras bebidas son preparadas sin azúcares añadidos. El dulzor proviene de los ingredientes utilizados que tampoco contiene azúcar añadido. Está ahí, pero controlado.',
     long: 'Un chai latte mediano de cafetería puede tener entre 30g y 45g de azúcar. Un frappé, más. Blendia tiene el dulzor suficiente para saber a antojo, sin el exceso que deja esa sensación pesada de después. No es una bebida sin azúcar — es una bebida con el azúcar en su lugar correcto. Los valores exactos están en la tabla nutricional de cada producto.',
   },
   {
     id: 'cuanta-proteina',
     category: 'nutricion',
     question: '¿Cuánta proteína tiene cada bebida?',
-    short: 'Entre 30g y 40g por porción según la categoría. Los Shakes tienen la mayor concentración.',
+    short: 'Entre 30g y 35g por porción.',
     long: 'Los Shakes tienen la mayor concentración de proteína. Los Lattes tienen un balance entre sabor y proteína. Los Essentials son la versión más pura y directa. La tabla nutricional de cada producto está en el catálogo — gira la card para verla.',
   },
   {
@@ -119,14 +119,14 @@ export const faqItems: FaqItem[] = [
     id: 'cafeina',
     category: 'nutricion',
     question: '¿Tiene cafeína?',
-    short: 'Los lattes sí contienen cafeína. Matcha (matcha) tiene teína, de liberación más lenta. Chai tiene niveles mínimos y Vanilla es libre de cafeína.',
+    short: 'Los lattes sí contienen cafeína. Matcha contiene teína, de liberación más lenta. Chai tiene niveles mínimos y Vanilla es libre de cafeína.',
     long: 'Chocolate tiene cafeína comparable a un americano pequeño. Matcha tiene teína — la cafeína del té verde, que genera alerta sin el pico y caída del café. Si eres sensible a la cafeína o quieres tomar Blendia por la noche, Vanilla o Chai son los más seguros. Los valores exactos están en la tabla nutricional de cada variedad.',
   },
   {
     id: 'lactosa',
     category: 'nutricion',
     question: '¿Es apta para intolerantes a la lactosa?',
-    short: 'Los productos de Blendia son a base de proteína de suero, son derivados de lacteos, pero procesados para extracción de concentración de proteína.',
+    short: 'Cada Blendia es a base de proteína de suero, son derivados de lacteos, pero procesados para extracción de concentración de proteína. Además que ofrecemos una alternativa con leche descremada.',
     long: 'La base estándar usa proteína de suero (whey), derivada de la leche. Si eres intolerante severo o tienes alergia a la proteína de la leche, revisa la etiqueta nutricional de la variante específica. Estamos desarrollando versiones con alternativas vegetales para ampliar el acceso.',
   },
   {

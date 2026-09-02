@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { faqItems } from "../data/faq";
 
 const FEATURED_IDS = [
-  'diferencia-categorias',
   'azucar-vs-cafeteria',
+  'conservantes',
   'tipo-leche',
   'lactosa',
   'cafeina',
