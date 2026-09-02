@@ -53,9 +53,9 @@ export default function Benefits() {
           </div>
           <div className="benefits-stat why-animate" style={{ transitionDelay: "380ms" }}>
             <span className="benefits-stat-value">
-              &lt;1.5<small>g</small>
+              &lt;10<small>g</small>
             </span>
-            <span className="benefits-stat-label">Grasa</span>
+            <span className="benefits-stat-label">Grasas totales</span>
           </div>
         </div>
 
