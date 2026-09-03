@@ -1,4 +1,6 @@
-export type Tint     = "vanilla-latte" | "vanilla-shake" | "chocolate" | "matcha" | "chai" | "sakura" | "pumpkin-spice";
+import type { SeasonalItem } from "./seasonalDrinks";
+
+export type Tint     = "vanilla-latte" | "vanilla-shake" | "chocolate" | "matcha" | "chai" | "sakura" | "pumpkin-spice" | "horchata" | "coco" | "pina-colada" | "apple-pie" | "strawberry";
 export type Category = "shakes" | "latte";
 export type MilkType = "deslactosada" | "descremada";
 
@@ -15,26 +17,11 @@ export type MenuItem = {
   milk: Record<MilkType, MilkFacts>;
 };
 
-export type SeasonalItem = {
-  name: string;
-  description: string;
-  image: string;
-  category: "seasonal";
-  flavor: string;
-  tint: Tint;
-  flavorLabel: string;
-  price: string;
-  protein: string;
-  ingredients: string;
-  calories: string;
-  available: boolean;
-};
-
-// A modal can be opened from a permanent MenuCard (which carries a milk-type
-// toggle) or from the seasonal spotlight (a single fixed profile, no toggle).
+// A modal can be opened from a permanent MenuCard or from the seasonal
+// spotlight — both now carry a milk-type toggle.
 export type NutritionSource =
   | { kind: "menu"; item: MenuItem; milk: MilkType }
-  | { kind: "seasonal"; item: SeasonalItem };
+  | { kind: "seasonal"; item: SeasonalItem; milk: MilkType };
 
 export const TINT_ACCENT: Record<Tint, string> = {
   "vanilla-shake": "#F5E7C9",
@@ -44,16 +31,26 @@ export const TINT_ACCENT: Record<Tint, string> = {
   chai:      "#B1832F",
   sakura:    "#FCA5B4",
   "pumpkin-spice": "#EAA271",
+  horchata:  "#E3D1B0",
+  coco:      "#D1C6B0",
+  "pina-colada": "#E8D9A0",
+  "apple-pie": "#D89B6A",
+  strawberry: "#E86E7D",
 };
 
 // Badge text (menu-card-price-badge / menu-seasonal-badge) defaults to a
 // light color because it sits on solid --row-tint. vanilla-shake's,
-// sakura's, and pumpkin-spice's tints are too pale for that to read —
-// force dark badge text for those.
+// sakura's, pumpkin-spice's, horchata's, coco's, pina-colada's, and
+// apple-pie's tints are too pale for that to read — force dark badge text
+// for those.
 export const TINT_BADGE_INK: Partial<Record<Tint, string>> = {
   "vanilla-shake": "#403F45",
   sakura: "#403F45",
   "pumpkin-spice": "#403F45",
+  horchata: "#403F45",
+  coco: "#403F45",
+  "pina-colada": "#403F45",
+  "apple-pie": "#403F45",
 };
 
 export const MILK_LABELS: Record<MilkType, string> = {
@@ -143,41 +140,5 @@ export const ITEMS: MenuItem[] = [
       deslactosada: { ingredients: "• Proteína whey vainilla • Leche deslactosada", calories: "283 kcal", protein: "33g" },
       descremada:   { ingredients: "• Proteína whey vainilla • Leche descremada",   calories: "249 kcal", protein: "35g" },
     },
-  },
-];
-
-// The current limited releases. Each item's `available` toggles just that
-// spotlight card on/off (it renders nothing, no reserved space, when
-// false) — flip it instead of deleting/commenting out the entry when a
-// run ends. `flavor` here drives the nutrition-table image path (borrows
-// an existing shake's table — see NutritionModal), not the display name.
-export const SEASONAL_DRINKS: SeasonalItem[] = [
-  {
-    name: "Sakura Blendia",
-    description: "Un toque floral y afrutado inspirado en la temporada sakura — edición limitada, solo mientras dure.",
-    image: "/img-core/drinks/sakura.webp",
-    category: "seasonal",
-    flavor: "vanilla",
-    tint: "sakura",
-    flavorLabel: "Sakura",
-    price: "Q48",
-    protein: "33g",
-    ingredients: "• Proteína whey vainilla • Sakura • Leche deslactosada",
-    calories: "283 kcal",
-    available: false,
-  },
-  {
-    name: "Pumpkin Spice Blendia",
-    description: "Especias cálidas de temporada en un batido cremoso — edición limitada, solo mientras dure.",
-    image: "/img-core/drinks/pumpkin-spice.webp",
-    category: "seasonal",
-    flavor: "chai",
-    tint: "pumpkin-spice",
-    flavorLabel: "Pumpkin Spice",
-    price: "Q48",
-    protein: "30g",
-    ingredients: "• Proteína whey vainilla • Pumpkin spice • Leche deslactosada",
-    calories: "348 kcal",
-    available: true,
   },
 ];

@@ -9,9 +9,11 @@ import {
 
 type ActiveZone = LocationZone | 'todas';
 
+const availableLocations = locations.filter((loc) => loc.available);
+
 const filterZones: { key: ActiveZone; label: string }[] = [
   { key: 'todas', label: 'Todas' },
-  ...Array.from(new Set(locations.map((l) => l.zone))).map((z) => ({
+  ...Array.from(new Set(availableLocations.map((l) => l.zone))).map((z) => ({
     key: z,
     label: ZONE_LABELS[z],
   })),
@@ -99,8 +101,8 @@ export default function Locations() {
 
   const filtered =
     activeZone === 'todas'
-      ? locations
-      : locations.filter((loc) => loc.zone === activeZone);
+      ? availableLocations
+      : availableLocations.filter((loc) => loc.zone === activeZone);
 
   const activeLabel = filterZones.find((z) => z.key === activeZone)?.label ?? '';
 

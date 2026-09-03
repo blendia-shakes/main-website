@@ -291,6 +291,25 @@
   color: #C49A50;
 }
 
+/* Same pale-tint problem as shakes-vanilla above, on three of the seasonal
+   cards: horchata, coco, and pina-colada's --row-tint values are creamy
+   enough that the milk-toggle active label (plain color: var(--row-tint)
+   text, no chip background behind it to lean on) reads as barely-there in
+   light mode. Punchier, darker/more-saturated same-hue variants, keyed off
+   data-tint (seasonal items don't have MenuCard's stable per-item id, but
+   each tint slug is unique to one drink) instead of data-id. Scoped to
+   light mode only — dark mode's darker card background already gives the
+   raw --row-tint enough contrast to read fine. */
+:root:not([data-theme="dark"]) :is(.menu-seasonal, .menu-modal-face)[data-tint="horchata"] .menu-row-milk-btn.is-active {
+  color: #A87924;
+}
+:root:not([data-theme="dark"]) :is(.menu-seasonal, .menu-modal-face)[data-tint="coco"] .menu-row-milk-btn.is-active {
+  color: #8A7242;
+}
+:root:not([data-theme="dark"]) :is(.menu-seasonal, .menu-modal-face)[data-tint="pina-colada"] .menu-row-milk-btn.is-active {
+  color: #B39319;
+}
+
 /* Per-drink literal palette, dark mode — same idea as the light-mode
    block above (explicit design spec, keyed off data-id so the two
    Chocolate items can differ), overriding the shared color-mix
@@ -1141,6 +1160,14 @@ section[id], div[id] {
   line-height: 1.55;
   max-width: 46ch;
   margin: 0;
+}
+
+.menu-seasonal-macros {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink-muted);
+  letter-spacing: 0.02em;
 }
 
 .menu-seasonal-info-btn {

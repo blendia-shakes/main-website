@@ -1,15 +1,22 @@
-import { TINT_ACCENT, TINT_BADGE_INK, type SeasonalItem } from "../../data/menu";
+import { useState } from "react";
+import { TINT_ACCENT, TINT_BADGE_INK, type MilkType } from "../../data/menu";
+import type { SeasonalItem } from "../../data/seasonalDrinks";
+import MilkToggle from "./MilkToggle";
 
 export default function SeasonalPromo({
   item,
   onOpenNutrition,
 }: {
   item: SeasonalItem;
-  onOpenNutrition: (item: SeasonalItem) => void;
+  onOpenNutrition: (item: SeasonalItem, milk: MilkType) => void;
 }) {
+  const [milk, setMilk] = useState<MilkType>("deslactosada");
+  const facts = item.milk[milk];
+
   return (
     <div
       className="menu-seasonal why-animate"
+      data-tint={item.tint}
       style={{
         "--row-tint": TINT_ACCENT[item.tint],
         "--row-tint-badge-ink": TINT_BADGE_INK[item.tint],
@@ -33,10 +40,17 @@ export default function SeasonalPromo({
           </div>
           <h3 className="menu-seasonal-name">{item.name}</h3>
           <p className="menu-seasonal-desc">{item.description}</p>
+
+          <MilkToggle milk={milk} onChange={setMilk} ariaLabel={`Tipo de leche — ${item.name}`} />
+
+          <span className="menu-seasonal-macros">
+            {facts.protein} proteína · {facts.calories}
+          </span>
+
           <button
             type="button"
             className="menu-seasonal-info-btn"
-            onClick={() => onOpenNutrition(item)}
+            onClick={() => onOpenNutrition(item, milk)}
           >
             Información nutricional
           </button>

@@ -1,4 +1,4 @@
-export type LocationZone = 'zona-7' | 'zona-10';
+export type LocationZone = 'zona-7' | 'zona-9' | 'zona-10' | 'zona-11' | 'zona-12' | 'zona-13' | 'zona-14' | 'zona-15' | 'zona-16';
 export type LocationType = 'gym' | 'office' | 'university' | 'mall' | 'clinic';
 export type LocationStatus = 'live' | 'soon';
 
@@ -11,11 +11,19 @@ export type Location = {
   hours: string;
   mapsUrl: string;
   status: LocationStatus;
+  available: boolean;
 };
 
 export const ZONE_LABELS: Record<LocationZone, string> = {
   'zona-7':  'Zona 7',
+  'zona-9': 'Zona 9',
   'zona-10': 'Zona 10',
+  'zona-11': 'Zona 11',
+  'zona-12': 'Zona 12',
+  'zona-13': 'Zona 13',
+  'zona-14': 'Zona 14',
+  'zona-15': 'Zona 15',
+  'zona-16': 'Zona 16'
 };
 
 export const TYPE_LABELS: Record<LocationType, string> = {
@@ -36,6 +44,7 @@ export const locations: Location[] = [
     hours: 'Lun–Vie 5am–11pm • Sáb–Dom 7am–9pm',
     mapsUrl: 'https://maps.google.com/?q=Av+La+Reforma+1-61+Zona+7+Guatemala+City',
     status: 'live',
+    available: true,
   },
   {
     id: 'wework-z10',
@@ -46,5 +55,6 @@ export const locations: Location[] = [
     hours: 'Lun–Vie 7am–8pm',
     mapsUrl: 'https://maps.google.com/?q=99+Calle+Zona+10+Guatemala+City',
     status: 'soon',
+    available: true,
   },
 ];

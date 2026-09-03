@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { ITEMS, SEASONAL_DRINKS, type NutritionSource } from "../data/menu";
+import { ITEMS, type NutritionSource } from "../data/menu";
+import { SEASONAL_DRINKS } from "../data/seasonalDrinks";
 import MenuCard from "./menu/MenuCard";
 import NutritionModal from "./menu/NutritionModal";
 import SeasonalPromo from "./menu/SeasonalPromo";
@@ -39,12 +40,16 @@ export default function MenuSection() {
           </h2>
         </div>
 
+        {SEASONAL_DRINKS.some((item) => item.available) && (
+          <h3 className="menu-sabores-heading why-animate">Sabor de temporada</h3>
+        )}
+
         {/* Seasonal spotlight(s) — each only rendered while that limited release is active */}
         {SEASONAL_DRINKS.filter((item) => item.available).map((item) => (
           <SeasonalPromo
             key={item.name}
             item={item}
-            onOpenNutrition={(item) => setActiveNutrition({ kind: "seasonal", item })}
+            onOpenNutrition={(item, milk) => setActiveNutrition({ kind: "seasonal", item, milk })}
           />
         ))}
 

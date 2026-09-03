@@ -9,7 +9,7 @@ export default function NutritionModal({
   source: NutritionSource;
   onClose: () => void;
 }) {
-  const [milk, setMilk] = useState<MilkType>(source.kind === "menu" ? source.milk : "deslactosada");
+  const [milk, setMilk] = useState<MilkType>(source.milk);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
@@ -53,14 +53,12 @@ export default function NutritionModal({
 
           <h3 className="menu-modal-name">{item.name}</h3>
 
-          {source.kind === "menu" && (
-            <MilkToggle
-              milk={milk}
-              onChange={setMilk}
-              ariaLabel={`Tipo de leche — ${item.name}`}
-              className="menu-modal-milk-toggle"
-            />
-          )}
+          <MilkToggle
+            milk={milk}
+            onChange={setMilk}
+            ariaLabel={`Tipo de leche — ${item.name}`}
+            className="menu-modal-milk-toggle"
+          />
 
           <div className="menu-modal-table-frame">
             <img

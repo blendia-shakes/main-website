@@ -1,6 +1,6 @@
 ---
 name: add-seasonal-drink
-description: Add a new limited-edition/seasonal drink to the Blendia menu's seasonal spotlight (site/src/data/menu.ts). Use when the user asks to add a new seasonal, limited-edition, or "temporada" drink/beverage to the site. Only ask for the drink's name, its accent hex color, and its price — everything else (source image lookup, webp generation, code wiring) is automated by this skill.
+description: Add a new limited-edition/seasonal drink to the Blendia menu's seasonal spotlight (site/src/data/seasonalDrinks.ts, with shared tint tokens in site/src/data/menu.ts). Use when the user asks to add a new seasonal, limited-edition, or "temporada" drink/beverage to the site. Only ask for the drink's name, its accent hex color, and its price — everything else (source image lookup, webp generation, code wiring) is automated by this skill.
 ---
 
 # Adding a seasonal drink
@@ -72,7 +72,8 @@ moving on, and confirm the sampled hex with the user rather than assuming.
 
 ## Step 3 — decide the badge-ink override
 
-`site/src/data/menu.ts` has a `TINT_BADGE_INK` map that forces dark badge text
+`site/src/data/menu.ts` (shared by the permanent and seasonal lineups) has a
+`TINT_BADGE_INK` map that forces dark badge text
 (`#403F45`) for tints too pale for the default light badge text
 (`var(--bg-surface)`) to read against. Compute perceived luminance of the
 given hex:
@@ -102,8 +103,8 @@ keyword match against the new drink's name/theme:
 | chai, spice, cinnamon, canela, pumpkin, calabaza | `chai` |
 | anything else (floral, fruity, vanilla-adjacent, unclear) | `vanilla` (default) |
 
-Pull that flavor's `deslactosada` entry from `ITEMS` in the same file for
-the placeholder `protein`/`calories` values, and build `ingredients` as:
+Pull that flavor's `deslactosada` entry from `ITEMS` in `site/src/data/menu.ts`
+for the placeholder `protein`/`calories` values, and build `ingredients` as:
 
 ```
 • Proteína whey vainilla • {Drink Flavor Label} • Leche deslactosada
@@ -113,16 +114,19 @@ the placeholder `protein`/`calories` values, and build `ingredients` as:
 entries — the borrowed flavor's own base ingredient, e.g. "Chai", is
 replaced with the new drink's own flavor word).
 
-## Step 5 — edit `site/src/data/menu.ts`
+## Step 5 — edit `site/src/data/menu.ts` and `site/src/data/seasonalDrinks.ts`
 
-Four edits, all in this file:
+`Tint`, `TINT_ACCENT`, and `TINT_BADGE_INK` live in `menu.ts` because they're
+shared by both the permanent lineup (`ITEMS`) and the seasonal lineup
+(`SEASONAL_DRINKS`, in `seasonalDrinks.ts`, which imports `type Tint` from
+`menu.ts`). Four edits total:
 
-1. **`Tint` union** (near the top) — append the new tint slug:
+1. **`Tint` union** (top of `menu.ts`) — append the new tint slug:
    ```ts
    type Tint = "vanilla-latte" | "vanilla-shake" | "chocolate" | "matcha" | "chai" | "sakura" | "pumpkin-spice" | "<new-slug>";
    ```
 
-2. **`TINT_ACCENT`** — add the hex:
+2. **`TINT_ACCENT`** (in `menu.ts`) — add the hex:
    ```ts
    const TINT_ACCENT: Record<Tint, string> = {
      ...
@@ -130,7 +134,7 @@ Four edits, all in this file:
    };
    ```
 
-3. **`TINT_BADGE_INK`** — add only if Step 3 said to:
+3. **`TINT_BADGE_INK`** (in `menu.ts`) — add only if Step 3 said to:
    ```ts
    const TINT_BADGE_INK: Partial<Record<Tint, string>> = {
      ...
@@ -138,7 +142,7 @@ Four edits, all in this file:
    };
    ```
 
-4. **`SEASONAL_DRINKS` array** — append a new `SeasonalItem`:
+4. **`SEASONAL_DRINKS` array** (in `seasonalDrinks.ts`) — append a new `SeasonalItem`:
    ```ts
    {
      name: "<Drink Name> Blendia",
@@ -161,8 +165,8 @@ Four edits, all in this file:
 
    Each entry's `available` flag independently controls whether that one
    card renders (`SEASONAL_DRINKS.filter((item) => item.available).map(...)`
-   in the component below) — flip it to `false` instead of deleting the
-   entry when a run ends.
+   in `MenuSection.tsx`) — flip it to `false` instead of deleting the entry
+   when a run ends.
 
 Do **not** touch `NutritionModal.tsx`, `SeasonalPromo.tsx`, or `MenuSection.tsx`'s
 render loop — those (in `site/src/components/menu/` and
