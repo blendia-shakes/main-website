@@ -18,184 +18,93 @@ export type FaqItem = {
   category: FaqCategory;
   question: string;
   short: string;
-  long: string;
+  order: number;
 };
 
 export const faqItems: FaqItem[] = [
-
-  /* ── TIER 1 — Bloquean la visita ───────────────────────────────────── */
-
-  {
-    id: 'como-funciona-maquina',
-    category: 'maquina',
-    question: '¿Cómo funciona la máquina? ¿Es complicado?',
-    short: 'Selecciona tu bebida en la pantalla táctil, pagas, observas su preparación y en segundos tienes tu Blendia listo. Sin app, sin registro.',
-    long: 'La máquina funciona como cualquier vending machine moderna: pantalla táctil para elegir categoría y sabor, pago integrado (tarjeta de crédito o débito), entrega en segundos. No necesitas descargar ninguna app ni crear una cuenta. Cada máquina tiene instrucciones visuales paso a paso. El proceso completo toma menos de dos minutos.',
-  },
-  {
-    id: 'como-pagar',
-    category: 'maquina',
-    question: '¿Con qué puedo pagar?',
-    short: 'Tarjeta de débito o crédito . Contactless está disponible. La máquina no acepta efectivo.',
-    long: 'Las máquinas Blendia aceptan tarjeta de débito y crédito (Visa, Mastercard) contactless. Si tu método de pago no funciona, hay un QR de soporte visible en cada máquina.',
-  },
-  {
-    id: 'sabe-a-proteina',
-    category: 'sabor',
-    question: '¿Se nota la proteína en el sabor?',
-    short: 'Está ahí, pero no lo parece. El sabor es el punto — la proteína es el bonus.',
-    long: 'Esta es la pregunta más frecuente, y la respuesta más honesta: no se nota. Blendia fue formulada para que la proteína sea invisible en el perfil de sabor. Lo que notas es el matcha, el chai, el café — no el suplemento. Si esperabas el sabor artificial de un shake de proteína, te va a sorprender. Si esperabas algo rico, vas a encontrar exactamente eso.',
-  },
-  {
-    id: 'cuanto-cuesta',
-    category: 'acceso',
-    question: '¿Cuánto cuesta?',
-    short: 'Lattes y Shakes entre Q 38–48. Essentials desde Q30. El precio exacto aparece en la pantalla de la máquina.',
-    long: 'El precio de Blendia es comparable al de una bebida de cafetería premium — pero todo cambia cuando incluye proteína real y menos azúcar. No pagas solo la bebida; pagas no tener que elegir entre lo que quieres y lo que te hace bien.',
-  },
-  {
-    id: 'disponible-horario',
-    category: 'maquina',
-    question: '¿Están disponibles todo el día?',
-    short: 'Depende del horario del establecimiento. La mayoría operan entre 6am y 10pm. Consulta el horario específico en Ubicaciones.',
-    long: 'Las máquinas funcionan dentro del horario de cada establecimiento. Los centros comerciales ofrecen acceso más amplio. Oficinas y universidades siguen horario laboral. En la sección de Ubicaciones puedes ver el horario específico de cada máquina antes de ir.',
-  },
-
-  /* ── TIER 2 — Bloquean la confianza ─────────────────────────────────── */
-
-  {
-    id: 'bebida-o-suplemento',
-    category: 'sabor',
-    question: '¿Es una bebida o un suplemento?',
-    short: 'Es una bebida funcional que además de sabor, tiene proteína.',
-    long: 'Blendia se diseñó como bebida funcional — no como suplemento con sabor. El punto de partida fue el sabor, no la proteína. No necesitas estar en dieta, hacer ejercicio ni tener ninguna meta nutricional para disfrutarla. Solo necesitas querer algo rico.',
-  },
-  {
-    id: 'ingredientes',
-    category: 'sabor',
-    question: '¿Qué ingredientes usa Blendia?',
-    short: 'Proteína de suero, saborizantes naturales y los ingredientes de cada variedad: matcha real, especias chai, chocolate. Sin colorantes artificiales.',
-    long: 'La formulación prioriza ingredientes reconocibles: proteína de suero de alta calidad, leche, y los perfiles reales de cada variedad — matcha japonés en el Matcha, especias auténticas en el Chai, chocolate de proceso natural en el Chocolate. La lista completa está en la tabla nutricional de cada producto, disponible en el catálogo de este sitio.',
-  },
-  {
-    id: 'conservantes',
-    category: 'sabor',
-    question: '¿Tiene conservantes o colorantes artificiales?',
-    short: 'No usa colorantes artificiales. Los conservantes son mínimos — lo necesario para garantizar estabilidad en la máquina.',
-    long: 'Los colores de cada bebida vienen de sus ingredientes naturales: el verde del matcha, el tono del chocolate. Como toda bebida formulada para dispensarse en vending, incluye estabilizadores que garantizan consistencia. Si tienes restricciones específicas, la tabla nutricional completa está en el catálogo.',
-  },
   {
     id: 'azucar-vs-cafeteria',
     category: 'nutricion',
     question: '¿Cuánta azúcar tiene comparado con una bebida de cafetería?',
-    short: 'Todas nuestras bebidas son preparadas sin azúcares añadidos. El dulzor proviene de los ingredientes utilizados que tampoco contiene azúcar añadido. Está ahí, pero controlado.',
-    long: 'Un chai latte mediano de cafetería puede tener entre 30g y 45g de azúcar. Un frappé, más. Blendia tiene el dulzor suficiente para saber a antojo, sin el exceso que deja esa sensación pesada de después. No es una bebida sin azúcar — es una bebida con el azúcar en su lugar correcto. Los valores exactos están en la tabla nutricional de cada producto.',
+    short: 'Todas nuestras bebidas son preparadas sin azúcares añadidos. El dulzor proviene de los ingredientes utilizados que pueden contener sucralosa o acesulfame-k.',
+    order: 1,
   },
   {
-    id: 'cuanta-proteina',
-    category: 'nutricion',
-    question: '¿Cuánta proteína tiene cada bebida?',
-    short: 'Entre 30g y 35g por porción.',
-    long: 'Los Shakes tienen la mayor concentración de proteína. Los Lattes tienen un balance entre sabor y proteína. Los Essentials son la versión más pura y directa. La tabla nutricional de cada producto está en el catálogo — gira la card para verla.',
-  },
-  {
-    id: 'calorias',
-    category: 'nutricion',
-    question: '¿Cuántas calorías tiene?',
-    short: 'Entre 150 y 280 kcal por porción. Los valores exactos están en la tabla nutricional de cada producto.',
-    long: 'Blendia tiene menos calorías que un frappé de cafetería del mismo tamaño, con más proteína — mejor relación calorías/saciedad. Para quienes cuentan calorías: los detalles completos están en la tabla nutricional de cada producto en el catálogo.',
-  },
-  {
-    id: 'sin-gym',
-    category: 'sabor',
-    question: '¿Puedo tomarlo si no hago ejercicio?',
-    short: 'Sí. Blendia no es una bebida de gym. Es una bebida que sabe rico y además es más saludable.',
-    long: 'La proteína no es solo para personas que hacen ejercicio — es un macronutriente que el cuerpo necesita todo el día. Pero más allá de eso: Blendia no se diseñó para el mercado fitness. Se diseñó para cualquier persona que quiera algo delicioso que también valga la pena. Si nunca pisas un gimnasio y amas el matcha, el Matcha Latte es para ti exactamente igual.',
-  },
-
-  /* ── TIER 3 — Restricciones personales ──────────────────────────────── */
-
-  {
-    id: 'cafeina',
-    category: 'nutricion',
-    question: '¿Tiene cafeína?',
-    short: 'Los lattes sí contienen cafeína. Matcha contiene teína, de liberación más lenta. Chai tiene niveles mínimos y Vanilla es libre de cafeína.',
-    long: 'Chocolate tiene cafeína comparable a un americano pequeño. Matcha tiene teína — la cafeína del té verde, que genera alerta sin el pico y caída del café. Si eres sensible a la cafeína o quieres tomar Blendia por la noche, Vanilla o Chai son los más seguros. Los valores exactos están en la tabla nutricional de cada variedad.',
+    id: 'tipo-leche',
+    category: 'catalogo',
+    question: '¿Qué tipos de leche están disponibles?',
+    short: 'Blendia tiene a tu elección leche descremada y deslactosada.',
+    order: 2,
   },
   {
     id: 'lactosa',
     category: 'nutricion',
     question: '¿Es apta para intolerantes a la lactosa?',
-    short: 'Cada Blendia es a base de proteína de suero, son derivados de lacteos, pero procesados para extracción de concentración de proteína. Además que ofrecemos una alternativa con leche descremada.',
-    long: 'La base estándar usa proteína de suero (whey), derivada de la leche. Si eres intolerante severo o tienes alergia a la proteína de la leche, revisa la etiqueta nutricional de la variante específica. Estamos desarrollando versiones con alternativas vegetales para ampliar el acceso.',
+    short: 'Cada Blendia es a base de proteína de suero de leche, pero procesada para la extracción de proteína. Además que ofrecemos una alternativa con leche deslactosada.',
+    order: 3,
   },
   {
-    id: 'gluten',
+    id: 'cafeina',
     category: 'nutricion',
-    question: '¿Tiene gluten?',
-    short: 'Los ingredientes principales no contienen gluten y son procesados en ambientes libres de trazas. No apta para celíacos.',
-    long: 'Si tienes celiaquía o sensibilidad severa, revisa la etiqueta específica de cada variedad. Aunque los ingredientes principales no contienen gluten, la producción compartida puede generar trazas. Para intolerancia leve, la mayoría de usuarios no reportan reacción — pero siempre consulta con tu médico.',
+    question: '¿Contiene cafeína?',
+    short: 'Los lattes sí contienen cafeína. El matcha contiene teína, de liberación más lenta. El chai tiene niveles mínimos y tanto vanilla como chocolate son libres de cafeína.',
+    order: 4,
+  },
+  {
+    id: 'sabe-a-proteina',
+    category: 'sabor',
+    question: '¿Se nota la proteína en el sabor?',
+    short: 'Está ahí, pero no lo parece. El sabor es el punto, la proteína es el bonus.',
+    order: 5,
   },
   {
     id: 'diabeticos',
     category: 'nutricion',
     question: '¿Es apta para diabéticos?',
-    short: 'Las pruebas realizadas por Blendia no mostraron picos significativos de insulina en personas con esta condición. Recomendamos consultar con tu médico antes de consumir el producto.',
-    long: 'Blendia reduce el azúcar respecto a bebidas equivalentes de cafetería — no la elimina. Tiene dulzor real, sin edulcorantes artificiales en la mayoría de variedades. Si eres diabético, los valores de carbohidratos y azúcares están en la tabla nutricional para que los evalúes con tu médico.',
+    short: 'Las pruebas realizadas por el equipo de Blendia no mostraron picos significativos de glucosa en personas con esta condición. La bebida Chai es equivalente a un aproximado de dos porciones de carbohidratos, por si necesitas tomarlo en cuenta. Recomendamos consultar con tu médico antes de consumir cualquier producto.',
+    order: 6,
   },
   {
     id: 'embarazo',
     category: 'nutricion',
     question: '¿Puedo tomarlo durante el embarazo o lactancia?',
     short: 'Blendia utiliza proteína concentrada. Recomendamos consultar con tu médico antes de consumir el producto, no toda proteína de suero podría ser adecuada en esa etapa.',
-    long: 'Durante el embarazo y la lactancia, cualquier aporte adicional de proteína debe evaluarse con tu médico o nutricionista. Blendia no es un suplemento médico, pero tiene concentraciones que pueden interactuar con los requerimientos específicos de esa etapa. La tabla nutricional completa está disponible para que la consultes con tu profesional de salud.',
-  },
-
-  /* ── TIER 4 — Confusión de catálogo ─────────────────────────────────── */
-
-  {
-    id: 'diferencia-categorias',
-    category: 'catalogo',
-    question: '¿Cuál es la diferencia entre Essentials, Shakes y Lattes?',
-    short: 'Essentials → bebida a base de agua con más proteína. \n Shakes → bebida cremosa y más densa con leche a tu elección. \n Lattes → bebida cremosa y más densa, con leche de tu elección y un shot de café.',
-    long: 'Las tres categorías comparten sabor y proteína, pero tienen perfiles distintos. Essentials: versión más pura, enfocada en el ingrediente principal. Shakes: textura más densa y cremosa, llenan más. Lattes: experiencia de cafetería (servidos fríos) con beneficio funcional — los más cercanos al chai o matcha que ya conoces.',
-  },
-    {
-    id: 'tipo-leche',
-    category: 'catalogo',
-    question: '¿Qué tipos de leche están disponibles?',
-    short: 'Blendia tiene a tu elección leche descremada y deslactosada.',
-    long: '',
+    order: 7,
   },
   {
-    id: 'personalizar',
+    id: 'bebida-o-suplemento',
+    category: 'sabor',
+    question: '¿Es una bebida o un suplemento?',
+    short: 'Es una bebida funcional que además de sabor, tiene proteína.',
+    order: 8,
+  },
+  {
+    id: 'sin-gym',
+    category: 'sabor',
+    question: '¿Puedo tomarlo si no hago ejercicio?',
+    short: 'Sí. Blendia no es una bebida exclusiva, es para todo aquel que quiera mejorar sus hábitos alimenticios.',
+    order: 9,
+  },
+  {
+    id: 'como-funciona-maquina',
     category: 'maquina',
-    question: '¿Puedo personalizar mi bebida en la máquina?',
-    short: 'Puedes elegir categoría, sabor y tipo de leche de tu preferencia.',
-    long: 'La pantalla guía la personalización paso a paso: categoría, sabor, y en máquinas seleccionadas, opciones como proteína extra o leche vegetal. El nivel de personalización depende de la máquina específica. La pantalla muestra en el momento qué opciones están activas.',
+    question: '¿Cómo funciona la máquina? ¿Es complicado?',
+    short: 'Selecciona tu bebida en la pantalla táctil, pagas, observas su preparación y en dos minutos tienes tu Blendia listo. Sin app ni registro.',
+    order: 10,
   },
-  /* ── TIER 5 — Fricción post-descubrimiento ───────────────────────────── */
-
+  {
+    id: 'como-pagar',
+    category: 'maquina',
+    question: '¿Con qué puedo pagar?',
+    short: 'Tarjeta de débito o crédito. Contactless está disponible. La máquina no acepta efectivo.',
+    order: 11,
+  },
   {
     id: 'sin-tienda-online',
     category: 'acceso',
     question: '¿Por qué no puedo comprarlo en línea?',
-    short: 'Blendia se prepara al momento. El modelo de vending garantiza esa frescura — no es una bebida embotellada.',
-    long: 'La decisión de no vender online es parte del diseño del producto. Blendia se prepara al momento de dispensarse, lo que garantiza frescura y consistencia. No es un jugo envasado que viaja días antes de llegar. El canal de vending machine es lo que hace que el producto sea lo que es. Si no hay una máquina cerca todavía, la lista crece constantemente — y puedes sugerir la tuya.',
-  },
-  {
-    id: 'si-falla-maquina',
-    category: 'maquina',
-    question: '¿Qué pasa si la máquina falla o mi bebida sale mal?',
-    short: 'Cada máquina tiene un QR de soporte visible. Reembolso o reposición sin preguntas.',
-    long: 'Si la máquina tiene un error, el QR en la parte frontal te conecta directo con soporte. Si recibiste una bebida con algún problema de calidad, reportándolo obtienes reembolso o reposición sin preguntas. Nos importa más que vuelvas que ganar el argumento por una bebida.',
-  },
-  {
-    id: 'todos-los-dias',
-    category: 'sabor',
-    question: '¿Puedo tomarlo todos los días?',
-    short: 'Sí. Está formulada para el consumo diario como parte de una dieta variada.',
-    long: 'Blendia no es un suplemento que se toma con prescripción — es una bebida. Puedes tomarla todos los días de la misma manera en que tomarías un café de especialidad. La proteína que aporta complementa, no reemplaza, una dieta equilibrada. Si tienes condiciones médicas que requieren control de proteína, consulta con tu médico. Para el resto: es tu bebida del día a día.',
+    short: 'Blendia se prepara al momento. El modelo de vending garantiza esa frescura ya que no es una bebida embotellada.',
+    order: 12,
   },
 ];
 

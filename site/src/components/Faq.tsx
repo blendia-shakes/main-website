@@ -3,7 +3,6 @@ import { faqItems } from "../data/faq";
 
 const FEATURED_IDS = [
   'azucar-vs-cafeteria',
-  'conservantes',
   'tipo-leche',
   'lactosa',
   'cafeina',
