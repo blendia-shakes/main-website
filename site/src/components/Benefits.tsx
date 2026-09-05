@@ -35,13 +35,13 @@ export default function Benefits() {
         <div className="benefits-stats">
           <div className="benefits-stat why-animate" style={{ transitionDelay: "80ms" }}>
             <span className="benefits-stat-value">
-              +30<small>g</small>
+              +28<small>g</small>
             </span>
             <span className="benefits-stat-label">Proteína real</span>
           </div>
           <div className="benefits-stat why-animate" style={{ transitionDelay: "180ms" }}>
             <span className="benefits-stat-value">
-              &lt;33<small>g</small>
+              &lt;28<small>g</small>
             </span>
             <span className="benefits-stat-label">carbs totales</span>
           </div>
@@ -53,7 +53,7 @@ export default function Benefits() {
           </div>
           <div className="benefits-stat why-animate" style={{ transitionDelay: "380ms" }}>
             <span className="benefits-stat-value">
-              &lt;10<small>g</small>
+              &lt;11<small>g</small>
             </span>
             <span className="benefits-stat-label">Grasas totales</span>
           </div>
