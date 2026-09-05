@@ -69,7 +69,7 @@ export const ITEMS: MenuItem[] = [
     flavor: "vanilla",
     flavorLabel: "Vainilla",
     name: "Vanilla Blendia Latte",
-    price: "Q43",
+    price: "Q44",
     tint: "vanilla-latte",
     milk: {
       deslactosada: { ingredients: "• Proteína whey vainilla • Leche deslactosada • Café", calories: "283 kcal", protein: "33g" },
@@ -82,7 +82,7 @@ export const ITEMS: MenuItem[] = [
     flavor: "chocolate",
     flavorLabel: "Chocolate",
     name: "Chocolate Blendia Latte",
-    price: "Q43",
+    price: "Q44",
     tint: "chocolate",
     milk: {
       deslactosada: { ingredients: "• Proteína whey chocolate • Leche deslactosada • Café", calories: "283 kcal", protein: "33g" },
@@ -95,7 +95,7 @@ export const ITEMS: MenuItem[] = [
     flavor: "matcha",
     flavorLabel: "Matcha",
     name: "Matcha Blendia Shake",
-    price: "Q49",
+    price: "Q48",
     tint: "matcha",
     milk: {
       deslactosada: { ingredients: "• Proteína whey vainilla • Matcha • Leche deslactosada", calories: "283 kcal", protein: "30g" },
@@ -108,7 +108,7 @@ export const ITEMS: MenuItem[] = [
     flavor: "chai",
     flavorLabel: "Chai",
     name: "Chai Blendia Shake",
-    price: "Q43",
+    price: "Q44",
     tint: "chai",
     milk: {
       deslactosada: { ingredients: "• Proteína whey vainilla • Chai • Leche deslactosada", calories: "348 kcal", protein: "30g" },
@@ -121,7 +121,7 @@ export const ITEMS: MenuItem[] = [
     flavor: "chocolate",
     flavorLabel: "Chocolate",
     name: "Chocolate Blendia Shake",
-    price: "Q39",
+    price: "Q40",
     tint: "chocolate",
     milk: {
       deslactosada: { ingredients: "• Proteína whey chocolate • Leche deslactosada", calories: "283 kcal", protein: "33g" },
@@ -134,7 +134,7 @@ export const ITEMS: MenuItem[] = [
     flavor: "vanilla",
     flavorLabel: "Vainilla",
     name: "Vanilla Blendia Shake",
-    price: "Q39",
+    price: "Q40",
     tint: "vanilla-shake",
     milk: {
       deslactosada: { ingredients: "• Proteína whey vainilla • Leche deslactosada", calories: "283 kcal", protein: "33g" },
