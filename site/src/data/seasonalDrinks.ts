@@ -29,7 +29,7 @@ export const SEASONAL_DRINKS: SeasonalItem[] = [
     flavor: "vanilla",
     tint: "sakura",
     flavorLabel: "Sakura",
-    price: "Q48",
+    price: "Q49",
     milk: {
       deslactosada: { ingredients: "• Proteína whey vainilla • Sakura • Leche deslactosada", calories: "283 kcal", protein: "33g" },
       descremada:   { ingredients: "• Proteína whey vainilla • Sakura • Leche descremada",   calories: "249 kcal", protein: "35g" },
@@ -44,7 +44,7 @@ export const SEASONAL_DRINKS: SeasonalItem[] = [
     flavor: "chai",
     tint: "pumpkin-spice",
     flavorLabel: "Pumpkin Spice",
-    price: "Q48",
+    price: "Q49",
     milk: {
       deslactosada: { ingredients: "• Proteína whey vainilla • Pumpkin spice • Leche deslactosada", calories: "348 kcal", protein: "30g" },
       descremada:   { ingredients: "• Proteína whey vainilla • Pumpkin spice • Leche descremada",   calories: "314 kcal", protein: "33g" },
@@ -59,7 +59,7 @@ export const SEASONAL_DRINKS: SeasonalItem[] = [
     flavor: "chai",
     tint: "horchata",
     flavorLabel: "Horchata",
-    price: "Q42",
+    price: "Q43",
     milk: {
       deslactosada: { ingredients: "• Proteína whey vainilla • Horchata • Leche deslactosada", calories: "348 kcal", protein: "30g" },
       descremada:   { ingredients: "• Proteína whey vainilla • Horchata • Leche descremada",   calories: "314 kcal", protein: "33g" },
@@ -74,7 +74,7 @@ export const SEASONAL_DRINKS: SeasonalItem[] = [
     flavor: "vanilla",
     tint: "coco",
     flavorLabel: "Coconut",
-    price: "Q42",
+    price: "Q43",
     milk: {
       deslactosada: { ingredients: "• Proteína whey vainilla • Coconut • Leche deslactosada", calories: "283 kcal", protein: "33g" },
       descremada:   { ingredients: "• Proteína whey vainilla • Coconut • Leche descremada",   calories: "249 kcal", protein: "35g" },
@@ -89,7 +89,7 @@ export const SEASONAL_DRINKS: SeasonalItem[] = [
     flavor: "vanilla",
     tint: "pina-colada",
     flavorLabel: "Piña Colada",
-    price: "Q42",
+    price: "Q43",
     milk: {
       deslactosada: { ingredients: "• Proteína whey vainilla • Piña Colada • Leche deslactosada", calories: "283 kcal", protein: "33g" },
       descremada:   { ingredients: "• Proteína whey vainilla • Piña Colada • Leche descremada",   calories: "249 kcal", protein: "35g" },
@@ -104,7 +104,7 @@ export const SEASONAL_DRINKS: SeasonalItem[] = [
     flavor: "chai",
     tint: "apple-pie",
     flavorLabel: "Apple Pie",
-    price: "Q42",
+    price: "Q43",
     milk: {
       deslactosada: { ingredients: "• Proteína whey vainilla • Apple Pie • Leche deslactosada", calories: "348 kcal", protein: "30g" },
       descremada:   { ingredients: "• Proteína whey vainilla • Apple Pie • Leche descremada",   calories: "314 kcal", protein: "33g" },
@@ -119,7 +119,7 @@ export const SEASONAL_DRINKS: SeasonalItem[] = [
     flavor: "vanilla",
     tint: "strawberry",
     flavorLabel: "Strawberry",
-    price: "Q42",
+    price: "Q43",
     milk: {
       deslactosada: { ingredients: "• Proteína whey vainilla • Strawberry • Leche deslactosada", calories: "283 kcal", protein: "33g" },
       descremada:   { ingredients: "• Proteína whey vainilla • Strawberry • Leche descremada",   calories: "249 kcal", protein: "35g" },
