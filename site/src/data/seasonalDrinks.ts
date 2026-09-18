@@ -56,7 +56,7 @@ export const SEASONAL_DRINKS: SeasonalItem[] = [
     description: "Canela y arroz en un batido cremoso y nostálgico — edición limitada, solo mientras dure.",
     image: "/img-core/drinks/horchata.webp",
     category: "seasonal",
-    flavor: "chai",
+    flavor: "horchata",
     tint: "horchata",
     flavorLabel: "Horchata",
     price: "Q44",
