@@ -2,26 +2,10 @@
    FONTS
 ========================================================= */
 @font-face {
-  font-family: 'Geist';
-  src: url('/fonts/Geist-Variable.woff2') format('woff2');
-  font-weight: 100 900;
+  font-family: 'Playfair Display';
+  src: url('/fonts/PlayfairDisplay-Variable.woff2') format('woff2');
+  font-weight: 400 900;
   font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Fraunces';
-  src: url('/fonts/Fraunces-Variable.woff2') format('woff2');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Fraunces';
-  src: url('/fonts/Fraunces-Italic-Variable.woff2') format('woff2');
-  font-weight: 100 900;
-  font-style: italic;
   font-display: swap;
 }
 
@@ -67,8 +51,8 @@
   --border:       #D8CFBD;
 
   /* Accent clay (eyebrows, links, mono labels) */
-  --clay:         oklch(0.6 0.1 52);
-  --clay-light:   oklch(0.78 0.07 60);
+  --clay:         #5F778D;
+  --clay-light:   #A7B4C0;
 
   /* Per-flavor tint wash ratios (menu cards) — how strongly --row-tint
      blends into the neutral tokens below it via color-mix(). Dark mode
@@ -104,10 +88,9 @@
   --page-pad-lg:  40px;
 
   /* Typography */
-  --font-sans:  'Geist', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  --font-sans:  'Helvetica Neue', sans-serif;
   --font-mono:  var(--font-sans);
-  --font-serif: 'Fraunces', Georgia, 'Times New Roman', serif;
-  --serif-settings: "opsz" 72;
+  --font-serif: 'Playfair Display', serif;
   font-family: var(--font-sans);
 }
 
@@ -141,8 +124,8 @@
   --hairline-3:   rgba(245, 241, 232, 0.09);
   --border:       rgba(245, 241, 232, 0.16);
 
-  --clay:         oklch(0.72 0.11 54);
-  --clay-light:   oklch(0.78 0.07 60);
+  --clay:         #8799AA;
+  --clay-light:   #A7B4C0;
 
   --tint-mix-card:         20%;
   --tint-mix-image:        26%;
@@ -898,7 +881,6 @@ section[id], div[id] {
 /* ─── Headline ─── */
 .hero-headline {
   font-family: var(--font-serif);
-  font-variation-settings: var(--serif-settings);
   font-size: clamp(42px, 5.6vw, 74px);
   font-weight: 420;
   font-style: normal;
@@ -1144,8 +1126,7 @@ section[id], div[id] {
 }
 
 .menu-seasonal-name {
-  font-family: var(--font-serif);
-  font-variation-settings: var(--serif-settings);
+  font-family: var(--font-sans);
   font-size: clamp(24px, 2.6vw, 32px);
   font-weight: 500;
   letter-spacing: -0.01em;
@@ -1199,8 +1180,7 @@ section[id], div[id] {
 /* ─── Catalog — a grid of printed "product ticket" cards, not a data table ─── */
 .menu-sabores-heading {
   font-family: var(--font-serif);
-  font-variation-settings: var(--serif-settings);
-  font-style: italic;
+  font-style: normal;
   font-size: clamp(20px, 2.2vw, 26px);
   font-weight: 500;
   letter-spacing: -0.005em;
@@ -1290,8 +1270,7 @@ section[id], div[id] {
 }
 
 .menu-card-name {
-  font-family: var(--font-serif);
-  font-variation-settings: var(--serif-settings);
+  font-family: var(--font-sans);
   font-size: 1.15rem;
   font-weight: 500;
   letter-spacing: -0.01em;
@@ -1579,8 +1558,7 @@ section[id], div[id] {
 
 .exp-step-num {
   font-family: var(--font-serif);
-  font-variation-settings: var(--serif-settings);
-  font-style: italic;
+  font-style: normal;
   font-size: clamp(48px, 5.4vw, 76px);
   font-weight: 340;
   letter-spacing: -0.01em;
@@ -1643,7 +1621,6 @@ section[id], div[id] {
 
 .benefits-headline {
   font-family: var(--font-serif);
-  font-variation-settings: var(--serif-settings);
   font-size: clamp(28px, 3.6vw, 42px);
   font-weight: 420;
   line-height: 1.25;
@@ -1654,7 +1631,7 @@ section[id], div[id] {
 }
 
 .benefits-headline em {
-  font-style: italic;
+  font-style: normal;
   font-weight: 560;
   color: var(--ink);
 }
@@ -1682,8 +1659,7 @@ section[id], div[id] {
 
 .benefits-stat-value {
   font-family: var(--font-serif);
-  font-variation-settings: var(--serif-settings);
-  font-style: italic;
+  font-style: normal;
   font-weight: 540;
   font-size: clamp(28px, 3vw, 38px);
   letter-spacing: -0.01em;
@@ -1711,8 +1687,7 @@ section[id], div[id] {
   position: relative;
   display: inline-block;
   font-family: var(--font-serif);
-  font-variation-settings: var(--serif-settings);
-  font-style: italic;
+  font-style: normal;
   font-size: clamp(26px, 3vw, 36px);
   font-weight: 400;
   letter-spacing: -0.01em;
@@ -1949,7 +1924,6 @@ section[id], div[id] {
 
 .loc-name {
   font-family: var(--font-serif);
-  font-variation-settings: var(--serif-settings);
   font-size: 1.2rem;
   font-weight: 500;
   letter-spacing: -0.01em;
