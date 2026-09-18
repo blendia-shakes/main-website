@@ -11,9 +11,13 @@ type ActiveZone = LocationZone | 'todas';
 
 const availableLocations = locations.filter((loc) => loc.available);
 
+const knownZones = availableLocations
+  .map((l) => l.zone)
+  .filter((z): z is LocationZone => Boolean(z));
+
 const filterZones: { key: ActiveZone; label: string }[] = [
   { key: 'todas', label: 'Todas' },
-  ...Array.from(new Set(availableLocations.map((l) => l.zone))).map((z) => ({
+  ...Array.from(new Set(knownZones)).map((z) => ({
     key: z,
     label: ZONE_LABELS[z],
   })),
@@ -104,8 +108,6 @@ export default function Locations() {
       ? availableLocations
       : availableLocations.filter((loc) => loc.zone === activeZone);
 
-  const activeLabel = filterZones.find((z) => z.key === activeZone)?.label ?? '';
-
   useEffect(() => {
     const targets = sectionRef.current?.querySelectorAll<HTMLElement>(".why-animate");
     if (!targets?.length) return;
@@ -134,7 +136,7 @@ export default function Locations() {
         <div className="loc-header why-animate">
           <h2 className="loc-title">Cerca. Fácil. Sin fila.</h2>
           <p className="loc-subtitle">
-            Encuentra Blendia en centros comerciales, oficinas y próximamente más cerca de ti.
+            Encuentra Blendia en centros comerciales, centros deportivos y próximamente más cerca de ti.
           </p>
         </div>
 
@@ -158,20 +160,13 @@ export default function Locations() {
           ))}
         </div>
 
-        {/* Count */}
-        <p className="loc-count why-animate" style={{ transitionDelay: "140ms" }} aria-live="polite" aria-atomic="true">
-          {filtered.length}{' '}
-          {filtered.length === 1 ? 'ubicación' : 'ubicaciones'}
-          {activeZone !== 'todas' ? ` en ${activeLabel}` : ' disponibles'}
-        </p>
-
         {/* Cards / empty */}
         {filtered.length > 0 ? (
           <div className="loc-grid">
             {filtered.map((loc, i) => (
               <article
                 key={loc.id}
-                className="loc-card"
+                className={`loc-card${loc.placeholder ? ' loc-card--placeholder' : ''}`}
                 style={{ animationDelay: `${i * 0.07}s` }}
               >
                 {/* Top row: solid icon roundel (echoes the hero machine's
@@ -182,14 +177,22 @@ export default function Locations() {
                   </span>
                   <span className="loc-meta">
                     {TYPE_LABELS[loc.type]}
-                    <span className="loc-meta-sep">·</span>
-                    {ZONE_LABELS[loc.zone]}
+                    {loc.zone && (
+                      <>
+                        <span className="loc-meta-sep">·</span>
+                        {ZONE_LABELS[loc.zone]}
+                      </>
+                    )}
                   </span>
                 </div>
 
                 <h3 className="loc-name">{loc.name}</h3>
-                <p className="loc-address">{loc.address}</p>
-                <p className="loc-hours">{loc.hours}</p>
+                {!loc.placeholder && (
+                  <>
+                    <p className="loc-address">{loc.address}</p>
+                    <p className="loc-hours">{loc.hours}</p>
+                  </>
+                )}
 
                 {/* Bottom row: CTA + status, status reusing the site's own
                     solid/outline button vocabulary (hero-cta-primary /

@@ -72,8 +72,8 @@ export const ITEMS: MenuItem[] = [
     price: "Q44",
     tint: "vanilla-latte",
     milk: {
-      deslactosada: { ingredients: "• Proteína whey vainilla • Leche deslactosada • Café", calories: "283 kcal", protein: "33g" },
-      descremada:   { ingredients: "• Proteína whey vainilla • Leche descremada • Café",   calories: "249 kcal", protein: "35g" },
+      deslactosada: { ingredients: "• Proteína whey vainilla • Leche deslactosada • Café", calories: "234 kcal", protein: "28g" },
+      descremada:   { ingredients: "• Proteína whey vainilla • Leche descremada • Café",   calories: "207 kcal", protein: "30g" },
     },
   },
   {
@@ -85,8 +85,8 @@ export const ITEMS: MenuItem[] = [
     price: "Q44",
     tint: "chocolate",
     milk: {
-      deslactosada: { ingredients: "• Proteína whey chocolate • Leche deslactosada • Café", calories: "283 kcal", protein: "33g" },
-      descremada:   { ingredients: "• Proteína whey chocolate • Leche descremada • Café",   calories: "249 kcal", protein: "35g" },
+      deslactosada: { ingredients: "• Proteína whey chocolate • Leche deslactosada • Café", calories: "234 kcal", protein: "28g" },
+      descremada:   { ingredients: "• Proteína whey chocolate • Leche descremada • Café",   calories: "207 kcal", protein: "30g" },
     },
   },
   {
@@ -98,8 +98,8 @@ export const ITEMS: MenuItem[] = [
     price: "Q48",
     tint: "matcha",
     milk: {
-      deslactosada: { ingredients: "• Proteína whey vainilla • Matcha • Leche deslactosada", calories: "283 kcal", protein: "30g" },
-      descremada:   { ingredients: "• Proteína whey vainilla • Matcha • Leche descremada",   calories: "249 kcal", protein: "33g" },
+      deslactosada: { ingredients: "• Proteína whey vainilla • Matcha • Leche deslactosada", calories: "219 kcal", protein: "27g" },
+      descremada:   { ingredients: "• Proteína whey vainilla • Matcha • Leche descremada",   calories: "195 kcal", protein: "29g" },
     },
   },
   {
@@ -111,8 +111,8 @@ export const ITEMS: MenuItem[] = [
     price: "Q44",
     tint: "chai",
     milk: {
-      deslactosada: { ingredients: "• Proteína whey vainilla • Chai • Leche deslactosada", calories: "348 kcal", protein: "30g" },
-      descremada:   { ingredients: "• Proteína whey vainilla • Chai • Leche descremada",   calories: "314 kcal", protein: "33g" },
+      deslactosada: { ingredients: "• Proteína whey vainilla • Chai • Leche deslactosada", calories: "298 kcal", protein: "28g" },
+      descremada:   { ingredients: "• Proteína whey vainilla • Chai • Leche descremada",   calories: "270 kcal", protein: "31g" },
     },
   },
   {
@@ -124,8 +124,8 @@ export const ITEMS: MenuItem[] = [
     price: "Q40",
     tint: "chocolate",
     milk: {
-      deslactosada: { ingredients: "• Proteína whey chocolate • Leche deslactosada", calories: "283 kcal", protein: "33g" },
-      descremada:   { ingredients: "• Proteína whey chocolate • Leche descremada",   calories: "249 kcal", protein: "35g" },
+      deslactosada: { ingredients: "• Proteína whey chocolate • Leche deslactosada", calories: "234 kcal", protein: "28g" },
+      descremada:   { ingredients: "• Proteína whey chocolate • Leche descremada",   calories: "207 kcal", protein: "30g" },
     },
   },
   {
@@ -137,8 +137,8 @@ export const ITEMS: MenuItem[] = [
     price: "Q40",
     tint: "vanilla-shake",
     milk: {
-      deslactosada: { ingredients: "• Proteína whey vainilla • Leche deslactosada", calories: "283 kcal", protein: "33g" },
-      descremada:   { ingredients: "• Proteína whey vainilla • Leche descremada",   calories: "249 kcal", protein: "35g" },
+      deslactosada: { ingredients: "• Proteína whey vainilla • Leche deslactosada", calories: "234 kcal", protein: "28g" },
+      descremada:   { ingredients: "• Proteína whey vainilla • Leche descremada",   calories: "207 kcal", protein: "30g" },
     },
   },
 ];

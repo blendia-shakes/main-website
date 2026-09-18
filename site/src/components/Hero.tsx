@@ -38,8 +38,8 @@ export default function Hero({ scrollTo }: Props) {
           </div>
 
           <div className="hero-chips" aria-hidden="true">
-            <span className="hero-chip">6 sabores</span>
-            <span className="hero-chip">+30g proteína real</span>
+            <span className="hero-chip">7 sabores</span>
+            <span className="hero-chip">+28g proteína real</span>
             <span className="hero-chip">listo en 2 mins</span>
           </div>
 

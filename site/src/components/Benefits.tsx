@@ -41,7 +41,7 @@ export default function Benefits() {
           </div>
           <div className="benefits-stat why-animate" style={{ transitionDelay: "180ms" }}>
             <span className="benefits-stat-value">
-              &lt;28<small>g</small>
+              &lt;27<small>g</small>
             </span>
             <span className="benefits-stat-label">carbs totales</span>
           </div>

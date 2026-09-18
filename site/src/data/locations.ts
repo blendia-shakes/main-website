@@ -5,13 +5,17 @@ export type LocationStatus = 'live' | 'soon';
 export type Location = {
   id: string;
   name: string;
-  address: string;
-  zone: LocationZone;
+  address?: string;
+  zone?: LocationZone;
   type: LocationType;
-  hours: string;
-  mapsUrl: string;
+  hours?: string;
+  mapsUrl?: string;
   status: LocationStatus;
   available: boolean;
+  /** True for a teaser card with no confirmed name/address yet (e.g. a mall
+   *  deal still under negotiation) — Locations.tsx renders it without
+   *  address/hours/CTA and skips it from zone filters. */
+  placeholder?: boolean;
 };
 
 export const ZONE_LABELS: Record<LocationZone, string> = {
@@ -44,7 +48,7 @@ export const locations: Location[] = [
     hours: 'Lun–Vie 5am–11pm • Sáb–Dom 7am–9pm',
     mapsUrl: 'https://maps.google.com/?q=Av+La+Reforma+1-61+Zona+7+Guatemala+City',
     status: 'live',
-    available: true,
+    available: false,
   },
   {
     id: 'wework-z10',
@@ -55,6 +59,14 @@ export const locations: Location[] = [
     hours: 'Lun–Vie 7am–8pm',
     mapsUrl: 'https://maps.google.com/?q=99+Calle+Zona+10+Guatemala+City',
     status: 'soon',
+    available: false,
+  },
+  {
+    id: 'malls-tbd',
+    name: 'Próxima ubicación',
+    type: 'mall',
+    status: 'soon',
     available: true,
+    placeholder: true,
   },
 ];
