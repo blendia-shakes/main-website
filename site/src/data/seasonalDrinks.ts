@@ -61,8 +61,8 @@ export const SEASONAL_DRINKS: SeasonalItem[] = [
     flavorLabel: "Horchata",
     price: "Q44",
     milk: {
-      deslactosada: { ingredients: "• Proteína whey vainilla • Horchata • Leche deslactosada", calories: "348 kcal", protein: "30g" },
-      descremada:   { ingredients: "• Proteína whey vainilla • Horchata • Leche descremada",   calories: "314 kcal", protein: "33g" },
+      deslactosada: { ingredients: "• Proteína whey vainilla • Horchata • Leche deslactosada", calories: "237 kcal", protein: "28g" },
+      descremada:   { ingredients: "• Proteína whey vainilla • Horchata • Leche descremada",   calories: "209 kcal", protein: "30g" },
     },
     available: true,
   },
