@@ -53,7 +53,7 @@ export const SEASONAL_DRINKS: SeasonalItem[] = [
   },
   {
     name: "Horchata Blendia",
-    description: "Canela y arroz en un batido cremoso y nostálgico — edición limitada, solo mientras dure.",
+    description: "Un batido nunca antes visto que combina una tradición guatemalteca con tu salud.",
     image: "/img-core/drinks/horchata.webp",
     category: "seasonal",
     flavor: "horchata",
