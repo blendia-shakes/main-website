@@ -922,6 +922,7 @@ section[id], div[id] {
   cursor: pointer;
   font-family: inherit;
   line-height: 1;
+  text-decoration: none;
   transition: opacity 0.2s ease, transform 0.15s ease;
 }
 
@@ -953,6 +954,11 @@ section[id], div[id] {
 }
 
 .hero-cta-secondary:active { transform: scale(0.97); }
+
+.hero-cta-minor {
+  padding: 10px 20px;
+  font-size: 13px;
+}
 
 .hero-cta-primary:focus-visible,
 .hero-cta-secondary:focus-visible {

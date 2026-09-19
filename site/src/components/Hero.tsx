@@ -22,14 +22,22 @@ export default function Hero({ scrollTo }: Props) {
 
           <div className="hero-ctas">
             <button
-              className="hero-cta-primary"
+              className="hero-cta-secondary hero-cta-minor"
               type="button"
               onClick={() => scrollTo("ubicaciones")}
             >
               Encuentra una máquina
             </button>
+            <a
+              className="hero-cta-primary"
+              href="https://youtu.be/G6g2iOND8vI?si=f7nz3F2Vw7gsFXqC"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ver demo
+            </a>
             <button
-              className="hero-cta-secondary"
+              className="hero-cta-secondary hero-cta-minor"
               type="button"
               onClick={() => scrollTo("menu")}
             >
