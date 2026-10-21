@@ -31,7 +31,7 @@ export const ZONE_LABELS: Record<LocationZone, string> = {
 };
 
 export const TYPE_LABELS: Record<LocationType, string> = {
-  gym:        'Gimnasio',
+  gym:        'Centro Deportivo',
   office:     'Oficina',
   university: 'Universidad',
   mall:       'Centro comercial',
@@ -62,11 +62,29 @@ export const locations: Location[] = [
     available: false,
   },
   {
+    id: 'rally-padel-z16',
+    name: 'Rally Padel',
+    zone: 'zona-16',
+    type: 'gym',
+    hours: 'Lun–Vie 6am–10:30pm • Sáb 7am–11pm • Dom 7am–9pm',
+    status: 'live',
+    available: true,
+  },
+  {
+    id: 'el-sotano-padel-z11',
+    name: 'El Sótano Padel',
+    zone: 'zona-11',
+    type: 'gym',
+    hours: 'Lun–Vie 6am–10:30pm • Sáb 7am–11pm • Dom 7am–9pm',
+    status: 'live',
+    available: true,
+  },
+  {
     id: 'malls-tbd',
     name: 'Próxima ubicación',
     type: 'mall',
     status: 'soon',
-    available: true,
+    available: false,
     placeholder: true,
   },
 ];

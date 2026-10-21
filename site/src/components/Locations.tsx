@@ -189,7 +189,7 @@ export default function Locations() {
                 <h3 className="loc-name">{loc.name}</h3>
                 {!loc.placeholder && (
                   <>
-                    <p className="loc-address">{loc.address}</p>
+                    {loc.address && <p className="loc-address">{loc.address}</p>}
                     <p className="loc-hours">{loc.hours}</p>
                   </>
                 )}
@@ -198,7 +198,7 @@ export default function Locations() {
                     solid/outline button vocabulary (hero-cta-primary /
                     -secondary) instead of an invented badge color */}
                 <div className="loc-card-bottom">
-                  {loc.status === 'live' ? (
+                  {loc.status === 'live' && loc.mapsUrl ? (
                     <a
                       href={loc.mapsUrl}
                       target="_blank"
