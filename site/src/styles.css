@@ -2575,6 +2575,225 @@ section[id], div[id] {
 }
 
 /* =========================================================
+   SURVEY — unlisted /encuesta page (components/survey/).
+   No navbar here, so body.is-survey drops the navbar padding.
+========================================================= */
+body.is-survey { padding-top: 0; }
+
+.survey-page {
+  min-height: 100vh;
+  padding: 40px 16px calc(56px + env(safe-area-inset-bottom));
+}
+
+.survey-shell {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.survey-header { text-align: center; margin-bottom: 8px; }
+
+.survey-logo {
+  height: 28px;
+  width: auto;
+  margin: 0 auto 28px;
+}
+
+.survey-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(30px, 7vw, 40px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0 0 10px;
+}
+
+.survey-lead {
+  color: var(--ink-2);
+  font-size: 16px;
+  margin: 0;
+}
+
+.survey-alert {
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid #C0533F;
+  color: #C0533F;
+  font-size: 14px;
+  font-weight: 500;
+}
+[data-theme="dark"] .survey-alert { border-color: #E58B78; color: #E58B78; }
+
+.survey-question {
+  margin: 0;
+  padding: 22px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--bg-surface);
+  min-width: 0;
+  transition: border-color 0.2s ease;
+}
+.survey-question.is-invalid { border-color: #C0533F; }
+[data-theme="dark"] .survey-question.is-invalid { border-color: #E58B78; }
+
+/* float pulls the <legend> inside the card instead of notching the
+   fieldset border; siblings clear it below. */
+.survey-question-label {
+  float: left;
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  padding: 0;
+  margin-bottom: 16px;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+.survey-question-num {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 12px;
+  font-weight: 700;
+  margin-top: 1px;
+}
+
+.survey-question > :not(legend) { clear: both; }
+
+.survey-question-hint {
+  display: block;
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--ink-muted);
+}
+
+.survey-question-error {
+  margin: 10px 0 0;
+  font-size: 14px;
+  color: #C0533F;
+}
+[data-theme="dark"] .survey-question-error { color: #E58B78; }
+
+.survey-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.survey-choice {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1.35;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.survey-choice:hover { border-color: rgba(var(--ink-rgb), 0.4); }
+.survey-choice.is-checked {
+  border-color: var(--ink);
+  background: rgba(var(--ink-rgb), 0.06);
+}
+
+/* Native input stays in the a11y tree and keyboard order; the visible
+   mark is drawn by .survey-choice-mark. */
+.survey-choice input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+}
+
+.survey-choice-mark {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid rgba(var(--ink-rgb), 0.45);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.survey-choice input[type="checkbox"] + .survey-choice-mark { border-radius: 6px; }
+.survey-choice.is-checked .survey-choice-mark {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+.survey-choice.is-checked .survey-choice-mark::after {
+  content: "";
+  width: 6px;
+  height: 10px;
+  border: solid var(--bg);
+  border-width: 0 2px 2px 0;
+  transform: translateY(-1px) rotate(45deg);
+}
+.survey-choice input:focus-visible + .survey-choice-mark {
+  outline: 2px solid var(--clay);
+  outline-offset: 3px;
+}
+
+.survey-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px; /* ≥16px avoids iOS zoom-on-focus */
+}
+.survey-input:focus {
+  outline: none;
+  border-color: var(--ink);
+}
+.survey-textarea { resize: vertical; min-height: 110px; }
+
+.survey-hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.survey-submit {
+  width: 100%;
+  min-height: 52px;
+  font-size: 16px;
+  margin-top: 4px;
+}
+.survey-submit:disabled { opacity: 0.6; cursor: wait; transform: none; }
+
+.survey-done {
+  text-align: center;
+  padding-top: 12vh;
+}
+.survey-tagline {
+  margin: 28px 0 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 18px;
+}
+
+/* =========================================================
    REDUCED MOTION
 ========================================================= */
 @media (prefers-reduced-motion: reduce) {

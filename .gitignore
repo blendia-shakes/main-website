@@ -59,5 +59,19 @@ temp/
 # ----------------------------
 # Claude
 # ----------------------------
-./claude
+# Private Claude Code content (strategy docs, rules, personal skills).
+# Only the shared, technical skills + project settings are tracked.
+.claude/*
+!.claude/settings.json
+!.claude/skills/
+.claude/skills/*
+!.claude/skills/add-location/
+!.claude/skills/add-seasonal-drink/
+!.claude/skills/rebuild-header/
+**/.claude/settings.local.json
+__pycache__/
+*.pyc
+
+# Apps Script backend for /encuesta — kept local, deployed by hand.
+site/apps-script/
 CLAUDE.md

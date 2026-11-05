@@ -5,10 +5,11 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Least privilege: the build job runs `npm ci` (third-party install
+# scripts), so it only gets read access; Pages write + OIDC token rights
+# are granted to the deploy job alone.
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
@@ -17,6 +18,9 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: read  # actions/configure-pages reads the Pages site config
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -40,6 +44,8 @@ jobs:
         run: |
           test -f ./site/dist/index.html
           test -f ./site/dist/404.html
+          test -f ./site/dist/encuesta/index.html
+          grep -q 'name="robots" content="noindex' ./site/dist/encuesta/index.html
           test -d ./site/dist/assets
 
       - name: Setup Pages
@@ -53,6 +59,9 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
