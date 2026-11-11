@@ -139,6 +139,6 @@ export const SEASONAL_DRINKS: SeasonalItem[] = [
       deslactosada: { ingredients: "• Proteína whey vainilla • Eggnog • Leche deslactosada", calories: "283 kcal", protein: "33g" },
       descremada:   { ingredients: "• Proteína whey vainilla • Eggnog • Leche descremada",   calories: "249 kcal", protein: "35g" },
     },
-    available: false,
+    available: true,
   },
 ];
