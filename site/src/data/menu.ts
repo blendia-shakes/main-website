@@ -1,6 +1,6 @@
 import type { SeasonalItem } from "./seasonalDrinks";
 
-export type Tint     = "vanilla-latte" | "vanilla-shake" | "chocolate" | "matcha" | "chai" | "sakura" | "pumpkin-spice" | "horchata" | "coco" | "pina-colada" | "apple-pie" | "strawberry";
+export type Tint     = "vanilla-latte" | "vanilla-shake" | "chocolate" | "matcha" | "chai" | "sakura" | "pumpkin-spice" | "horchata" | "coco" | "pina-colada" | "apple-pie" | "strawberry" | "eggnog";
 export type Category = "shakes" | "latte";
 export type MilkType = "deslactosada" | "descremada";
 
@@ -36,13 +36,14 @@ export const TINT_ACCENT: Record<Tint, string> = {
   "pina-colada": "#E8D9A0",
   "apple-pie": "#D89B6A",
   strawberry: "#E86E7D",
+  eggnog:    "#F3E2B8",
 };
 
 // Badge text (menu-card-price-badge / menu-seasonal-badge) defaults to a
 // light color because it sits on solid --row-tint. vanilla-shake's,
-// sakura's, pumpkin-spice's, horchata's, coco's, pina-colada's, and
-// apple-pie's tints are too pale for that to read — force dark badge text
-// for those.
+// sakura's, pumpkin-spice's, horchata's, coco's, pina-colada's,
+// apple-pie's, and eggnog's tints are too pale for that to read — force
+// dark badge text for those.
 export const TINT_BADGE_INK: Partial<Record<Tint, string>> = {
   "vanilla-shake": "#403F45",
   sakura: "#403F45",
@@ -51,6 +52,7 @@ export const TINT_BADGE_INK: Partial<Record<Tint, string>> = {
   coco: "#403F45",
   "pina-colada": "#403F45",
   "apple-pie": "#403F45",
+  eggnog: "#403F45",
 };
 
 export const MILK_LABELS: Record<MilkType, string> = {
@@ -69,7 +71,7 @@ export const ITEMS: MenuItem[] = [
     flavor: "vanilla",
     flavorLabel: "Vainilla",
     name: "Vanilla Blendia Latte",
-    price: "Q44",
+    price: "Q42",
     tint: "vanilla-latte",
     milk: {
       deslactosada: { ingredients: "• Proteína whey vainilla • Leche deslactosada • Café", calories: "234 kcal", protein: "28g" },
@@ -82,7 +84,7 @@ export const ITEMS: MenuItem[] = [
     flavor: "chocolate",
     flavorLabel: "Chocolate",
     name: "Chocolate Blendia Latte",
-    price: "Q44",
+    price: "Q42",
     tint: "chocolate",
     milk: {
       deslactosada: { ingredients: "• Proteína whey chocolate • Leche deslactosada • Café", calories: "234 kcal", protein: "28g" },
@@ -95,7 +97,7 @@ export const ITEMS: MenuItem[] = [
     flavor: "matcha",
     flavorLabel: "Matcha",
     name: "Matcha Blendia Shake",
-    price: "Q48",
+    price: "Q46",
     tint: "matcha",
     milk: {
       deslactosada: { ingredients: "• Proteína whey vainilla • Matcha • Leche deslactosada", calories: "219 kcal", protein: "27g" },
@@ -108,7 +110,7 @@ export const ITEMS: MenuItem[] = [
     flavor: "chai",
     flavorLabel: "Chai",
     name: "Chai Blendia Shake",
-    price: "Q44",
+    price: "Q42",
     tint: "chai",
     milk: {
       deslactosada: { ingredients: "• Proteína whey vainilla • Chai • Leche deslactosada", calories: "298 kcal", protein: "28g" },
@@ -121,7 +123,7 @@ export const ITEMS: MenuItem[] = [
     flavor: "chocolate",
     flavorLabel: "Chocolate",
     name: "Chocolate Blendia Shake",
-    price: "Q40",
+    price: "Q38",
     tint: "chocolate",
     milk: {
       deslactosada: { ingredients: "• Proteína whey chocolate • Leche deslactosada", calories: "234 kcal", protein: "28g" },
@@ -134,7 +136,7 @@ export const ITEMS: MenuItem[] = [
     flavor: "vanilla",
     flavorLabel: "Vainilla",
     name: "Vanilla Blendia Shake",
-    price: "Q40",
+    price: "Q38",
     tint: "vanilla-shake",
     milk: {
       deslactosada: { ingredients: "• Proteína whey vainilla • Leche deslactosada", calories: "234 kcal", protein: "28g" },
