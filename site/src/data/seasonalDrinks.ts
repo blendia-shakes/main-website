@@ -131,7 +131,7 @@ export const SEASONAL_DRINKS: SeasonalItem[] = [
     description: "El sabor más cremoso de la Navidad en un batido que combina tradición y bienestar.",
     image: "/img-core/drinks/eggnog.webp",
     category: "seasonal",
-    flavor: "vanilla",
+    flavor: "eggnog",
     tint: "eggnog",
     flavorLabel: "Eggnog",
     price: "Q40",
