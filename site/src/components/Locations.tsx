@@ -134,7 +134,7 @@ export default function Locations() {
 
         {/* Header */}
         <div className="loc-header why-animate">
-          <h2 className="loc-title">Cerca. Fácil. Sin fila.</h2>
+          <h2 className="loc-title">Cerca. Fácil. <em className="accent">Sin fila.</em></h2>
           <p className="loc-subtitle">
             Encuentra Blendia en centros comerciales, centros deportivos y próximamente más cerca de ti.
           </p>

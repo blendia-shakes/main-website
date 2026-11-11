@@ -36,7 +36,7 @@ export default function MenuSection() {
         {/* Header */}
         <div className="menu-header">
           <h2 className="menu-title why-animate" style={{ transitionDelay: "60ms" }}>
-            Descubre Blendia
+            Descubre <em className="accent">Blendia</em>
           </h2>
         </div>
 

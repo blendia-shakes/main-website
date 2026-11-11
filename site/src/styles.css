@@ -54,6 +54,20 @@
   --clay:         #5F778D;
   --clay-light:   #A7B4C0;
 
+  /* Third brand colour — the deck's slate blue. One accent, used for
+     emphasis only: the accent word of a headline, primary CTAs, active
+     and "live" states, and text links.
+       --blue          large text / graphics on cream (4.1:1 — never small text)
+       --blue-text     small text and links on cream (5.6:1)
+       --blue-fill     solid buttons/badges, paired with --on-blue
+       --blue-on-dark  accent on the always-dark sections (#403F45) */
+  --blue:         #5F778D;
+  --blue-text:    #4E6274;
+  --blue-fill:    #4E6274;
+  --on-blue:      #F5F1E8;
+  --blue-on-dark: #9CB2C6;
+  --blue-rgb:     95, 119, 141;
+
   /* Per-flavor tint wash ratios (menu cards) — how strongly --row-tint
      blends into the neutral tokens below it via color-mix(). Dark mode
      mixes a much higher ratio (see [data-theme="dark"] below): its base
@@ -126,6 +140,12 @@
 
   --clay:         #8799AA;
   --clay-light:   #A7B4C0;
+
+  --blue:         #9CB2C6;
+  --blue-text:    #9CB2C6;
+  --blue-fill:    #9CB2C6;
+  --on-blue:      #26252B;
+  --blue-rgb:     156, 178, 198;
 
   --tint-mix-card:         20%;
   --tint-mix-image:        26%;
@@ -528,6 +548,21 @@ body {
 img { max-width: 100%; display: block; }
 
 /* =========================================================
+   BLUE ACCENT — shared helpers
+========================================================= */
+::selection {
+  background: rgba(var(--blue-rgb), 0.28);
+}
+
+/* The accent word(s) of a headline. Same rule as the deck: colour
+   only — the headline keeps its own typeface. One accent per headline,
+   except the hero motto, which pairs "práctico" with "sano." */
+.accent {
+  font-style: normal;
+  color: var(--blue);
+}
+
+/* =========================================================
    LAYOUT
 ========================================================= */
 .container {
@@ -638,7 +673,7 @@ section[id], div[id] {
 
 .navbar-link:hover {
   background: rgba(var(--ink-rgb), 0.06);
-  color: var(--ink);
+  color: var(--blue-text);
 }
 
 .navbar-link:focus-visible {
@@ -688,8 +723,8 @@ section[id], div[id] {
   align-items: center;
   padding: 8px 18px;
   border-radius: 999px;
-  background: var(--ink);
-  color: var(--bg);
+  background: var(--blue-fill);
+  color: var(--on-blue);
   font-size: 13px;
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -913,8 +948,8 @@ section[id], div[id] {
   justify-content: center;
   padding: 14px 28px;
   border-radius: var(--radius-pill);
-  background: var(--ink);
-  color: var(--bg);
+  background: var(--blue-fill);
+  color: var(--on-blue);
   font-size: 14px;
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -948,9 +983,9 @@ section[id], div[id] {
 }
 
 .hero-cta-secondary:hover {
-  background: rgba(var(--ink-rgb), 0.06);
-  border-color: rgba(var(--ink-rgb), 0.24);
-  color: var(--ink);
+  background: rgba(var(--blue-rgb), 0.08);
+  border-color: rgba(var(--blue-rgb), 0.55);
+  color: var(--blue-text);
 }
 
 .hero-cta-secondary:active { transform: scale(0.97); }
@@ -1547,6 +1582,8 @@ section[id], div[id] {
   margin: 0;
 }
 
+.exp-title .accent { color: var(--blue-on-dark); }
+
 /* ─── Steps grid ─── */
 .exp-steps {
   display: grid;
@@ -1569,8 +1606,7 @@ section[id], div[id] {
   font-weight: 340;
   letter-spacing: -0.01em;
   line-height: 1;
-  color: var(--clay-light);
-  opacity: 0.85;
+  color: var(--blue-on-dark);
 }
 
 .exp-step-title {
@@ -1639,7 +1675,7 @@ section[id], div[id] {
 .benefits-headline em {
   font-style: normal;
   font-weight: 560;
-  color: var(--ink);
+  color: var(--blue);
 }
 
 /* ─── Fact strip — a single hairline-bounded row, not stat cards.
@@ -1800,9 +1836,9 @@ section[id], div[id] {
 .loc-chip:active { transform: scale(0.96); }
 
 .loc-chip.is-active {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: var(--bg);
+  background: var(--blue-fill);
+  border-color: var(--blue-fill);
+  color: var(--on-blue);
 }
 
 .loc-chip:focus-visible {
@@ -1927,8 +1963,8 @@ section[id], div[id] {
 }
 
 .loc-status.is-live {
-  background: var(--ink);
-  color: var(--bg);
+  background: var(--blue-fill);
+  color: var(--on-blue);
 }
 
 .loc-status.is-soon {
@@ -1968,7 +2004,7 @@ section[id], div[id] {
   font-size: 13px;
   font-weight: 600;
   letter-spacing: -0.01em;
-  color: var(--ink);
+  color: var(--blue-text);
   text-decoration: none;
   transition: opacity 0.18s ease;
 }
@@ -2017,7 +2053,7 @@ section[id], div[id] {
   font-size: 13px;
   font-weight: 600;
   letter-spacing: -0.01em;
-  color: var(--ink);
+  color: var(--blue-text);
   text-decoration: none;
   white-space: nowrap;
   flex-shrink: 0;
@@ -2131,8 +2167,10 @@ section[id], div[id] {
 
 .faq-item.is-open .faq-chevron {
   transform: rotate(180deg);
-  color: var(--ink);
+  color: var(--blue-text);
 }
+
+.faq-item.is-open .faq-q-text { color: var(--blue-text); }
 
 .faq-body {
   display: grid;
@@ -2167,7 +2205,7 @@ section[id], div[id] {
   font-size: 13px;
   font-weight: 600;
   letter-spacing: -0.01em;
-  color: var(--ink);
+  color: var(--blue-text);
   text-decoration: none;
   white-space: nowrap;
   transition: opacity 0.15s ease;
@@ -2367,8 +2405,8 @@ section[id], div[id] {
   gap: 7px;
   padding: 14px 22px;
   border-radius: var(--radius-pill);
-  background: var(--ink);
-  color: var(--bg);
+  background: var(--blue-fill);
+  color: var(--on-blue);
   font-size: 14px;
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -2376,7 +2414,7 @@ section[id], div[id] {
   cursor: pointer;
   font-family: inherit;
   line-height: 1;
-  box-shadow: 0 4px 20px rgba(64, 63, 69, 0.25);
+  box-shadow: 0 4px 20px rgba(var(--blue-rgb), 0.35);
   white-space: nowrap;
   transition: opacity 0.18s ease, transform 0.18s ease;
 }
@@ -2734,14 +2772,14 @@ body.is-survey { padding-top: 0; }
 }
 .survey-choice input[type="checkbox"] + .survey-choice-mark { border-radius: 6px; }
 .survey-choice.is-checked .survey-choice-mark {
-  background: var(--ink);
-  border-color: var(--ink);
+  background: var(--blue-fill);
+  border-color: var(--blue-fill);
 }
 .survey-choice.is-checked .survey-choice-mark::after {
   content: "";
   width: 6px;
   height: 10px;
-  border: solid var(--bg);
+  border: solid var(--on-blue);
   border-width: 0 2px 2px 0;
   transform: translateY(-1px) rotate(45deg);
 }

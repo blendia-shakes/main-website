@@ -12,7 +12,7 @@ export default function Hero({ scrollTo }: Props) {
         <div className="hero-left">
 
           <h1 className="hero-headline">
-            Elegir lo práctico <br></br>también puede ser sano.
+            Elegir lo <em className="accent">práctico</em> <br></br>también puede ser <em className="accent">sano.</em>
           </h1>
 
           <p className="hero-sub">

@@ -51,7 +51,7 @@ export default function Experience() {
       <div className="experience-v2-inner">
 
         <div className="exp-header why-animate">
-          <h2 className="exp-title">Cuatro pasos desde el&nbsp;antojo<br></br> hasta el vaso en tus manos.</h2>
+          <h2 className="exp-title">Cuatro pasos desde el&nbsp;antojo<br></br> hasta el vaso <em className="accent">en tus manos.</em></h2>
         </div>
 
         <div className="exp-steps">
