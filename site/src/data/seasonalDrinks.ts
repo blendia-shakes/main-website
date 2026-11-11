@@ -128,7 +128,7 @@ export const SEASONAL_DRINKS: SeasonalItem[] = [
   },
   {
     name: "Eggnog Blendia",
-    description: "El sabor más cremoso de la Navidad en un batido que combina tradición y bienestar.",
+    description: "El sabor más auténtico de la Navidad en un batido que combina tradición y bienestar.",
     image: "/img-core/drinks/eggnog.webp",
     category: "seasonal",
     flavor: "eggnog",
@@ -139,6 +139,6 @@ export const SEASONAL_DRINKS: SeasonalItem[] = [
       deslactosada: { ingredients: "• Proteína whey vainilla • Eggnog • Leche deslactosada", calories: "283 kcal", protein: "33g" },
       descremada:   { ingredients: "• Proteína whey vainilla • Eggnog • Leche descremada",   calories: "249 kcal", protein: "35g" },
     },
-    available: true,
+    available: false,
   },
 ];
