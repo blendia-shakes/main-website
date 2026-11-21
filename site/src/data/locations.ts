@@ -75,7 +75,7 @@ export const locations: Location[] = [
     name: 'El Sótano Padel',
     zone: 'zona-11',
     type: 'gym',
-    hours: 'Lun–Vie 6am–10:30pm • Sáb 7am–11pm • Dom 7am–9pm',
+    hours: 'Lun–Vie 6am–11pm • Sáb–Dom 7am–10pm',
     status: 'live',
     available: true,
   },
